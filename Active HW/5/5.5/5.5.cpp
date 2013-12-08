@@ -4,11 +4,31 @@
 
 using namespace std;
 
-void print(int number, char *words []) {
+#define amountWords 28
+#define lengthWord 20
+
+struct Digits {
+	Digits *next;
+	char string[lengthWord];
+};
+
+Digits *add(char str []){
+	Digits *newE = new Digits;
+	newE->next = nullptr;
+	for (int i = 0; i < strlen(str); i++) {
+		newE->string[i] = str[i];
+	}
+	for (int i = strlen(str); i < lengthWord; i++) {
+		newE->string[i] = '\0';
+	}
+	return newE;
+}
+
+void print(int number, Digits *words []) {
 	int divisor = 100;
 
 	if (number / divisor != 0) {
-		cout << words[number / 100] << " hundred ";
+		cout << words[number / 100]->string << " hundred ";
 		number %= divisor;
 		if (number) {
 			cout << "and ";
@@ -17,11 +37,11 @@ void print(int number, char *words []) {
 	divisor = 10;
 	if (number / divisor != 0) {
 		if (number / divisor == 1) {
-			cout << words[10 + number % divisor] << " ";
+			cout << words[10 + number % divisor]->string << " ";
 			return;
 		}
 		else {
-			cout << words[18 + number / divisor] << " ";
+			cout << words[18 + number / divisor]->string << " ";
 		}
 
 		if (number % divisor != 0) {
@@ -30,57 +50,52 @@ void print(int number, char *words []) {
 
 	}
 	if (number % divisor != 0) {
-		cout << words[number % divisor] << " ";
+		cout << words[number % divisor]->string << " ";
 	}
 }
 
 int main() {
-	char **words = new char *[33];
-	for (int i = 0; i < 33; i++)
-		words[i] = new char[10];
+
+	Digits *words[amountWords] = { nullptr };
+
 	cout << "enter the number" << endl;
 	int number;
 	cin >> number;
-	if (!number)
-		cout << words[0] << endl;
-	else
-	{
-
-		if (number < 0){
+		if (number < 0) {
 			cout << "minus ";
 			number = number * (-1);
 		}
 
 		// создали массив слов //
-		words[0] = "zero";
-		words[1] = "one";
-		words[2] = "two";
-		words[3] = "three";
-		words[4] = "four";
-		words[5] = "five";
-		words[6] = "six";
-		words[7] = "seven";
-		words[8] = "eight";
-		words[9] = "nine";
-		words[10] = "ten";
-		words[11] = "eleven";
-		words[12] = "twelve";
-		words[13] = "thirteen";
-		words[14] = "fourteen";
-		words[15] = "fifteen";
-		words[16] = "sixteen";
-		words[17] = "seventeen";
-		words[18] = "eighteen";
-		words[19] = "nineteen";
-		words[20] = "twenty";
-		words[21] = "thirty";
-		words[22] = "forty";
-		words[23] = "fifty";
-		words[24] = "sixty";
-		words[25] = "seventy";
-		words[26] = "eighty";
-		words[27] = "ninety";
-
+		words[0] = add("zero");
+		words[1] = add("one");
+		words[2] = add("two");
+		words[3] = add("three");
+		words[4] = add("four");
+		words[5] = add("five");
+		words[6] = add("six");
+		words[7] = add("seven");
+		words[8] = add("eight");
+		words[9] = add("nine");
+		words[10] = add("ten");
+		words[11] = add("eleven");
+		words[12] = add("twelve");
+		words[13] = add("thirteen");
+		words[14] = add("fourteen");
+		words[15] = add("fifteen");
+		words[16] = add("sixteen");
+		words[17] = add("seventeen");
+		words[18] = add("eighteen");
+		words[19] = add("nineteen");
+		words[20] = add("twenty");
+		words[21] = add("thirty");
+		words[22] = add("forty");
+		words[23] = add("fifty");
+		words[24] = add("sixty");
+		words[25] = add("seventy");
+		words[26] = add("eighty");
+		words[27] = add("ninety");
+	
 		int firstPart = number / 1000;
 		int secondPart = number % 1000;
 
@@ -88,18 +103,12 @@ int main() {
 			print(firstPart, words);
 			cout << "thousand ";
 		}
-			print(secondPart, words);
-	}
+		print(secondPart, words);
+		cout << endl;
 
-	// "free memory" doesn't work(- 
-
-	/*for (int i = 0; i < 33; i++)
-	{
-	delete [] words[i];
-	words[i] = nullptr;
-	}
-	delete [] words;
-	words=nullptr;*/
+		for (int i = 0; i < amountWords; i++) {
+			delete words[i];
+		}
 
 	return 0;
 }
