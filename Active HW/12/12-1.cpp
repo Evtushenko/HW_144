@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// this is the calcucalor. Because in my original lessons we did it. analyzer is a part of calculator.
+
 enum LexType { add, take, multiplication, division, open, close, number, finish, start };
 const char functionSymbols [] = "+-*/()";
 const char originalString [] = "(1+2)*3.14";
@@ -51,7 +53,7 @@ bool isNumber(const char str[]) {
 
 void nextLexeme(LexType &curLex, char lexemeString[]) {
 	int static expPos = 0;
-	// пробелы
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	while (expPos < length && originalString[expPos] == ' ')
 		expPos++;
 	if (expPos == length)
@@ -65,7 +67,7 @@ void nextLexeme(LexType &curLex, char lexemeString[]) {
 		}
 
 		else {
-			// либо функция, либо число
+			// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 			clear(lexemeString);
 
 			int pos = 0;
