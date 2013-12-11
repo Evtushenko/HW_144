@@ -8,13 +8,11 @@ using namespace std;
 #define lengthWord 20
 
 struct Digits {
-	Digits *next;
 	char string[lengthWord];
 };
 
 Digits *add(char str []){
 	Digits *newE = new Digits;
-	newE->next = nullptr;
 	for (int i = 0; i < strlen(str); i++) {
 		newE->string[i] = str[i];
 	}
