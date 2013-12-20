@@ -38,7 +38,7 @@ void addNote(Students *&where, Students *&what) {
 	} // удалили лишнее
 }
 
-int FindOutOriginals() {
+int findOutOriginals() {
 	ifstream inFile;
 	inFile.open("in.txt", ios::in);
 	if (!(inFile.is_open())) {
@@ -88,11 +88,11 @@ int FindOutOriginals() {
 	for (int i = 0; i < amount; i++) {
 		delete points[i];
 	}
-	
+
 	return 0;
 }
 
 int main() {
-	FindOutOriginals();
+	findOutOriginals();
 	return 0;
 }
