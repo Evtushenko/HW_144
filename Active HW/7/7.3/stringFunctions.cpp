@@ -1,23 +1,9 @@
-#include <iostream>
-#include <cstdlib>
-#include <fstream>
-#include <cstring>
-#include <stdio.h>
+#include "stringFunctions.h"
 
 using namespace std;
+using listFunctions::Word;
 
-int const primeNumber = 3;
-int const amount = 10000;
-int const wordLen = 25;
-
-struct Word {
-	char word[wordLen];
-	Word *next;
-	int amount;
-	int length;
-};
-
-Word *create(char s []) {
+Word *listFunctions::create(char s []) {
 	Word *creature = new Word;
 	int i = 0;
 	for (i; i < strlen(s); i++) {
@@ -30,7 +16,7 @@ Word *create(char s []) {
 	return creature;
 }
 
-void addEnd(Word *&last, char s []) {
+void listFunctions::addEnd(Word *&last, char s []) {
 	Word *creature = new Word;
 	int i = 0;
 	for (i; i < strlen(s); i++) {
@@ -43,7 +29,7 @@ void addEnd(Word *&last, char s []) {
 	last->next = creature;
 }
 
-Word *findLast(Word *&first){
+Word *listFunctions::findLast(Word *&first){
 	Word *helper = first;
 	while (helper->next) {
 		helper = helper->next;
@@ -51,7 +37,7 @@ Word *findLast(Word *&first){
 	return helper;
 }
 
-int calcLength(Word *&begin) {
+int listFunctions::calcLength(Word *&begin) {
 	int answer = 0;
 	Word *helper = begin;
 	while (helper) {
@@ -61,14 +47,14 @@ int calcLength(Word *&begin) {
 	return answer;
 }
 
-int hashCount(char string []) {
+int listFunctions::hashCount(char string []) {
 	int result = 0;
 	for (int i = 0; string[i] != '\0'; ++i)
 		result = (result + string[i]) % amount;
 	return result;
 }
 
-bool findSame(Word *&begin, char buffer []) {
+bool listFunctions::findSame(Word *&begin, char buffer []) {
 	Word *slot = begin;
 	while (slot) {
 		int position = 0;
@@ -94,7 +80,7 @@ bool findSame(Word *&begin, char buffer []) {
 	return false;
 }
 
-void printMax(Word *&begin) {
+void listFunctions::printMax(Word *&begin) {
 	Word *slot = begin;
 	while (slot) {
 		int position = 0;
@@ -107,22 +93,18 @@ void printMax(Word *&begin) {
 	}
 }
 
-int main() {
-	cout << "using:\n1.txt\nout.txt\n";
+int listFunctions::writeHastTable(Word *hashRange [], int &amountReadedWords){
 	ifstream inFile1;
-	int amountReadedWords = 0;
+
 	inFile1.open("1.txt", ios::in);
 	if (!(inFile1.is_open())) {
 		cout << "Where is your file ???" << endl;
-		return 0;
+		return 1;
 	}
-
-	Word *hashRange[amount];
 	for (int i = 0; i < amount; i++) {
 		hashRange[i] = nullptr;
 	}
 
-	char *line = new char[100];
 	Word *slot = nullptr;
 	char buffer[wordLen] = { -1 };
 	int valueHash = 0;
@@ -131,9 +113,7 @@ int main() {
 	while (inFile1.good()) {
 		inFile1 >> buffer;
 		amountReadedWords++;
-		//cout << buffer << endl;
 		valueHash = hashCount(buffer);
-		//cout << valueHash << endl;
 		if (hashRange[valueHash] == nullptr) {
 			hashRange[valueHash] = create(buffer);
 		}
@@ -146,8 +126,20 @@ int main() {
 
 		}
 	}
+	inFile1.close();
+	return 0;
+}
 
+void listFunctions::freeMemory(Word *hashRange []) {
+	for (int i = 0; i < amount; i++) {
+		if (hashRange[i] != nullptr) {
+			delete hashRange[i];
 
+		}
+	}
+}
+
+void listFunctions::printStatic(Word *hashRange [], int amountReadedWords) {
 	int amountVacant = 0;
 	int maxLength = 0;
 	int midLength = 0;
@@ -202,14 +194,4 @@ int main() {
 		position++;
 	}
 	cout << "'\n\n";
-
-	for (int i = 0; i < amount; i++) {
-		if (hashRange[i] != nullptr) {
-			delete hashRange[i];
-
-		}
-	}
-
-	inFile1.close();
-	return 0;
 }
