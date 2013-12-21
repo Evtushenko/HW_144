@@ -5,9 +5,10 @@
 
 int const primeNumber = 3;
 int const amount = 10000;
+int const maxLengthWord = 100;
 
 struct Word {
-	char word[100];
+	char word[maxLengthWord];
 	Word *next;
 };
 
@@ -52,8 +53,6 @@ int hashCount(char string []) {
 
 void del(Word **beginNode, Word *&pkey) {
 	Word *start = *beginNode;
-
-	// удалили первый //
 	if (start == pkey) {
 		*beginNode = nullptr;
 		delete start;
@@ -67,7 +66,6 @@ void del(Word **beginNode, Word *&pkey) {
 			}
 			start = start->next;
 		}
-		// start - предыдущий для удаляемого start->next удаляемый //
 		if (found) {
 			start->next = (pkey)->next;
 			delete pkey;
@@ -120,26 +118,26 @@ int main() {
 		hashRange[i] = nullptr;
 	}
 
-	char *line = new char[100];
+	char *line = new char[maxLengthWord];
 	Word *slot = nullptr;
 	int valueHash = 0;
 
 	// записали в хэш таблицу //
 	while (inFile1.good()) {
-		inFile1.getline(line, 100);
+		inFile1.getline(line, maxLengthWord);
 		valueHash = hashCount(line);
 		if (hashRange[valueHash] == nullptr) {
 			hashRange[valueHash] = create(line);
 		}
 		else {
-				slot = findLast(hashRange[valueHash]);
-				addEnd(slot, line);
+			slot = findLast(hashRange[valueHash]);
+			addEnd(slot, line);
 		}
 	}
 
 	slot = nullptr;
 	while (inFile2.good()) {
-		inFile2.getline(line, 100);
+		inFile2.getline(line, maxLengthWord);
 		valueHash = hashCount(line);
 		slot = same(hashRange[valueHash], line);
 		if (slot != nullptr) {
@@ -147,7 +145,7 @@ int main() {
 			del(&hashRange[valueHash], slot);
 		}
 	}
-	
+
 	inFile1.close();
 	inFile2.close();
 	outFile.close();

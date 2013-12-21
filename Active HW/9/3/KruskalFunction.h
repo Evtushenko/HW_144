@@ -1,6 +1,14 @@
 #pragma once
 
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <string.h>
+
 namespace kruskal {
+
+	int const maxAmountVertex = 10;
+	int const maxBufferSize = 100;
 
 	struct Roads {
 		int from;
@@ -10,7 +18,7 @@ namespace kruskal {
 	};
 
 	struct Points {
-		int Point[20];
+		int Point[maxAmountVertex];
 		Points *next;
 	};
 

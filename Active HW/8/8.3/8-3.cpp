@@ -1,16 +1,18 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <string.h>
 
 using namespace std;
+int const maxAmountVertex = 10;
+int const maxBufferSize = 100;
 
 int main() {
-	int matrix[100][100];
+
+	int matrix[maxAmountVertex][maxAmountVertex];
 	ifstream inFile;
-	char nameFile[100];
+	char nameFile[maxBufferSize];
 	cout << "enter name of file" << endl;
-	cin.getline(nameFile, 100);
+	cin.getline(nameFile, maxBufferSize);
 	inFile.open(nameFile, ios::in);
 	if (!(inFile.is_open())) {
 		cout << "Where is your file ???" << endl;
@@ -37,7 +39,7 @@ int main() {
 
 	cout << "relationships: ";
 
-	int showded[100];
+	int showded[maxAmountVertex];
 	for (int i = 0; i < amountPoints; i++) {
 		showded[i] = 0;
 	}
@@ -49,13 +51,13 @@ int main() {
 		int i = 0;
 		if (showded[currentString] == 0) {
 			cout << endl;
-			cout << currentString+1 << " ";
+			cout << currentString + 1 << " ";
 			showded[currentString] = 1;
 			amountShowded++;
 		}
-		for (i = currentString+1; i < amountPoints; i++) {
-			if ( (matrix[currentString][i] != 0) && (showded[i] ==0 ) ) {
-				cout << i+1 << " ";
+		for (i = currentString + 1; i < amountPoints; i++) {
+			if ((matrix[currentString][i] != 0) && (showded[i] == 0)) {
+				cout << i + 1 << " ";
 				showded[i] = 1;
 				amountShowded++;
 			}
@@ -65,5 +67,5 @@ int main() {
 
 	cout << endl;
 	inFile.close();
-		return 0;
+	return 0;
 }

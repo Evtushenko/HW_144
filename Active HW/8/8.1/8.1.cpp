@@ -1,30 +1,32 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <string.h>
 
 using namespace std;
 
+int const maxAmountVertex = 26;
+int const maxBufferSize = 100;
+
 int main() {
-	
-	int adjacencyMatrix[26][26];
-	char names[26];
-	for (int i = 0; i < 26; i++) {
-		names[i] = 0;
+
+	int adjacencyMatrix[maxAmountVertex][maxAmountVertex];
+	char names[maxAmountVertex];
+	for (int i = 0; i < maxAmountVertex; i++) {
+		names[i] = '\0';
 	}
 
 	ifstream inFile;
-	char nameFile[100];
+	char nameFile[maxBufferSize];
 	cout << "enter name of file" << endl;
-	cin.getline(nameFile, 100);
+	cin.getline(nameFile, maxBufferSize);
 	inFile.open(nameFile, ios::in);
 	if (!(inFile.is_open())) {
 		cout << "Where is your file ???" << endl;
-		return 0;
+		return 1;
 	}
-	
+
 	cout << "enter start point" << endl;
-	int currentString;
+	int currentString = 0;
 	cin >> currentString;
 	int amountPoints = 0; // вершины
 	inFile >> amountPoints;
@@ -34,28 +36,31 @@ int main() {
 		}
 	}
 
-	int int2Char = 'A';
+	int intToChar = 'A';
 	int current = 1;
-	names[currentString] ='A';
-		
-	while (current != (amountPoints - 1)) {
+	names[currentString] = 'A';
+
+	bool setToZero = false;
+	while (current < amountPoints) {
+		bool findSomething = false;
 		for (int i = 0; i < amountPoints; i++) {
 			if ((adjacencyMatrix[currentString][i] == 1) && (names[i] == 0)) {
 				currentString = i;
-				names[i] = current + int2Char;
+				names[i] = current + intToChar;
 				current++;
+				findSomething = true;
 				break;
 			}
 		}
-	}
-
-	for (int i = 0; i < amountPoints; i++) {
-		if (names[i] == 0) {
-			names[i] = current + int2Char;
-			break;
+		if (!findSomething && !setToZero) {
+			currentString = 0;
+			setToZero = true;
+		}
+		if (!findSomething && setToZero) {
+			currentString++;
 		}
 	}
-
+	
 	for (int i = 0; i < amountPoints; i++) {
 		cout << names[i] << " ";
 	}

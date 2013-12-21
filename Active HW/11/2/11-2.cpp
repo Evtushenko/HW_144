@@ -3,6 +3,8 @@
 
 using namespace std;
 
+int const maxBufferSize = 20;
+
 bool isSign(char a) {
 	return (a == '+' || a == '-' || a == '*' || a == '/');
 }
@@ -23,23 +25,21 @@ bool isDot(char a) {
 	return a == '.';
 }
 
-bool checkFloat_S(const char* str)
-{
+bool checkFloat(char str[]) {
 	cout << "process:" << endl;
-	enum State { m1, m2, m3, m4, e1, e2, e3 } state = m1;
-	while (true)
-	{
+	enum State { firstPart1, firstPart2, firstPart3, firstPart4, secondPart1, secondPart2, secondPart3 } 
+	state = firstPart1;
+	while (true) {
 		char c = *(str++);
-		switch (state)
-		{
-		case m1:
+		switch (state) {
+		case firstPart1:
 			if (isSign(c)) {
 				cout << "found out sign " << c << endl;
-				state = m2;
+				state = firstPart2;
 			}
 			else if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = m3;
+				state = firstPart3;
 			}
 			else {
 				cout << "found out wrong char \n";
@@ -47,10 +47,10 @@ bool checkFloat_S(const char* str)
 			}
 			break;
 
-		case m2:
+		case firstPart2:
 			if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = m3;
+				state = firstPart3;
 			}
 			else {
 				return false;
@@ -58,22 +58,22 @@ bool checkFloat_S(const char* str)
 			}
 			break;
 
-		case m3:
+		case firstPart3:
 			if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = m3;
+				state = firstPart3;
 			}
 			else if (isDot(c)) {
 				cout << "found out dot .\n";
-				state = m4;
+				state = firstPart4;
 			}
 			else if (isExp(c)) {
 				cout << "found out exponent " << c << endl;
-				state = e1;
+				state = secondPart1;
 			}
-			else if (isEnd(c))  { 
+			else if (isEnd(c))  {
 				cout << "found out end\n";
-				return true; 
+				return true;
 			}
 			else {
 				cout << "found out wrong char \n";
@@ -81,33 +81,33 @@ bool checkFloat_S(const char* str)
 			}
 			break;
 
-		case m4:
+		case firstPart4:
 			if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = m4;
+				state = firstPart4;
 			}
 			else if (isExp(c)) {
 				cout << "found out exponent " << c << endl;
-				state = e1;
+				state = secondPart1;
 			}
 			else if (isEnd(c)) {
 				cout << "found out end\n";
 				return true;
-			}	
+			}
 			else {
 				cout << "found out wrong char \n";
 				return false;
 			}
 			break;
 
-		case e1:
+		case secondPart1:
 			if (isSign(c)) {
 				cout << "found out sign " << c << endl;
-				state = e2;
+				state = secondPart2;
 			}
 			else if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = e3;
+				state = secondPart3;
 			}
 			else {
 				cout << "found out wrong char \n";
@@ -115,10 +115,10 @@ bool checkFloat_S(const char* str)
 			}
 			break;
 
-		case e2:
+		case secondPart2:
 			if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = e3;
+				state = secondPart3;
 			}
 			else {
 				cout << "found out wrong char \n";
@@ -126,10 +126,10 @@ bool checkFloat_S(const char* str)
 			}
 			break;
 
-		case e3:
+		case secondPart3:
 			if (isDigit(c)) {
 				cout << "found out digit " << c << endl;
-				state = m3;
+				state = firstPart3;
 			}
 			else if (isEnd(c)) {
 				cout << "found out end\n";
@@ -146,13 +146,14 @@ bool checkFloat_S(const char* str)
 }
 
 int main() {
-	char  arr [] = "-1.25e+1";
-	// Warning!
-	// 8 = float 7.62=float too // 
-	cout << "test number:\n" << arr << endl << endl;
-	if (checkFloat_S(arr))
-		cout << "it may be float \n";
+	char  stringIn[maxBufferSize];
+	for (int i = 0; i < strlen(stringIn); i++)
+		stringIn[i] = '\0';
+	cout << "enter the string\n";
+	cin.getline(stringIn, maxBufferSize);
+	if (checkFloat(stringIn))
+		cout << "\n\n it may be float \n";
 	else
-		cout << "it is not float\n";
+		cout << "\n\n it is not float\n";
 	return 0;
 }

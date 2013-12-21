@@ -1,16 +1,19 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <string.h>
 
 using namespace std;
 
+int const maxAmountTowns = 10;
+int const maxBufferSize = 100;
+int const maxDistance = 10000;
+
 int main() {
-	int matrix[100][100];
+	int matrix[maxAmountTowns][maxAmountTowns];
 	ifstream inFile;
-	char nameFile[100];
+	char nameFile[maxBufferSize];
 	cout << "enter name of file" << endl;
-	cin.getline(nameFile, 100);
+	cin.getline(nameFile, maxBufferSize);
 	inFile.open(nameFile, ios::in);
 	if (!(inFile.is_open())) {
 		cout << "Where is your file ???" << endl;
@@ -19,6 +22,7 @@ int main() {
 	int amountTowns = 0;
 	int amountRoads = 0;
 	inFile >> amountTowns >> amountRoads;
+
 	for (int i = 0; i < amountTowns; i++) {
 		for (int j = 0; j < amountTowns; j++) {
 			matrix[i][j] = 0;
@@ -33,7 +37,7 @@ int main() {
 		matrix[from - 1][to - 1] = distance;
 		matrix[to - 1][from - 1] = distance;
 	}
-	
+
 	//Алгоритм Флойда-Уоршелла
 	for (int k = 0; k < amountTowns; k++)
 		for (int i = 0; i < amountTowns; i++)
@@ -45,35 +49,32 @@ int main() {
 	cout << endl << "Min distances" << endl;
 	for (int i = 0; i < amountTowns; ++i, printf("\n"))
 		for (int j = 0; j < amountTowns; ++j)
-			printf("%d ", matrix[i][j]);
+			cout << matrix[i][j] << " ";
 
-	int leftList[10];
-	int weWere[10];
+	int leftList[maxAmountTowns];
+	int weWere[maxAmountTowns];
 	for (int i = 0; i < amountTowns; i++) {
 		leftList[i] = 0;
 		weWere[i] = 0;
 	}
 
-	int amountamountTownsisited = 1;
+	int amountTownVisited = 1;
 	leftList[0] = 1;
 	int currentString = 0;
 	weWere[0] = 1;
 
-
-
-	while (amountamountTownsisited < amountTowns) {
-		int min = 10000;
-		int minNumber = 777;
-
+	while (amountTownVisited < amountTowns) {
+		int min = maxDistance;
+		int minNumber = 0;
 		for (int i = 0; i < amountTowns; i++) {
 			if ((matrix[currentString][i] < min) && (matrix[currentString][i] != 0) && (weWere[i] == 0)) {
 				min = matrix[currentString][i];
 				minNumber = i;
 			}
 		}
-		leftList[amountamountTownsisited] = minNumber + 1;
+		leftList[amountTownVisited] = minNumber + 1;
 		weWere[minNumber] = 1;
-		amountamountTownsisited++;
+		amountTownVisited++;
 		currentString = minNumber;
 	}
 

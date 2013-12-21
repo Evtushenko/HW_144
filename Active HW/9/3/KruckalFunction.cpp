@@ -1,18 +1,13 @@
-#include <iostream>
-#include <cstdlib>
 #include "KruskalFunction.h"
-
-using namespace std;
 
 using kruskal::Roads;
 using kruskal::Points;
-
 
 void kruskal::addEnd(Points **beginP, Points **endP, int value) {
 	if (*beginP == nullptr) {
 		Points *newP = new Points;
 		newP->Point[0] = value;
-		for (int i = 1; i < 20; i++)
+		for (int i = 1; i < maxAmountVertex; i++)
 			newP->Point[i] = -1;
 		newP->next = nullptr;
 		*beginP = newP;
@@ -21,7 +16,7 @@ void kruskal::addEnd(Points **beginP, Points **endP, int value) {
 	else {
 		Points *newP = new Points;
 		newP->Point[0] = value;
-		for (int i = 1; i < 20; i++)
+		for (int i = 1; i < maxAmountVertex; i++)
 			newP->Point[i] = -1;
 		newP->next = nullptr;
 		(*endP)->next = newP;
@@ -32,7 +27,7 @@ void kruskal::addEnd(Points **beginP, Points **endP, int value) {
 Points *kruskal::find(Points *&begin, int value) {
 	Points *help = begin;
 	while (help) {
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < maxAmountVertex; i++) {
 			if (help->Point[i] == -1){
 				break;
 			}
@@ -135,7 +130,7 @@ void kruskal::del(Points **beginNode, Points **endNode, Points *&pkey) {
 // склеить строки
 void kruskal::sum(Points *&first, Points *&second) {
 	int i = 0; // номер свободного слота в первой //
-	for (i; i < 20; i++) {
+	for (i; i < maxAmountVertex; i++) {
 		if (first->Point[i] == -1)
 			break;
 	}

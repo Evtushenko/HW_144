@@ -4,6 +4,10 @@
 #include <string.h>
 #include <cmath>
 
+using namespace std;
+
+int const maxBufferSize = 100;
+
 struct tree {
 	tree *left;
 	tree *right;
@@ -11,8 +15,6 @@ struct tree {
 	int value;
 	char function;
 };
-
-using namespace std;
 
 void calc(tree *&node) {
 	int answer = 0;
@@ -72,7 +74,7 @@ tree *newTree(int value, char symbol) {
 	return newT;
 }
 
-int getInt(int &position, const char s[]) {
+int getInt(int &position, const char s []) {
 	int asw = 0;
 	char number[10] = { '\0' };
 	int i = 0;
@@ -96,15 +98,15 @@ bool isDigit(char c) {
 	return c >= '0' && c <= '9';
 }
 
-void addTree(const char s[]) {
+void addTree(const char s []) {
 	static tree *root = nullptr;
 	static tree *currentNode = nullptr;
 	static int position = 0;
-	(s[position] =='(' && position == 0) ? position++ : 0;
+	(s[position] == '(' && position == 0) ? position++ : 0;
 	static int first = 0;
 	if (isFunction(s[position])) {
 		if (first == 0) {
-			root = newTree(0,s[position]);
+			root = newTree(0, s[position]);
 			currentNode = root;
 			first++;
 			position++;
@@ -132,7 +134,7 @@ void addTree(const char s[]) {
 			position++;
 		else {
 			position++;
-			int val = getInt(position,s);
+			int val = getInt(position, s);
 			if (currentNode->left != nullptr && currentNode->right == nullptr) {
 				tree *newT = newTree(val, '\0');
 				currentNode->right = newT;
@@ -177,8 +179,8 @@ int main() {
 		cout << "Where is your file ???" << endl;
 		return 0;
 	}
-	char str[100] = { '\0' };
-	inFile1.getline(str, 100);
+	char str[maxBufferSize] = { '\0' };
+	inFile1.getline(str, maxBufferSize);
 	addTree(str);
 	inFile1.close();
 	return 0;

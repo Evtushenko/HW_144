@@ -1,35 +1,38 @@
 #include <iostream>
 #include <cstdlib>
-#include <cmath>
 #include <string.h>
+#include <math.h>
+#include <fstream>
 
 using namespace std;
 
-struct elements{
-	elements *next;
-	int exponent;
-	int coefficient;
 
-};
-
-enum Change { exitP, same, calc, sum };
+enum Change { exitProgramm, equalPQ, calc, sum, show};
 
 Change intToChange(int one) {
 	return static_cast<Change>(one);
 }
 
-void addSort(elements **beginNode, elements **endNode, int exponent, int coefficient){
-	elements *end = *endNode;
-	elements *newNode = new elements;
-	newNode->exponent = exponent;
+struct Expression{
+	Expression *next;
+	int coefficient;
+	int exponent;
+};
+
+void addSort(Expression **beginNode, Expression **endNode, int coefficient, int exponent){
+	Expression *end = *endNode;
+	Expression *newNode = new Expression;
 	newNode->coefficient = coefficient;
-	elements * currentNode = *beginNode;
+	newNode->exponent = exponent;
+	Expression *currentNode = *beginNode;
 	if (*beginNode == nullptr) {
 		newNode->next = nullptr;
 		*beginNode = newNode;
-		*endNode = newNode;
+		*endNode = *beginNode;
 	}
-	else {
+	else{
+
+		// если элемент меньше первого, то он будет новым первым//
 		if (exponent < currentNode->exponent) {
 			newNode->next = currentNode;
 			*beginNode = newNode;
@@ -38,12 +41,14 @@ void addSort(elements **beginNode, elements **endNode, int exponent, int coeffic
 			}
 		}
 		else {
-			bool found = false;
+			// Если новый больше первого //
+			bool found = false; // результат поиска фолс //
 			while (currentNode->next) {
 				if ((currentNode->next)->exponent > newNode->exponent) {
 					found = true;
 					break;
 				}
+				// currentNode - предыдущий , а currentNode->next больше чем newNode //
 				currentNode = currentNode->next;
 			}
 			if (found) {
@@ -63,223 +68,165 @@ void addSort(elements **beginNode, elements **endNode, int exponent, int coeffic
 	}
 }
 
-bool isDigit(char a) {
-	return ((int(a) >= int('0')) && (int(a) <= int('9')));
-}
-
-bool isFunction(char a) {
-	return ((a == '-') || (a == '+'));
-}
-
-int getInt(char s [], int begin, int end) {
-	int answer = 0;
-	for (int i = begin; i <= end; i++) {
-		answer = answer + (int(s[i]) - int('0')) * pow(10, end - i);
-	}
-	return answer;
-}
-
-void makePQR(char s1 [], elements **beginE, elements **endE) {
-	int begin = 0;
-	int end = 0;
-	for (int i = 0; i < strlen(s1); i++) {
-		if (isFunction(s1[i]) && i != 0 && s1[i - 1] != '^' || i == strlen(s1) - 1) {
-			int posX = -1;
-			int posT = -1;
-			int currentExp = 0;
-			int currentCoe = 0;
-			if (i == strlen(s1) - 1)
-				end = strlen(s1);
-			else
-				end = i;
-			for (int j = begin; j < end; j++) {
-				if (s1[j] == 'x')
-					posX = j;
-				if (s1[j] == '^')
-					posT = j;
-			}
-			if (posX == -1){
-				currentCoe = getInt(s1, begin + 1, end - 1);
-				if (s1[begin] == '-')
-					currentCoe *= -1;
-				currentExp = 0;
-			}
-			if (posX != -1 && isFunction(s1[begin]) && posX == begin + 1){
-				if (s1[begin] == '-')
-					currentCoe = -1;
-				else
-					currentCoe = 1;
-			}
-
-			if (posX != -1 && posX != begin + 1) {
-				currentCoe = getInt(s1, begin + 1, posX - 1);
-				if (s1[begin] == '-')
-					currentCoe *= -1;
-			}
-			if (posX != -1 && posT == -1) {
-				currentExp = 1;
-			}
-			if (posX != -1 && posT != -1) {
-				if (isDigit(s1[posT + 1])){
-					currentExp = getInt(s1, posT + 1, end - 1);
-				}
-				else {
-					currentExp = -getInt(s1, posT + 2, end - 1);
-				}
-			}
-			addSort(&*beginE, &*endE, currentExp, currentCoe);
-			begin = i;
-		}
-	}
-}
-
-bool equals(elements *&b1, elements *&b2) {
-	elements *begin1 = b1;
-	elements *begin2 = b2;
-	while (begin1 && begin2) {
-		if (begin1->coefficient != begin2->coefficient || begin1->exponent != begin2->exponent)
+bool equals(Expression *&beginFirst, Expression *& beginSecond) {
+	Expression *start1 = beginFirst;
+	Expression *start2 = beginSecond;
+	while (start1) {
+		if (start1->exponent != start2->exponent || start1->coefficient != start2->coefficient)
 			return false;
-		begin1 = begin1->next;
-		begin2 = begin2->next;
+		start1 = start1->next;
+		start2 = start2->next;
 	}
-	if (begin1 != nullptr || begin2 != nullptr)
-		return false;
 	return true;
 }
 
-int value(elements *&b, int x) {
-	elements *beginP = b;
-	int answer = 0;
-	while (beginP) {
-		answer = answer + beginP->coefficient*pow(x, beginP->exponent);
-		beginP = beginP->next;
+double value(Expression *&begin, int number) {
+	double answer = 0.0;
+	Expression *start = begin;
+	while (start) {
+		answer += double(start->coefficient)*double(pow(number, start->exponent));
+		start = start->next;
 	}
 	return answer;
 }
 
-elements *findExp(elements *&begin, int exp) {
-	elements *slot = begin;
-	while (slot) {
-		if (slot->exponent == exp) {
-			return slot;
+bool changeCoefficients(Expression *&beginFirst, Expression *&second){
+	Expression *start = beginFirst;
+	while (start) {
+		if (start->exponent == second->exponent) {
+			start->coefficient = start->coefficient + second->coefficient;
+			return true;
 		}
-		slot = slot->next;
+		start = start->next;
 	}
-	return nullptr;
+	return false;
 }
 
-void include(elements *&beginP, elements *&endP, elements **beginQ, elements **endQ) {
-	elements *slot = nullptr;
-	elements *slot2 = nullptr;
-	while (beginP) {
-		slot = findExp(*beginQ, beginP->exponent);
-		if (slot != nullptr) {
-			slot->coefficient = slot->coefficient + beginP->coefficient;
-			slot2 = beginP;
+void makePQR(Expression **beginFirst, Expression **endFirst, Expression *&beginSecond) {
+	Expression *start = beginSecond;
+	while (start) {
+		if (!changeCoefficients(*beginFirst, start)){
+			addSort(&(*beginFirst), &(*endFirst), start->coefficient, start->exponent);
 		}
-		else {
-			addSort(&*beginQ, &*endQ, beginP->exponent, beginP->coefficient);
-			slot2 = beginP;
-		}
-		beginP = beginP->next;
-		delete slot2;
+		start = start->next;
 	}
 }
 
-void print(elements *begin) {
-	elements *slot = nullptr;
+void print(Expression *&begin1) {
+	Expression *begin = begin1;
 	while (begin) {
-		if (begin->coefficient != 0) {
-			if (begin->exponent == 0) {
-				if (begin->coefficient > 0)
-					cout << begin->coefficient;
-			}
-			else {
-				if (begin->coefficient > 0)
-					cout << "+";
-				if (abs(begin->coefficient) > 1)
-					cout << begin->coefficient;
-				cout << "x";
-				if (begin->exponent > 1) {
-					cout << "^" << begin->exponent;
-				}
-			}
+		if (begin->coefficient > 0)
+			cout << "+";
+		if (abs(begin->coefficient) != 1 || begin->exponent == 0)
+			cout << begin->coefficient;
+		if (begin->exponent != 0) {
+			cout << "x^(";
+			cout << begin->exponent;
+			cout << ")";
 		}
-		slot = begin;
-		begin = begin->next;
-		delete slot;
+		begin=begin->next;
+	}
+	cout << endl;
+}
+
+void freeMemory(Expression *&begin1, Expression *&begin2) {
+	Expression *helper = begin1;
+	while (begin1) {
+		helper = begin1;
+		begin1 = begin1->next;
+		delete helper;
+	}
+
+	while (begin2) {
+		helper = begin2;
+		begin2 = begin2->next;
+		delete helper;
 	}
 }
 
 int main() {
-	cout << "For example:\n x^5+x-7\n";
-	char string01[100] = { -1 };
-	cout << "Enter the first string(P)\n";
-	cin.getline(string01, 100);
-	char string02[100] = { -1 };
-	cout << "Enter the second string(Q)\n";
-	cin.getline(string02, 100);
-
-	char string1[100] = { -1 };
-	if (!isFunction(string01[0])) {
-		string1[0] = '+';
-		for (int i = 0; i < strlen(string01); i++) {
-			string1[i + 1] = string01[i];
-		}
+	cout << "using:\n 1.txt\n 2.txt\n";
+	ifstream inFile;
+	inFile.open("1.txt", ios::in);
+	if (!(inFile.is_open())) {
+		cout << "Where is your file ???" << endl;
+		return 0;
 	}
-
-	char string2[100] = { -1 };
-	if (!isFunction(string02[0])) {
-		string2[0] = '+';
-		for (int i = 0; i < strlen(string02); i++) {
-			string2[i + 1] = string02[i];
-		}
+	int amountStringsFirst = 0;
+	inFile >> amountStringsFirst;
+	Expression *beginFirst = nullptr;
+	Expression *endFirst = nullptr;
+	int coef = 0;
+	int exp = 0;
+	for (int i = 0; i < amountStringsFirst; i++) {
+		inFile >> coef >> exp;
+		addSort(&beginFirst, &endFirst, coef,exp);
 	}
+	inFile.close();
 
-	elements *beginP = nullptr;
-	elements *beginQ = nullptr;
-	elements *beginR = nullptr;
-	elements *endP = nullptr;
-	elements *endQ = nullptr;
-	elements *endR = nullptr;
-	makePQR(string1, &beginP, &endP);
-	makePQR(string2, &beginQ, &endQ);
-
-	cout << " Welcome!\n 0 = exit \n 1 = equals(p,q) \n 2 = value(p,x) \n 3 = add(p+q=r)\n";
+	inFile.open("2.txt", ios::in);
+	if (!(inFile.is_open())) {
+		cout << "Where is your file ???" << endl;
+		return 0;
+	}
+	int amountStringsSecond = 0;
+	inFile >> amountStringsSecond;
+	Expression *beginSecond = nullptr;
+	Expression *endSecond = nullptr;
+	coef = 0;
+	exp = 0;
+	for (int i = 0; i < amountStringsSecond; i++) {
+		inFile >> coef >> exp;
+		addSort(&beginSecond, &endSecond, coef, exp);
+	}
+	inFile.close();
+	cout << "First:\n";
+	print(beginFirst);
+	cout << "Second:\n";
+	print(beginSecond);
+	cout << "\nWelcome!\n 0=exit\n 1=equals(p,q)\n 2=calc(p,x)\n 3=sum(p,q)(result's in p)\n 4=show\n\n";
 	for (;;) {
 		cout << "Enter number of state" << endl;
 		int changeTemp = 0;
 		Change c;
 		cin >> changeTemp;
+		c = intToChange(changeTemp);
 
-		if (!((changeTemp >= 0) && (changeTemp <= 3))) {
+		if (!((changeTemp >= 0) && (changeTemp <= 4))) {
 			cout << "Wrong command!" << endl;
 			return 0;
 		}
 
-		c = intToChange(changeTemp);
+		if (c == exitProgramm) {
+			cout << "L.A. GoodBay!\n";
+			break;
+		}
 
-		if (c == exitP) {
-			cout << "L.A.Goodbay" << endl;
-			return 0;
-		}
-		if (c == same) {
-			if (equals(beginP, beginQ))
-				cout << "equals!\n";
+		if (c == equalPQ) {
+			if (equals(beginFirst, beginSecond))
+				cout << "equals\n";
 			else
-				cout << "not equals!\n";
+				cout << "not equals\n";
 		}
+
 		if (c == calc) {
-			cout << "enter the x\n";
-			int x = 0;
-			cin >> x;
-			cout << "result is " << value(beginP, x) << endl;
+			cout << "enter the number\n";
+			int number = 0;
+			cin >> number;
+			cout << "result:\n";
+			cout << value(beginFirst, number) << endl;
 		}
+
 		if (c == sum) {
-			include(beginP, endP, &beginQ, &endQ);
-			print(beginQ);
-			cout << "\n";
+			makePQR(&beginFirst, &endFirst, beginSecond);
+			cout << "now p = p +q;\n";
+		}
+
+		if (c == show) {
+			print(beginFirst);
 		}
 	}
-	return 0;
+
+	freeMemory(beginFirst, beginSecond);
+	return 0; 
 }

@@ -1,7 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cstdlib>
 #include <string.h>
-#include <cmath>
 
 using namespace std;
 
@@ -42,16 +41,16 @@ int count(const char str [], char symbol) {
 	return answer;
 }
 
-bool isNumber(const char str[]) {
+bool isNumber(const char str []) {
 	for (int i = 0; i < strlen(str); i++) {
 		if (!isdigit(str[i]) && str[i] != '.') {
 			return false;
 		}
 	}
-	return count(str,'.') <= 1 && str[0] != '.';
+	return count(str, '.') <= 1 && str[0] != '.';
 }
 
-void nextLexeme(LexType &curLex, char lexemeString[]) {
+void nextLexeme(LexType &curLex, char lexemeString []) {
 	int static expPos = 0;
 	// �������
 	while (expPos < length && originalString[expPos] == ' ')
@@ -83,7 +82,7 @@ void nextLexeme(LexType &curLex, char lexemeString[]) {
 	}
 }
 
-double toNum(char str[]) {
+double toNum(char str []) {
 	double result;
 	sscanf_s(str, "%lf", &result);
 	return result;
@@ -96,19 +95,19 @@ bool calcMul(double &result, LexType &curLex, char lexemeString []) {
 		nextLexeme(curLex, lexemeString);
 	}
 	switch (curLex) {
-		case number: {
-			result = toNum(lexemeString);
-			nextLexeme(curLex, lexemeString);
-			break;
+	case number: {
+		result = toNum(lexemeString);
+		nextLexeme(curLex, lexemeString);
+		break;
 		}
-		case open:{
-			nextLexeme(curLex, lexemeString);
-			if (!calcExp(result, curLex, lexemeString))
-				return false;
-			if (curLex != close)
-				return false;
-			nextLexeme(curLex, lexemeString);
-			break;
+	case open:{
+		nextLexeme(curLex, lexemeString);
+		if (!calcExp(result, curLex, lexemeString))
+			return false;
+		if (curLex != close)
+			return false;
+		nextLexeme(curLex, lexemeString);
+		break;
 		}
 	}
 	result *= isNegative ? -1 : 1;
@@ -125,21 +124,21 @@ bool calcTerm(double &result, LexType &curLex, char lexemeString []) {
 		if (!calcMul(next, curLex, lexemeString))
 			return false;
 		switch (operation) {
-			case multiplication: { 
-				result *= next;
-				break;
+		case multiplication: {
+			result *= next;
+			break;
 			}
-			case division:{ 
-				result /= next;
-				break;
+		case division:{
+			result /= next;
+			break;
 			}
 		}
 	}
 	return true;
 }
 
-bool calcExp(double &result, LexType &curLex, char lexemeString[]) {
-	if (!calcTerm(result, curLex,lexemeString))
+bool calcExp(double &result, LexType &curLex, char lexemeString []) {
+	if (!calcTerm(result, curLex, lexemeString))
 		return false;
 	while (curLex == add || curLex == take) {
 		LexType operation = curLex;
@@ -148,13 +147,13 @@ bool calcExp(double &result, LexType &curLex, char lexemeString[]) {
 		if (!calcTerm(next, curLex, lexemeString))
 			return false;
 		switch (operation) {
-			case add: {
-				result += next;
-				break;
+		case add: {
+			result += next;
+			break;
 			}
-			case take: { 
-				result -= next;
-				break;
+		case take: {
+			result -= next;
+			break;
 			}
 		}
 	}
@@ -167,7 +166,7 @@ int main() {
 	double result = 0.0;
 	nextLexeme(curLex, lexemeString);
 
-	if (calcExp(result,curLex, lexemeString))
+	if (calcExp(result, curLex, lexemeString))
 		printf("%0.3f\n", result);
 	else
 		printf("wrong expression\n");

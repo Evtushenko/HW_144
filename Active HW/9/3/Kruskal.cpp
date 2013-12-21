@@ -1,20 +1,19 @@
-#include <iostream>
-#include <cstdlib>
-#include <fstream>
-#include <string.h>
 #include "KruskalFunction.h"
 
 using namespace std;
 using namespace kruskal;
 
 int main() {
-
-	//reading from file //
-	int matrix[10][10] = { 0 };
+	int matrix[maxAmountVertex][maxAmountVertex];
+	for (int i = 0; i < maxAmountVertex; i++) {
+		for (int j = 0; j < maxAmountVertex; j++) {
+			matrix[i][j] = 0;
+		}
+	}
 	ifstream inFile;
-	char nameFile[100];
+	char nameFile[maxBufferSize];
 	cout << "enter name of file" << endl;
-	cin.getline(nameFile, 100);
+	cin.getline(nameFile, maxBufferSize);
 	inFile.open(nameFile, ios::in);
 	if (!(inFile.is_open())) {
 		cout << "Where is your file ???" << endl;
@@ -82,7 +81,7 @@ int main() {
 		char a = 0;
 		if (first != second) {
 			cout << "sum ";
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < maxAmountVertex; i++) {
 				if (first->Point[i] != -1) {
 					a = 'A' + first->Point[i];
 					cout << a << " ";
@@ -91,7 +90,7 @@ int main() {
 					break;
 			}
 			cout << " with ";
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < maxAmountVertex; i++) {
 				if (second->Point[i] != -1) {
 					a = 'A' + second->Point[i];
 					cout << a << " ";
@@ -109,4 +108,3 @@ int main() {
 
 	return 0;
 }
-

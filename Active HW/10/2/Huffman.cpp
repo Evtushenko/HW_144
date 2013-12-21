@@ -1,29 +1,9 @@
-#include <iostream>
-#include <cstdlib>
-#include <fstream>
-#include <string.h>
+#include "HuffmanFunctions.h"
 
 using namespace std;
+using namespace fuctionsHuffman;
 
-struct tree {
-	tree *left;
-	tree *right;
-	tree *next;
-	tree *parent;
-	char symbol;
-};
-
-tree *create(char symbol) {
-	tree *newT = new tree;
-	newT->left = nullptr;
-	newT->right = nullptr;
-	newT->next = nullptr;
-	newT->parent = nullptr;
-	newT->symbol = symbol;
-	return newT;
-}
-
-int reverseHuffman() {
+int main() {
 	ifstream inFile;
 	ofstream outFile;
 	inFile.open("in.txt", ios::in);
@@ -33,15 +13,16 @@ int reverseHuffman() {
 		return 0;
 	}
 
-	char treeString[100] = { -1 };
-	inFile.getline(treeString, 100);
+	char treeString[maxBufferSize];
+	clearChar(treeString);
+	inFile.getline(treeString, maxBufferSize);
 	for (int i = 0; i < strlen(treeString); i++) {
 		cout << treeString[i];
 	}
 	cout << endl;
 
-	char codeString[100] = { -1 };
-	inFile.getline(codeString, 100);
+	char codeString[maxBufferSize] = { emptyInt };
+	inFile.getline(codeString, maxBufferSize);
 	codeString[strlen(codeString)] = '.';
 	for (int i = 0; i < strlen(codeString); i++) {
 		cout << codeString[i];
@@ -51,7 +32,9 @@ int reverseHuffman() {
 
 	int currentPoint = 0;
 	tree *currentNode = nullptr;
-	tree *points[100] = { nullptr };
+	tree *points[maxBufferSize];
+	for (int i = 0; i < maxBufferSize; i++)
+		points[i] = nullptr;
 	for (int i = 0; i < strlen(treeString); i++) {
 		if ((i > 0) && (treeString[i - 1] == '(')) {
 			if (currentPoint == 0) {
@@ -81,8 +64,9 @@ int reverseHuffman() {
 			currentNode = currentNode->parent;
 		}
 	}
-	
-	char code[10] = { -1 };
+
+	char code[maxLengthCode];
+	clearChar(code);
 	int position = 0;
 	for (int i = 0; i < strlen(codeString); i++) {
 		if ((codeString[i] != ' ') && (codeString[i] != '.')) {
@@ -92,7 +76,7 @@ int reverseHuffman() {
 		else {
 			tree *help = points[0];
 			for (int j = 0; j < position; j++) {
-				if (code[j] == '0')
+				if (code[j] == emptyChar)
 					help = help->left;
 				else
 					help = help->right;
@@ -108,11 +92,5 @@ int reverseHuffman() {
 	for (int i = 0; i < currentPoint; i++) {
 		delete points[i];
 	}
-
-	return 0;
-}
-
-int main() {
-	reverseHuffman();
 	return 0;
 }
