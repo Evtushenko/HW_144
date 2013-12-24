@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <string.h>
 
 namespace fuctionsHuffman {
 	int const maxBufferSize = 100;
@@ -19,6 +18,7 @@ namespace fuctionsHuffman {
 		char symbol;
 	};
 
+	int strlen(char *s);
 	void clearChar(char array []);
 	tree *create(char symbol);
 }

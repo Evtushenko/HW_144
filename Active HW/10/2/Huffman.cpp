@@ -33,8 +33,9 @@ int main() {
 	int currentPoint = 0;
 	tree *currentNode = nullptr;
 	tree *points[maxBufferSize];
-	for (int i = 0; i < maxBufferSize; i++)
+	for (int i = 0; i < maxBufferSize; i++) {
 		points[i] = nullptr;
+	}
 	for (int i = 0; i < strlen(treeString); i++) {
 		if ((i > 0) && (treeString[i - 1] == '(')) {
 			if (currentPoint == 0) {
@@ -76,10 +77,12 @@ int main() {
 		else {
 			tree *help = points[0];
 			for (int j = 0; j < position; j++) {
-				if (code[j] == emptyChar)
+				if (code[j] == emptyChar) {
 					help = help->left;
-				else
+				}
+				else {
 					help = help->right;
+				}
 			}
 			outFile << help->symbol;
 			cout << help->symbol;
