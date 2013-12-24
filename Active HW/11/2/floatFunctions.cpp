@@ -1,33 +1,31 @@
-#include <iostream>
-#include <cstdlib>
+#include "floatFunctions.h"
 
 using namespace std;
 
-int const maxBufferSize = 20;
 
-bool isSign(char a) {
+bool fuctionsFloat::isSign(char a) {
 	return (a == '+' || a == '-' || a == '*' || a == '/');
 }
 
-bool isDigit(char a) {
+bool fuctionsFloat::isDigit(char a) {
 	return (a >= '0' && a <= '9');
 }
 
-bool isEnd(char a) {
+bool fuctionsFloat::isEnd(char a) {
 	return a == '\0';
 }
 
-bool isExp(char a) {
+bool fuctionsFloat::isExp(char a) {
 	return a == 'E' || a == 'e';
 }
 
-bool isDot(char a) {
+bool fuctionsFloat::isDot(char a) {
 	return a == '.';
 }
 
-bool checkFloat(char str[]) {
+bool fuctionsFloat::checkFloat(char str []) {
 	cout << "process:" << endl;
-	enum State { firstPart1, firstPart2, firstPart3, firstPart4, secondPart1, secondPart2, secondPart3 } 
+	enum State { firstPart1, firstPart2, firstPart3, firstPart4, secondPart1, secondPart2, secondPart3 }
 	state = firstPart1;
 	while (true) {
 		char c = *(str++);
@@ -131,29 +129,17 @@ bool checkFloat(char str[]) {
 				cout << "found out digit " << c << endl;
 				state = firstPart3;
 			}
-			else if (isEnd(c)) {
-				cout << "found out end\n";
-				return true;
-			}
-			else {
-				cout << "found out wrong char \n";
-				return false;
-			}
+			else 
+				if (isEnd(c)) {
+					cout << "found out end\n";
+					return true;
+				}
+				else {
+					cout << "found out wrong char \n";
+					return false;
+				}
 			break;
 			return false;
 		}
 	}
-}
-
-int main() {
-	char  stringIn[maxBufferSize];
-	for (int i = 0; i < strlen(stringIn); i++)
-		stringIn[i] = '\0';
-	cout << "enter the string\n";
-	cin.getline(stringIn, maxBufferSize);
-	if (checkFloat(stringIn))
-		cout << "\n\n it may be float \n";
-	else
-		cout << "\n\n it is not float\n";
-	return 0;
 }
