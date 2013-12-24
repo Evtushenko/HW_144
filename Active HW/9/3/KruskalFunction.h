@@ -27,6 +27,8 @@ namespace kruskal {
 	void addFirst(Roads **begin, Roads **end, int from, int to, int distance);
 	void pop(Roads **begin);
 	void addSort(Roads **beginNode, Roads **endNode, int from, int to, int distance);
-	void del(Points **beginNode, Points **endNode, Points *&pkey);
 	void sum(Points *&first, Points *&second);
+	void memoryFree(Points *&beginP, Roads **beginR);
+	void buildRoads(Roads **begin, Roads **end, int matrix [][maxAmountVertex], int amountPoints);
+	void printLogic(Points **beginP, int amountPoints, Roads **top);
 }

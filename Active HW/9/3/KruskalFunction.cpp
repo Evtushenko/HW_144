@@ -2,6 +2,7 @@
 
 using kruskal::Roads;
 using kruskal::Points;
+using namespace std;
 
 void kruskal::addEnd(Points **beginP, Points **endP, int value) {
 	if (*beginP == nullptr) {
@@ -51,10 +52,9 @@ void kruskal::addFirst(Roads **begin, Roads **end, int from, int to, int distanc
 }
 
 void kruskal::pop(Roads **begin) {
-	Roads *help = *begin;
-	if ((*begin)->next)
+		Roads *help = *begin;
 		(*begin) = (*begin)->next;
-	delete help;
+		delete help;
 }
 
 // ƒобавить в список по пор€дку не в конец //
@@ -101,38 +101,13 @@ void kruskal::addSort(Roads **beginNode, Roads **endNode, int from, int to, int 
 	}
 }
 
-// ”даление //
-void kruskal::del(Points **beginNode, Points **endNode, Points *&pkey) {
-	Points *start = *beginNode;
-
-	// удалили первый //
-	if (start == pkey) {
-		*beginNode = start->next;
-		delete start;
-	}
-	else {
-		bool found = false;
-		while (start->next) {
-			if (start->next == pkey) {
-				found = true;
-				break;
-			}
-			start = start->next;
-		}
-		// start - предыдущий дл€ удал€емого start->next удал€емый //
-		if (found) {
-			start->next = (pkey)->next;
-			delete pkey;
-		}
-	}
-}
-
 // склеить строки
 void kruskal::sum(Points *&first, Points *&second) {
 	int i = 0; // номер свободного слота в первой //
 	for (i; i < maxAmountVertex; i++) {
-		if (first->Point[i] == -1)
+		if (first->Point[i] == -1) {
 			break;
+		}
 	}
 
 	int j = 0;
@@ -142,5 +117,82 @@ void kruskal::sum(Points *&first, Points *&second) {
 			i++;
 		}
 		j++;
+	}
+}
+
+void kruskal::memoryFree(Points *&beginP, Roads **beginR) {
+	Points *helperP = nullptr;
+	while (beginP) {
+		helperP = beginP;
+		beginP = beginP->next;
+		delete helperP;
+	}
+	
+	while (*beginR) {
+		pop(&*beginR);
+	}
+
+	
+}
+
+void kruskal::buildRoads(Roads **begin, Roads **end, int matrix[][maxAmountVertex], int amountPoints) {
+	bool firstExist = false;
+	// create increase Roads
+	for (int i = 0; i < amountPoints; i++) {
+		for (int j = i + 1; j < amountPoints; j++) {
+			if (matrix[i][j] != 0) {
+				if (!firstExist) {
+					addFirst(&*begin, &*end, i, j, matrix[i][j]);
+					firstExist = true;
+				}
+				else {
+					addSort(&*begin, &*end, i, j, matrix[i][j]);
+				}
+			}
+		}
+	}
+	Roads *slot = *begin;
+	// show roads
+	while (slot) {
+		cout << "Road: from " << slot->from << " to " << slot->to << " distance " << slot->distance << endl;
+		slot = slot->next;
+	}
+}
+
+void kruskal::printLogic(Points **beginP,int amountPoints, Roads **top){
+
+	Points *first = nullptr;
+	Points *second = nullptr;
+
+	while (amountPoints != 1) {
+		first = find(*beginP, (*top)->from);
+		second = find(*beginP, (*top)->to);
+		char a = 0;
+		if (first != second) {
+			cout << "sum ";
+			for (int i = 0; i < maxAmountVertex; i++) {
+				if (first->Point[i] != -1) {
+					a = 'A' + first->Point[i];
+					cout << a << " ";
+				}
+				else {
+					break;
+				}
+			}
+			cout << " with ";
+			for (int i = 0; i < maxAmountVertex; i++) {
+				if (second->Point[i] != -1) {
+					a = 'A' + second->Point[i];
+					cout << a << " ";
+				}
+				else {
+					break;
+				}
+			}
+			cout << endl;
+			sum(first, second);
+			amountPoints--;
+		}
+		pop(&*top);
 	}
 }
