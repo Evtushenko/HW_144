@@ -1,17 +1,27 @@
 #include "HuffmanFunctions.h"
 
-using fuctionsHuffman::tree;
-using fuctionsHuffman::codes;
+using fuctionsHuffman::Tree;
+using fuctionsHuffman::Codes;
 
+int fuctionsHuffman::strlen(char *s) {
+	int length = 0;
+	while (*s != '\0'){
+		s = s + 1;
+		length++;
+	}
+	return length;
+}
 
 void fuctionsHuffman::clearInt(int array [], int length) {
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < length; i++) {
 		array[i] = 0;
+	}
 }
 
 void fuctionsHuffman::clearChar(char array []) {
-	for (int i = 0; i < strlen(array); i++)
+	for (int i = 0; i < strlen(array); i++) {
 		array[i] = '\0';
+	}
 }
 
 void fuctionsHuffman::sortBubble(int popular [], int chars [], int amount) {
@@ -26,95 +36,79 @@ void fuctionsHuffman::sortBubble(int popular [], int chars [], int amount) {
 				chars[i] = chars[i + 1];
 				chars[i + 1] = tmp;
 			}
-			else
+			else {
 				t++;
+			}
 		}
 	}
 }
 
-codes *fuctionsHuffman::createCodes() {
-	codes *pointerNew = new codes;
+Codes *fuctionsHuffman::createCodes() {
+	Codes *pointerNew = new Codes;
 	for (int i = 0; i < maxLengthCode; i++) {
 		pointerNew->s[i] = -1;
 	}
 	return pointerNew;
 }
 
-void fuctionsHuffman::addEnd(int code, int polular, tree **begin, tree **end) {
-	if (*begin == nullptr) {
-		tree *newT = new tree;
-		newT->left = nullptr;
-		newT->right = nullptr;
-		newT->next = nullptr;
-		newT->parent = nullptr;
-		newT->code = startCode;
-		newT->priory = polular;
-		newT->symbol = char(code);
-		*begin = newT;
-		*end = *begin;
-	}
-	else {
-		tree *newT = new tree;
-		newT->left = nullptr;
-		newT->right = nullptr;
-		newT->next = nullptr;
-		newT->parent = nullptr;
-		newT->code = startCode;
-		newT->priory = polular;
-		newT->symbol = char(code);
-		(*end)->next = newT;
-		*end = newT;
-	}
-}
-
-tree *fuctionsHuffman::create(int code, int polular) {
-	tree *newT = new tree;
+Tree *fuctionsHuffman::createNode(int code, int popular) {
+	Tree *newT = new Tree;
 	newT->left = nullptr;
 	newT->right = nullptr;
 	newT->next = nullptr;
 	newT->parent = nullptr;
 	newT->code = startCode;
-	newT->priory = polular;
+	newT->priory = popular;
 	newT->symbol = char(code);
 	return newT;
 }
 
-tree *fuctionsHuffman::addBefore(tree **beginNode, tree **endNode, int number, int symbol) {
-	tree *slot = *beginNode;
-	tree *newNode = new tree;
-	newNode->priory = number;
-	newNode->left = nullptr;
-	newNode->right = nullptr;
-	newNode->next = nullptr;
-	newNode->parent = nullptr;
-	newNode->code = startCode;
-	newNode->symbol = char(symbol);
+void fuctionsHuffman::addEnd(int code, int popular, Tree **begin, Tree **end) {
+	Tree *newT = createNode(code, popular);
+	if (*begin == nullptr) {
+		*begin = newT;
+		*end = *begin;
+	}
+	else {
+		(*end)->next = newT;
+		*end = newT;
+	}
+}
+
+Tree *fuctionsHuffman::addBefore(Tree **beginNode, Tree **endNode, int number, int symbol) {
+	Tree *slot = *beginNode;
+	Tree *newNode = createNode(symbol, number);
 	while (slot) {
-		if (slot->priory >= number)
+		if (slot->priory >= number) {
 			break;
+		}
 		slot = slot->next;
 	}
 	if (slot != *beginNode) {
-		tree *rightList = *beginNode;
+		Tree *rightList = *beginNode;
 		while (rightList) {
-			if (rightList->next == slot)
+			if (rightList->next == slot) {
 				break;
+			}
 			rightList = rightList->next;
 		}
 		rightList->next = newNode;
 	}
 	newNode->next = slot;
-	if (slot == *beginNode)
+	if (slot == *beginNode) {
 		*beginNode = newNode;
-	if (slot == *endNode)
+	}
+	if (slot == *endNode) {
 		*endNode = newNode;
+	}
 	return newNode;
 }
 
-void fuctionsHuffman::printInc(tree *root, char out []) {
+void fuctionsHuffman::printInc(Tree *root, char out []) {
 	int static position = 0;
-	if (!root)
+	if (!root) {
 		return;
+	}
 	printInc(root->left, out);
 	out[position] = root->symbol;
 	position++;
@@ -123,9 +117,10 @@ void fuctionsHuffman::printInc(tree *root, char out []) {
 	printInc(root->right, out);
 }
 
-void fuctionsHuffman::findC(tree *root, char symbol, tree **result) {
-	if (!root)
+void fuctionsHuffman::findC(Tree *root, char symbol, Tree **result) {
+	if (!root) {
 		return;
+	}
 	findC(root->left, symbol, &(*result));
 	if (symbol == root->symbol) {
 		*result = root;
@@ -133,18 +128,9 @@ void fuctionsHuffman::findC(tree *root, char symbol, tree **result) {
 	findC(root->right, symbol, &(*result));
 }
 
-tree *fuctionsHuffman::printAbc(tree *root, char out []) {
-	int static position = 0;
+Tree *fuctionsHuffman::printAbc(Tree *root, char out [], int &position) {
 	if (!root) {
-		out[position] = ' ';
-		position++;
-		out[position] = 'n';
-		position++;
-		out[position] = 'u';
-		position++;
-		out[position] = 'l';
-		position++;
-		out[position] = 'l';
+		out[position] = emptyChar;
 		position++;
 		return root;
 	}
@@ -154,16 +140,17 @@ tree *fuctionsHuffman::printAbc(tree *root, char out []) {
 		out[position] = root->symbol;
 		position++;
 	}
-	printAbc(root->left, out);
-	printAbc(root->right, out);
+	printAbc(root->left, out,position);
+	printAbc(root->right, out,position);
 	out[position] = ')';
 	position++;
 	return root;
 }
 
-tree *fuctionsHuffman::freeMemory(tree *root) {
-	if (!root)
+Tree *fuctionsHuffman::freeMemory(Tree *root) {
+	if (!root) {
 		return root;
+	}
 	if (root->left == root->right)
 	{
 		delete root;
@@ -174,5 +161,3 @@ tree *fuctionsHuffman::freeMemory(tree *root) {
 	delete root;
 	return nullptr;
 }
-
-

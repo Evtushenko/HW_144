@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <string.h>
 
 namespace fuctionsHuffman {
 	int const rangeCharCodes = 200;
@@ -13,29 +12,29 @@ namespace fuctionsHuffman {
 	int const maxLengthOutString = 1000;
 	int const maxBufferSize = 100;
 
-	struct tree {
-		tree *left;
-		tree *right;
-		tree *next;
-		tree *parent;
+	struct Tree {
+		Tree *left;
+		Tree *right;
+		Tree *next;
+		Tree *parent;
 		int priory;
 		char symbol;
 		char code;
 	};
 
-	struct codes {
+	struct Codes {
 		char s[maxLengthCode];
 	};
-
+	int strlen(char *s);
 	void clearInt(int array [], int length);
 	void clearChar(char array []);
 	void sortBubble(int popular [], int chars [], int amount);
-	codes *createCodes();
-	void addEnd(int code, int polular, tree **begin, tree **end);
-	tree *create(int code, int polular);
-	tree *addBefore(tree **beginNode, tree **endNode, int number, int symbol);
-	void printInc(tree *root, char out []);
-	void findC(tree *root, char symbol, tree **result);
-	tree *printAbc(tree *root, char out []);
-	tree *freeMemory(tree *root);
+	Codes *createCodes();
+	void addEnd(int code, int polular, Tree **begin, Tree **end);
+	Tree *addBefore(Tree **beginNode, Tree **endNode, int number, int symbol);
+	void printInc(Tree *root, char out []);
+	void findC(Tree *root, char symbol, Tree **result);
+	Tree *printAbc(Tree *root, char out [], int &position);
+	Tree *freeMemory(Tree *root);
+	Tree *createNode(int code, int polular);
 }

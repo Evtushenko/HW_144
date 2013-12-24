@@ -47,16 +47,16 @@ int main() {
 	}
 
 	// создали список для формирования из него дерева //
-	tree *begin = nullptr;
-	tree *end = nullptr;
+	Tree *begin = nullptr;
+	Tree *end = nullptr;
 	for (int i = 0; i < amountChars; i++) {
 		addEnd(chars[i], popular[chars[i]], &begin, &end);
 	}
 
 	int amountPoints = amountChars;
-	tree *leftList = nullptr;
-	tree *rightList = nullptr;
-	tree *rootTree = nullptr;
+	Tree *leftList = nullptr;
+	Tree *rightList = nullptr;
+	Tree *rootTree = nullptr;
 	int memory = 0;
 	while (amountPoints != 1) {
 		memory = begin->priory + (begin->next)->priory;
@@ -64,7 +64,7 @@ int main() {
 		begin = begin->next;
 		rightList = begin;
 		begin = begin->next;
-		rootTree = addBefore(&begin, &end, memory, emptyChar);
+		rootTree = addBefore(&begin, &end, memory, '1');
 		rootTree->left = leftList;
 		leftList->code = emptyChar;
 		leftList->parent = rootTree;
@@ -75,9 +75,9 @@ int main() {
 	}
 	// построили дереве rootTree - вершина //
 
-	tree *answer = nullptr;
-	tree *help = nullptr;
-	codes *pointersCodes[rangeCharCodes];
+	Tree *answer = nullptr;
+	Tree *help = nullptr;
+	Codes *pointersCodes[rangeCharCodes];
 	for (int i = 0; i < rangeCharCodes; i++) {
 		pointersCodes[i] = nullptr;
 	}
@@ -96,6 +96,15 @@ int main() {
 	}
 	cout << endl;
 
+	char out[maxLengthOutString];
+	clearChar(out);
+	int lengthOut = 0;
+	printAbc(rootTree, out, lengthOut);
+	for (int i = 0; i < lengthOut; i++) {
+		outFile << out[i];
+	}
+	outFile << endl;
+
 	for (int i = 0; i < length; i++) {
 		int lengthCode = 0;
 
@@ -109,18 +118,12 @@ int main() {
 			cout << pointersCodes[int(string[i])]->s[lengthCode - 1 - m];
 			outFile << (pointersCodes[int(string[i])]->s[lengthCode - 1 - m]);
 		}
-		outFile << " ";
+		if (i != length - 1) {
+			outFile << " ";
+		}
 		cout << endl;
 	}
 
-	char out[maxLengthOutString];
-	clearChar(out);
-	printAbc(rootTree, out);
-
-	outFile << endl;
-	for (int i = 0; i < strlen(out); i++) {
-		outFile << out[i];
-	}
 	outFile.close();
 	freeMemory(rootTree);
 	for (int i = 0; i < rangeCharCodes; i++) {
