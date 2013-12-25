@@ -50,7 +50,7 @@ int main() {
 	for (int i = 0; i < amountPoints; i++) {
 		addEnd(&beginP, &endP, i);
 	}
-	printLogic(&beginP,amountPoints,&top);
+	printLogic(&beginP, amountPoints, &top);
 	memoryFree(beginP, &top);
 	return 0;
 }

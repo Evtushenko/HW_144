@@ -5,21 +5,18 @@ using kruskal::Points;
 using namespace std;
 
 void kruskal::addEnd(Points **beginP, Points **endP, int value) {
+	Points *newP = new Points;
+	newP->Point[0] = value;
+	for (int i = 1; i < maxAmountVertex; i++) {
+		newP->Point[i] = -1;
+	}
+	newP->next = nullptr;
+
 	if (*beginP == nullptr) {
-		Points *newP = new Points;
-		newP->Point[0] = value;
-		for (int i = 1; i < maxAmountVertex; i++)
-			newP->Point[i] = -1;
-		newP->next = nullptr;
 		*beginP = newP;
 		*endP = newP;
 	}
 	else {
-		Points *newP = new Points;
-		newP->Point[0] = value;
-		for (int i = 1; i < maxAmountVertex; i++)
-			newP->Point[i] = -1;
-		newP->next = nullptr;
 		(*endP)->next = newP;
 		*endP = newP;
 	}
@@ -52,9 +49,9 @@ void kruskal::addFirst(Roads **begin, Roads **end, int from, int to, int distanc
 }
 
 void kruskal::pop(Roads **begin) {
-		Roads *help = *begin;
-		(*begin) = (*begin)->next;
-		delete help;
+	Roads *help = *begin;
+	(*begin) = (*begin)->next;
+	delete help;
 }
 
 // Добавить в список по порядку не в конец //
@@ -127,15 +124,15 @@ void kruskal::memoryFree(Points *&beginP, Roads **beginR) {
 		beginP = beginP->next;
 		delete helperP;
 	}
-	
+
 	while (*beginR) {
 		pop(&*beginR);
 	}
 
-	
+
 }
 
-void kruskal::buildRoads(Roads **begin, Roads **end, int matrix[][maxAmountVertex], int amountPoints) {
+void kruskal::buildRoads(Roads **begin, Roads **end, int matrix [][maxAmountVertex], int amountPoints) {
 	bool firstExist = false;
 	// create increase Roads
 	for (int i = 0; i < amountPoints; i++) {
@@ -159,7 +156,7 @@ void kruskal::buildRoads(Roads **begin, Roads **end, int matrix[][maxAmountVerte
 	}
 }
 
-void kruskal::printLogic(Points **beginP,int amountPoints, Roads **top){
+void kruskal::printLogic(Points **beginP, int amountPoints, Roads **top){
 
 	Points *first = nullptr;
 	Points *second = nullptr;
