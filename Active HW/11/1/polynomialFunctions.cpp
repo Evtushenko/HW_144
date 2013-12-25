@@ -58,8 +58,9 @@ bool fuctionsPolynomial::equals(Expression *&beginFirst, Expression *& beginSeco
 	Expression *start1 = beginFirst;
 	Expression *start2 = beginSecond;
 	while (start1) {
-		if (start1->exponent != start2->exponent || start1->coefficient != start2->coefficient)
+		if (start1->exponent != start2->exponent || start1->coefficient != start2->coefficient) {
 			return false;
+		}
 		start1 = start1->next;
 		start2 = start2->next;
 	}
@@ -101,10 +102,12 @@ void fuctionsPolynomial::makePQR(Expression **beginFirst, Expression **endFirst,
 void fuctionsPolynomial::print(Expression *&begin1) {
 	Expression *begin = begin1;
 	while (begin) {
-		if (begin->coefficient > 0)
+		if (begin->coefficient > 0) {
 			cout << "+";
-		if (abs(begin->coefficient) != 1 || begin->exponent == 0)
+		}
+		if (abs(begin->coefficient) != 1 || begin->exponent == 0) {
 			cout << begin->coefficient;
+		}
 		if (begin->exponent != 0) {
 			cout << "x^(";
 			cout << begin->exponent;

@@ -62,10 +62,12 @@ int main() {
 		}
 
 		if (c == equalPQ) {
-			if (equals(beginFirst, beginSecond))
+			if (equals(beginFirst, beginSecond)) {
 				cout << "equals\n";
-			else
+			}
+			else {
 				cout << "not equals\n";
+			}
 		}
 
 		if (c == calc) {
