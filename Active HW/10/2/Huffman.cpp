@@ -11,11 +11,11 @@ int main() {
 		return 0;
 	}
 
-	char treeString[maxBufferSize];
-	clearChar(treeString);
-	inFile.getline(treeString, maxBufferSize);
-	for (int i = 0; i < strlen(treeString); i++) {
-		cout << treeString[i];
+	char TreeString[maxBufferSize];
+	clearChar(TreeString);
+	inFile.getline(TreeString, maxBufferSize);
+	for (int i = 0; i < strlen(TreeString); i++) {
+		cout << TreeString[i];
 	}
 	cout << endl;
 
@@ -28,13 +28,13 @@ int main() {
 	cout << endl;
 	inFile.close();
 
-	
-	tree *points[maxBufferSize];
+
+	Tree *points[maxBufferSize];
 	for (int i = 0; i < maxBufferSize; i++) {
 		points[i] = nullptr;
 	}
-	int currentPoint = buildTree(treeString, points);
-	
+	int currentPoint = buildTree(TreeString, points);
+
 	traslate(codeString, points);
 	for (int i = 0; i < currentPoint; i++) {
 		delete points[i];

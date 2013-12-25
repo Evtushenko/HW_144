@@ -10,17 +10,17 @@ namespace fuctionsHuffman {
 	char const emptyChar = '0';
 	int const emptyInt = -1;
 
-	struct tree {
-		tree *left;
-		tree *right;
-		tree *next;
-		tree *parent;
+	struct Tree {
+		Tree *left;
+		Tree *right;
+		Tree *next;
+		Tree *parent;
 		char symbol;
 	};
 
 	int strlen(char *s);
 	void clearChar(char array []);
-	tree *create(char symbol);
-	int buildTree(char treeString [], tree *points []);
-	void traslate(char codeString [], tree *points []);
+	Tree *create(char symbol);
+	int buildTree(char TreeString [], Tree *points []);
+	void traslate(char codeString [], Tree *points []);
 }

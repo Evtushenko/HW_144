@@ -1,6 +1,6 @@
 #include "HuffmanFunctions.h"
 
-using fuctionsHuffman::tree;
+using fuctionsHuffman::Tree;
 using namespace std;
 
 int fuctionsHuffman::strlen(char *s) {
@@ -18,8 +18,8 @@ void fuctionsHuffman::clearChar(char array []) {
 	}
 }
 
-tree *fuctionsHuffman::create(char symbol) {
-	tree *newT = new tree;
+Tree *fuctionsHuffman::create(char symbol) {
+	Tree *newT = new Tree;
 	newT->left = nullptr;
 	newT->right = nullptr;
 	newT->next = nullptr;
@@ -28,26 +28,26 @@ tree *fuctionsHuffman::create(char symbol) {
 	return newT;
 }
 
-int fuctionsHuffman::buildTree(char treeString [], tree *points []) {
+int fuctionsHuffman::buildTree(char TreeString [], Tree *points []) {
 	int currentPoint = 0;
-	tree *currentNode = nullptr;
-	for (int i = 0; i < strlen(treeString); i++) {
-		if ((i > 0) && (treeString[i - 1] == '(')) {
+	Tree *currentNode = nullptr;
+	for (int i = 0; i < strlen(TreeString); i++) {
+		if ((i > 0) && (TreeString[i - 1] == '(')) {
 			if (currentPoint == 0) {
-				points[0] = create(treeString[i]);
+				points[0] = create(TreeString[i]);
 				currentPoint++;
 				currentNode = points[0];
 			}
 			else {
 				if (currentNode->left == nullptr) {
-					points[currentPoint] = create(treeString[i]);
+					points[currentPoint] = create(TreeString[i]);
 					currentNode->left = points[currentPoint];
 					points[currentPoint]->parent = currentNode;
 					currentNode = points[currentPoint];
 					currentPoint++;
 				}
 				else {
-					points[currentPoint] = create(treeString[i]);
+					points[currentPoint] = create(TreeString[i]);
 					currentNode->right = points[currentPoint];
 					points[currentPoint]->parent = currentNode;
 					currentNode = points[currentPoint];
@@ -56,14 +56,14 @@ int fuctionsHuffman::buildTree(char treeString [], tree *points []) {
 			}
 		}
 
-		if (treeString[i] == ')') {
+		if (TreeString[i] == ')') {
 			currentNode = currentNode->parent;
 		}
 	}
 	return currentPoint;
 }
 
-void fuctionsHuffman::traslate(char codeString [], tree *points []) {
+void fuctionsHuffman::traslate(char codeString [], Tree *points []) {
 	ofstream outFile;
 	outFile.open("out.txt", ios::out);
 	char code[maxLengthCode];
@@ -75,7 +75,7 @@ void fuctionsHuffman::traslate(char codeString [], tree *points []) {
 			position++;
 		}
 		else {
-			tree *help = points[0];
+			Tree *help = points[0];
 			for (int j = 0; j < position; j++) {
 				if (code[j] == emptyChar) {
 					help = help->left;
