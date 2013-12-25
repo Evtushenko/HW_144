@@ -21,4 +21,6 @@ namespace fuctionsHuffman {
 	int strlen(char *s);
 	void clearChar(char array []);
 	tree *create(char symbol);
+	int buildTree(char treeString [], tree *points []);
+	void traslate(char codeString [], tree *points []);
 }
