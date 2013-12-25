@@ -11,7 +11,7 @@ int main() {
 	inFile1.open("in.txt", ios::in);
 	if (!(inFile1.is_open())) {
 		cout << "Where is your file ???" << endl;
-		return 0;
+		return 1;
 	}
 	char str[maxBufferSize];
 	clearChar(str, maxBufferSize);

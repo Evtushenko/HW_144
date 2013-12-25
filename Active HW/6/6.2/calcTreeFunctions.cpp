@@ -3,9 +3,9 @@
 using functions::Tree;
 using namespace std;
 
-void functions::clearChar(char s [], int length) {
+void functions::clearChar(char string [], int length) {
 	for (int i = 0; i < length; i++) {
-		s[i] = '\0';
+		string[i] = '\0';
 	}
 }
 
@@ -73,13 +73,13 @@ Tree *functions::newTree(int value, char symbol) {
 	return newT;
 }
 
-int functions::getInt(int &position, const char s []) {
+int functions::getInt(int &position, const char string []) {
 	int answer = 0;
 	char number[maxNumberLength];
 	clearChar(number, maxNumberLength);
 	int i = 0;
-	while (s[position] != ')'){
-		number[i] = s[position];
+	while (string[position] != ')'){
+		number[i] = string[position];
 		position++;
 		i++;
 	}
@@ -98,15 +98,15 @@ bool functions::isDigit(char c) {
 	return c >= '0' && c <= '9';
 }
 
-void functions::addTree(const char s []) {
+void functions::addTree(const char string []) {
 	static Tree *root = nullptr;
 	static Tree *currentNode = nullptr;
 	static int position = 0;
-	(s[position] == '(' && position == 0) ? position++ : 0;
+	(string[position] == '(' && position == 0) ? position++ : 0;
 	static int first = 0;
-	if (isFunction(s[position])) {
+	if (isFunction(string[position])) {
 		if (first == 0) {
-			root = newTree(0, s[position]);
+			root = newTree(0, string[position]);
 			currentNode = root;
 			first++;
 			position++;
@@ -114,14 +114,14 @@ void functions::addTree(const char s []) {
 		else {
 			bool was = false;
 			if (currentNode->left != nullptr && currentNode->right == nullptr && !was) {
-				Tree *newT = newTree(0, s[position]);
+				Tree *newT = newTree(0, string[position]);
 				currentNode->right = newT;
 				newT->previous = currentNode;
 				currentNode = newT;
 				was = true;
 			}
 			if (currentNode->left == nullptr && !was) {
-				Tree *newT = newTree(0, s[position]);
+				Tree *newT = newTree(0, string[position]);
 				currentNode->left = newT;
 				newT->previous = currentNode;
 				currentNode = newT;
@@ -129,13 +129,13 @@ void functions::addTree(const char s []) {
 			position++;
 		}
 	}
-	if (s[position] == '(') {
-		if (!isDigit(s[position + 1])) {
+	if (string[position] == '(') {
+		if (!isDigit(string[position + 1])) {
 			position++;
 		}
 		else {
 			position++;
-			int val = getInt(position, s);
+			int val = getInt(position, string);
 			if (currentNode->left != nullptr && currentNode->right == nullptr) {
 				Tree *newT = newTree(val, '\0');
 				currentNode->right = newT;
@@ -149,15 +149,15 @@ void functions::addTree(const char s []) {
 		}
 	}
 
-	if (s[position] == ')') {
+	if (string[position] == ')') {
 		if (currentNode->previous) {
 			currentNode = currentNode->previous;
 		}
 		position++;
 	}
 
-	if (position < strlen(s)) {
-		addTree(s);
+	if (position < strlen(string)) {
+		addTree(string);
 	}
 	else {
 		cout << "we read is so \n";
