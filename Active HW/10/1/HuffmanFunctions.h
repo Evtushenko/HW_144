@@ -37,4 +37,6 @@ namespace fuctionsHuffman {
 	Tree *printAbc(Tree *root, char out [], int &position);
 	Tree *freeMemory(Tree *root);
 	Tree *createNode(int code, int polular);
+	Tree *makeTree(int popular [], int chars [], int amountChars);
+	void getCodes(Codes *pointersCodes [], int chars [], Tree *&rootTree, int amountChars);
 }

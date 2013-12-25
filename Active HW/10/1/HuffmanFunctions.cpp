@@ -140,8 +140,8 @@ Tree *fuctionsHuffman::printAbc(Tree *root, char out [], int &position) {
 		out[position] = root->symbol;
 		position++;
 	}
-	printAbc(root->left, out,position);
-	printAbc(root->right, out,position);
+	printAbc(root->left, out, position);
+	printAbc(root->right, out, position);
 	out[position] = ')';
 	position++;
 	return root;
@@ -160,4 +160,54 @@ Tree *fuctionsHuffman::freeMemory(Tree *root) {
 	root->right = freeMemory(root->right);
 	delete root;
 	return nullptr;
+}
+
+Tree *fuctionsHuffman::makeTree(int popular [], int chars [], int amountChars) {
+	// создали список для формирования из него дерева //
+	Tree *begin = nullptr;
+	Tree *end = nullptr;
+	for (int i = 0; i < amountChars; i++) {
+		addEnd(chars[i], popular[chars[i]], &begin, &end);
+	}
+
+	int amountPoints = amountChars;
+	Tree *leftList = nullptr;
+	Tree *rightList = nullptr;
+	Tree *rootTree = nullptr;
+	int memory = 0;
+	while (amountPoints != 1) {
+		memory = begin->priory + (begin->next)->priory;
+		leftList = begin;
+		begin = begin->next;
+		rightList = begin;
+		begin = begin->next;
+		rootTree = addBefore(&begin, &end, memory, '1');
+		rootTree->left = leftList;
+		leftList->code = emptyChar;
+		leftList->parent = rootTree;
+		rootTree->right = rightList;
+		rightList->code = '1';
+		rightList->parent = rootTree;
+		amountPoints--;
+	}
+	return rootTree;
+	// построили дереве rootTree - вершина //
+}
+
+void fuctionsHuffman::getCodes(Codes *pointersCodes [], int chars [], Tree *&rootTree, int amountChars) {
+	Tree *answer = nullptr;
+	Tree *help = nullptr;
+	for (int i = 0; i < amountChars; i++) {
+		help = rootTree;
+		answer = nullptr;
+		pointersCodes[chars[i]] = createCodes();
+		findC(help, char(chars[i]), &answer); // находим лист равный символу и получаем его код в обратном порядке //
+		help = answer;
+		int m = 0;
+		while (help->parent) {
+			pointersCodes[chars[i]]->s[m] = help->code;
+			help = help->parent;
+			m++;
+		}
+	}
 }

@@ -46,54 +46,14 @@ int main() {
 		cout << char(chars[i]) << " " << popular[chars[i]] << endl;
 	}
 
-	// создали список для формирования из него дерева //
-	Tree *begin = nullptr;
-	Tree *end = nullptr;
-	for (int i = 0; i < amountChars; i++) {
-		addEnd(chars[i], popular[chars[i]], &begin, &end);
-	}
+	Tree *rootTree = makeTree(popular, chars, amountChars);
 
-	int amountPoints = amountChars;
-	Tree *leftList = nullptr;
-	Tree *rightList = nullptr;
-	Tree *rootTree = nullptr;
-	int memory = 0;
-	while (amountPoints != 1) {
-		memory = begin->priory + (begin->next)->priory;
-		leftList = begin;
-		begin = begin->next;
-		rightList = begin;
-		begin = begin->next;
-		rootTree = addBefore(&begin, &end, memory, '1');
-		rootTree->left = leftList;
-		leftList->code = emptyChar;
-		leftList->parent = rootTree;
-		rootTree->right = rightList;
-		rightList->code = '1';
-		rightList->parent = rootTree;
-		amountPoints--;
-	}
-	// построили дереве rootTree - вершина //
-
-	Tree *answer = nullptr;
-	Tree *help = nullptr;
+	
 	Codes *pointersCodes[rangeCharCodes];
 	for (int i = 0; i < rangeCharCodes; i++) {
 		pointersCodes[i] = nullptr;
 	}
-	for (int i = 0; i < amountChars; i++) {
-		help = rootTree;
-		answer = nullptr;
-		pointersCodes[chars[i]] = createCodes();
-		findC(help, char(chars[i]), &answer); // находим лист равный символу и получаем его код в обратном порядке //
-		help = answer;
-		int m = 0;
-		while (help->parent) {
-			pointersCodes[chars[i]]->s[m] = help->code;
-			help = help->parent;
-			m++;
-		}
-	}
+	getCodes(pointersCodes, chars, rootTree, amountChars);
 	cout << endl;
 
 	char out[maxLengthOutString];
