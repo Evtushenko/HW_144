@@ -102,3 +102,61 @@ void functions::del(Word **beginNode, Word *&pkey) {
 		}
 	}
 }
+
+int functions::writeHashTable(Word *hashRange []) {
+	ifstream inFile1;
+	inFile1.open("1.txt", ios::in);
+	if (!(inFile1.is_open())) {
+		cout << "Where is your file ???" << endl;
+		return 1;
+	}
+	char *line = new char[maxLengthWord];
+	Word *slot = nullptr;
+	int valueHash = 0;
+
+	// записали в хэш таблицу //
+	while (inFile1.good()) {
+		inFile1.getline(line, maxLengthWord);
+		valueHash = hashCount(line);
+		if (hashRange[valueHash] == nullptr) {
+			hashRange[valueHash] = create(line);
+		}
+		else {
+			if (same(hashRange[valueHash], line) == nullptr) {
+				slot = findLast(hashRange[valueHash]);
+				addEnd(slot, line);
+			}
+		}
+	}
+	delete line;
+	inFile1.close();
+	return 0;
+}
+
+int functions::compareFiles(Word *hashRange []) {
+	ifstream inFile2;
+	ofstream outFile;
+	outFile.open("out.txt", ios::out);
+	inFile2.open("2.txt", ios::in);
+	if (!(inFile2.is_open())) {
+		cout << "Where is your file ???" << endl;
+		return 1;
+	}
+	Word *slot = nullptr;
+	char *line = new char[maxLengthWord];
+	int valueHash = 0;
+	while (inFile2.good()) {
+		inFile2.getline(line, maxLengthWord);
+		valueHash = hashCount(line);
+		slot = same(hashRange[valueHash], line);
+		if (slot) {
+			outFile << line << "\n";
+			del(&hashRange[valueHash], slot);
+		}
+	}
+
+	delete line;
+	inFile2.close();
+	outFile.close();
+	return 0;
+}

@@ -23,5 +23,6 @@ namespace functions {
 	Word *same(Word *&first, char s []);
 	void memoryFree(Word *hashRange []);
 	void del(Word **beginNode, Word *&pkey);
-
+	int writeHashTable(Word *hashRange []);
+	int compareFiles(Word *hashRange []);
 }
