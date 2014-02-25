@@ -2,7 +2,8 @@
 
 
 
-void addToStack(stackMemory ** top, int value) {
+void addToStack(stackMemory ** top, int value, int &amountElementsStack) {
+	//printf("add\n");
 	stackMemory * newS = new stackMemory;
 	newS->value = value;
 	if (!*top) {
@@ -13,6 +14,7 @@ void addToStack(stackMemory ** top, int value) {
 		newS->previous = *top;
 		*top = newS;
 	}
+	amountElementsStack++;
 }
 
 
@@ -34,10 +36,12 @@ void showStack(stackMemory ** top) {
 	}
 }
 
-int popStack(stackMemory ** top) {
+int popStack(stackMemory ** top, int &amountElementsStack) {
+	//printf("pop\n");
 	int number = (*top)->value;
 	stackMemory * slot= *top;
 	*top= (*top)->previous;
 	delete slot;
+	amountElementsStack--;
 	return number;
 }

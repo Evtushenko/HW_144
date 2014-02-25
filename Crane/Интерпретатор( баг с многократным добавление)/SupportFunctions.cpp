@@ -18,3 +18,10 @@ int getIntFromChar(char string[], int start ) {
 	}
 	return number;
 }
+
+void showData(int dataList[]){
+	printf("List of Data:\n");
+	for (int i = 0; i < amountDataCells; i++)
+		if (dataList[i] != 0 )
+			printf("%d\n",dataList[i]);
+}

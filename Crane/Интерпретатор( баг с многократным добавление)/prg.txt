@@ -1,5 +1,9 @@
 ldc 1
-ldc 22
-ldc 333
-ldc 4444
-st 4
+ldc 2
+ldc 3
+ldc 4
+st 0
+st 1
+st 2
+ld 2
+sub
