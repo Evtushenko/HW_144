@@ -2,8 +2,11 @@ ldc 1
 ldc 2
 ldc 3
 ldc 4
+call:
 st 0
 st 1
 st 2
 ld 2
-sub
+ldc 1
+;jmp call
+
