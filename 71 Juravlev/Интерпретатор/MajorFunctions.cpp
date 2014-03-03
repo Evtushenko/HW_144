@@ -49,6 +49,9 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 	bool static stopProgram = false;
 	if (!stopProgram) {
 	int static currentNumberString = 0;
+	int static *numbersCommand = new int[amountReadedStrings];
+	if (!currentNumberString)
+		makeZero(numbersCommand,amountReadedStrings);
 	returnPoints static *beginListRP = nullptr;
 	returnPoints static *endListRP = nullptr;
 	int static amountReturnPoints = 0;
@@ -80,26 +83,29 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 
 	// ldc <number> 
 	//if (strlen(line) >= 4 && line[0] == 'l' && line[1] == 'd' && line[2] == 'c') {
-	if (intToChange(getNumberFunction(line)) == ldc) {
+	if (numbersCommand[currentNumberString] == ldc || intToChange(getNumberFunction(line)) == ldc) {
 		int number = getIntFromChar(line,4);
 		addToStack(&(*top),number);
+		numbersCommand[currentNumberString] = int(ldc);
 	}
 
 	// st <adress> 
-	if (intToChange(getNumberFunction(line)) == st) {
+	if (numbersCommand[currentNumberString] == st || intToChange(getNumberFunction(line)) == st) {
 		int number = getIntFromChar(line,3);
 		dataList[number] = popStack(&(*top));
+		numbersCommand[currentNumberString] = int(st);
 	}
 
 	// ld <adress>
-	if (intToChange(getNumberFunction(line)) == ld) {
+	if (numbersCommand[currentNumberString] == ld || intToChange(getNumberFunction(line)) == ld) {
 		int number = getIntFromChar(line,3);
 		addToStack(&(*top), dataList[number]);
 		dataList[number] = 0; // ??
+		numbersCommand[currentNumberString] = int(ld);
 	}
 
 	// add
-	if (intToChange(getNumberFunction(line)) == add) {	
+	if ( numbersCommand[currentNumberString] == add || intToChange(getNumberFunction(line)) == add) {	
 		int number = 0;
 		if ((*top) && (*top)->previous )
 			printf("found out error!\n");
@@ -108,10 +114,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 			number+=popStack(&(*top));
 			addToStack(&(*top),number);
 		}
+		numbersCommand[currentNumberString] = int(add);
 	}
 
 	// sub
-	if (intToChange(getNumberFunction(line)) == sub) {
+	if (numbersCommand[currentNumberString] == sub || intToChange(getNumberFunction(line)) == sub) {
 		int number = 0;
 		if ((*top) && (*top)->previous )
 			printf("found out error!\n");
@@ -120,10 +127,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 			number-=popStack(&(*top));
 			addToStack(&(*top),number);
 		}
+		numbersCommand[currentNumberString] = int(sub);
 	}
 
 	//cmp
-	if (intToChange(getNumberFunction(line)) == cmp) {
+	if (numbersCommand[currentNumberString] == cmp ||  intToChange(getNumberFunction(line)) == cmp) {
 		int number = 0;
 		int number2 = 0;
 		if ((*top) && (*top)->previous)
@@ -138,10 +146,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 			if (number < number2)
 			addToStack(&(*top),-1);
 		}
+		numbersCommand[currentNumberString] = int(cmp);
 	}
 
 	//jmp
-	if (intToChange(getNumberFunction(line)) == jmp) {
+	if (numbersCommand[currentNumberString] == jmp || intToChange(getNumberFunction(line)) == jmp) {
 		char nameReturnPoint[lengthCommand];
 		clearLine(nameReturnPoint);
 		for (int i = 4; i < strlen(line) ; i++) {
@@ -152,10 +161,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			currentNumberString -=findNumberReturnPoint(nameReturnPoint, beginListRP); //
 		}
+		numbersCommand[currentNumberString] = int(jmp);
 	}
 
 	//jnz
-	if (intToChange(getNumberFunction(line)) == jnz) {
+	if (numbersCommand[currentNumberString] == jnz || (getNumberFunction(line)) == jnz) {
 		if (*top && (*top)->value != 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
@@ -171,10 +181,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JNZ\n");
 		}
+		numbersCommand[currentNumberString] = int(jnz);
 	}
 
 	//jz
-	if (intToChange(getNumberFunction(line)) == jz) {
+	if (numbersCommand[currentNumberString] == jz || intToChange(getNumberFunction(line)) == jz) {
 		if (*top && (*top)->value == 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
@@ -190,10 +201,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JZ\n");
 		}
+		numbersCommand[currentNumberString] = int(jz);
 	}
 
 	//jg
-	if (intToChange(getNumberFunction(line)) == jg) {
+	if ( numbersCommand[currentNumberString] == jg || intToChange(getNumberFunction(line)) == jg) {
 		if (*top && (*top)->value > 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
@@ -209,10 +221,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JG\n");
 		}
+		numbersCommand[currentNumberString] = int(jg);
 	}
 
 	//jl
-	if (intToChange(getNumberFunction(line)) == jl) {
+	if (numbersCommand[currentNumberString] == jl || intToChange(getNumberFunction(line)) == jl) {
 		if (*top && (*top)->value < 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
@@ -228,6 +241,7 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JL\n");
 		}
+		numbersCommand[currentNumberString] = int(jl);
 	}
 
 	if (strlen(line) >= 1 && line[0] == ';') {

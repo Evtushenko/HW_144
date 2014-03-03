@@ -103,3 +103,8 @@ int getNumberFunction(char line[]) {
 		return 11;
 	return -1;
 }
+
+void makeZero(int arr[], int amount) {
+	for (int i = 0; i < amount; i++)
+		arr[i] = -1;
+}

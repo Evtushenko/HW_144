@@ -38,6 +38,7 @@ codeStrings *addCodeString(char input[lengthCommand]);
 void addToReturnPoints(returnPoints **begin, returnPoints **end, int number, char name[lengthCommand]);
 int findNumberReturnPoint(char name[lengthCommand], returnPoints *beginListRP);
 int getNumberFunction(char line[]);
+void makeZero(int arr[], int amount);
 
 //				MAJOR FUNCTIONS
 int readLineFromFile();
