@@ -1,10 +1,7 @@
 #include "FunctionsNames.h"
 
-
-
-void addToStack(stackMemory ** top, int value, int &amountElementsStack) {
-	//printf("add\n");
-	stackMemory * newS = new stackMemory;
+void addToStack(stackMemory ** top, int value) {
+	stackMemory *newS = (stackMemory *) malloc(sizeof(stackMemory));
 	newS->value = value;
 	if (!*top) {
 		newS->previous = nullptr;
@@ -14,16 +11,14 @@ void addToStack(stackMemory ** top, int value, int &amountElementsStack) {
 		newS->previous = *top;
 		*top = newS;
 	}
-	amountElementsStack++;
 }
-
 
 void removeStack(stackMemory ** top){
 	stackMemory *helper = nullptr;
 	while (*top) {
 		helper = *top;
 		*top = (*top)->previous;
-		delete helper ;
+		free(helper);
 	}
 }
 
@@ -36,12 +31,10 @@ void showStack(stackMemory ** top) {
 	}
 }
 
-int popStack(stackMemory ** top, int &amountElementsStack) {
-	//printf("pop\n");
+int popStack(stackMemory ** top) {
 	int number = (*top)->value;
 	stackMemory * slot= *top;
 	*top= (*top)->previous;
-	delete slot;
-	amountElementsStack--;
+	free(slot);
 	return number;
 }

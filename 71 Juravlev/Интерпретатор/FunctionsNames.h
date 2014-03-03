@@ -6,8 +6,12 @@
 
 // top, begin belong to readFromFile
 
+// strcmp где можно
+// список команд, чтобы ускорить работу
+// поробовать написать прогу
+
 const int lengthCommand = 10;
-const long long amountDataCells = 2^18-1;
+const long long amountDataCells = 1024*256;
 const int maxAmountStrings = 100;
 
 struct stackMemory {
@@ -16,7 +20,6 @@ struct stackMemory {
 };
 
 struct codeStrings {
-	//codeStrings* next;
 	char codeText[lengthCommand];
 };
 
@@ -34,14 +37,16 @@ void showData(int dataList[]);
 codeStrings *addCodeString(char input[lengthCommand]);
 void addToReturnPoints(returnPoints **begin, returnPoints **end, int number, char name[lengthCommand]);
 int findNumberReturnPoint(char name[lengthCommand], returnPoints *beginListRP);
+int getNumberFunction(char line[]);
 
 //				MAJOR FUNCTIONS
 int readLineFromFile();
 void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsCode[maxAmountStrings],int amountReadedStrings );
 
 
+
 //          STACK FUNCTIONS 
-void addToStack(stackMemory ** top, int value, int &amountElementsStack); 
+void addToStack(stackMemory ** top, int value); 
 void removeStack(stackMemory ** top);
 void showStack(stackMemory ** top);
-int popStack(stackMemory ** top, int &amountElementsStack);
+int popStack(stackMemory ** top);

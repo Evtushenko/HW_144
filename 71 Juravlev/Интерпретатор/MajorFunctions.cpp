@@ -1,5 +1,11 @@
 #include "FunctionsNames.h"
 
+enum Change { ldc, st, ld, add, sub, cmp, jmp, jnz, jz, jg, jl, ret};
+//             0    1   2   3     4    5    6    7   8   9  10  11
+Change intToChange(int one) {
+	return static_cast<Change>(one);
+}
+
 int readLineFromFile() {
 	stackMemory * top = nullptr;
 	int *dataList = new int[amountDataCells];
@@ -7,12 +13,12 @@ int readLineFromFile() {
 		dataList[i] = 0;
 
 	FILE *inFile;
-	if (fopen_s(&inFile, "prg.txt", "r")){
+	if (fopen_s(&inFile, "prg.txt", "r")) {
 		printf("\nCant find file\n");
 		return 1;
 	}
 
-	char *line = new char[lengthCommand];
+	char line[lengthCommand];
 	clearLine(line);
 
 	codeStrings *allStringsCode[maxAmountStrings];
@@ -21,20 +27,19 @@ int readLineFromFile() {
 	int amountReadedStrings = 0;
 
 	while (fgets(line, lengthCommand, inFile) != nullptr) { // eat strings
-		//printf("%s",line);
-		//printf("\nl = %d", strlen(line));
-		//printf("\n");
 		allStringsCode[amountReadedStrings++] = addCodeString(line);
 		clearLine(line);
 	}
+	//printf("%s",allStringsCode[10]);
+	//return 0;
 	fclose(inFile);
 	commandManager(&top, dataList,allStringsCode,amountReadedStrings);
 	showStack(&top);
 	showData(dataList);
 	delete []dataList;
+	for (int i = 0; i < amountReadedStrings; i++)
+		free(allStringsCode[i]);
 	removeStack(&top);
-	//printf("%s\n",allStringsCode[0]->codeText);
-	//printf("%d\n",strlen(allStringsCode[0]->codeText));
 	return 0;
 }
 
@@ -44,12 +49,11 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 	bool static stopProgram = false;
 	if (!stopProgram) {
 	int static currentNumberString = 0;
-	int static amountElementsStack = 0;
 	returnPoints static *beginListRP = nullptr;
 	returnPoints static *endListRP = nullptr;
 	int static amountReturnPoints = 0;
-	
-	char *line = new char[lengthCommand];
+
+	char line[lengthCommand];
 	clearLine(line);
 	for (int i = 0; i < strlen(allStringsCode[currentNumberString]->codeText); i++){
 		line[i] = allStringsCode[currentNumberString]->codeText[i];
@@ -72,103 +76,92 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 			line[i] = '\0';
 		addToReturnPoints(&beginListRP, &endListRP, currentNumberString, line);
 		amountReturnPoints++;
-		//printf("\n\n%d\n\n",beginListRP->numberStringOfReturnPoint);
 	}
 
 	// ldc <number> 
-	if (strlen(line) >= 4 && line[0] == 'l' && line[1] == 'd' && line[2] == 'c') {
+	//if (strlen(line) >= 4 && line[0] == 'l' && line[1] == 'd' && line[2] == 'c') {
+	if (intToChange(getNumberFunction(line)) == ldc) {
 		int number = getIntFromChar(line,4);
-		//printf("%d\n\n",number);
-		addToStack(&(*top),number,amountElementsStack);
+		addToStack(&(*top),number);
 	}
 
 	// st <adress> 
-	if (strlen(line) >= 3 && line[0] == 's' && line[1] == 't') {
+	if (intToChange(getNumberFunction(line)) == st) {
 		int number = getIntFromChar(line,3);
-		//printf("%d\n\n",number);
-		//addToData(&(*begin), number, popStack(&(*top)));
-		//addToStack(&(*top),number);
-		dataList[number] = popStack(&(*top),amountElementsStack);
+		dataList[number] = popStack(&(*top));
 	}
 
 	// ld <adress>
-	if (strlen(line) >= 3 && line[0] == 'l' && line[1] == 'd' && line[2] != 'c') {
-		//printf("OK\n");
+	if (intToChange(getNumberFunction(line)) == ld) {
 		int number = getIntFromChar(line,3);
-		addToStack(&(*top), dataList[number],amountElementsStack );
+		addToStack(&(*top), dataList[number]);
 		dataList[number] = 0; // ??
 	}
 
 	// add
-	if (strlen(line) >= 3 && line[0] == 'a' && line[1] == 'd' && line[2] == 'd') {
+	if (intToChange(getNumberFunction(line)) == add) {	
 		int number = 0;
-		if (amountElementsStack  < 2 )
+		if ((*top) && (*top)->previous )
 			printf("found out error!\n");
 		else {
-			number+=popStack(&(*top),amountElementsStack);
-			number+=popStack(&(*top),amountElementsStack);
-			addToStack(&(*top),number,amountElementsStack);
+			number+=popStack(&(*top));
+			number+=popStack(&(*top));
+			addToStack(&(*top),number);
 		}
 	}
 
 	// sub
-	if (strlen(line) >= 3 && line[0] == 's' && line[1] == 'u' && line[2] == 'b') {
+	if (intToChange(getNumberFunction(line)) == sub) {
 		int number = 0;
-		if (amountElementsStack  < 2 )
+		if ((*top) && (*top)->previous )
 			printf("found out error!\n");
 		else {
-			number+=popStack(&(*top),amountElementsStack);
-			number-=popStack(&(*top),amountElementsStack);
-			addToStack(&(*top),number,amountElementsStack);
+			number+=popStack(&(*top));
+			number-=popStack(&(*top));
+			addToStack(&(*top),number);
 		}
 	}
-	//printf("in stack %d elements\n\n",amountElementsStack);
 
 	//cmp
-	if (strlen(line) >= 3 && line[0] == 'c' && line[1] == 'm' && line[2] == 'p') {
+	if (intToChange(getNumberFunction(line)) == cmp) {
 		int number = 0;
 		int number2 = 0;
-		if (amountElementsStack  < 2 )
+		if ((*top) && (*top)->previous)
 			printf("found out error!\n");
 		else {
 			number = (*top)->value;
 			number2 = (*top)->previous->value;
 			if (number == number2)
-			addToStack(&(*top),0,amountElementsStack);
+			addToStack(&(*top),0);
 			if (number > number2)
-			addToStack(&(*top),1,amountElementsStack);
+			addToStack(&(*top),1);
 			if (number < number2)
-			addToStack(&(*top),-1,amountElementsStack);
+			addToStack(&(*top),-1);
 		}
 	}
 
 	//jmp
-	if (strlen(line) >= 3 && line[0] == 'j' && line[1] == 'm' && line[2] == 'p') {
+	if (intToChange(getNumberFunction(line)) == jmp) {
 		char nameReturnPoint[lengthCommand];
 		clearLine(nameReturnPoint);
 		for (int i = 4; i < strlen(line) ; i++) {
 			nameReturnPoint[i - 4] = line[i];
 		}
-		//printf("%s\n",nameReturnPoint);
-		//printf("\n\n%d\n\n",findNumberReturnPoint("call", beginListRP));
 		if (findNumberReturnPoint(nameReturnPoint, beginListRP) == -1)
 			printf("NOT FOUND RETURN POINT\n");
 		else {
 			currentNumberString -=findNumberReturnPoint(nameReturnPoint, beginListRP); //
 		}
-		//printf("\n\n%d\n\n",findNumberReturnPoint(nameReturnPoint, beginListRP));
 	}
 
 	//jnz
-	if (strlen(line) >= 3 && line[0] == 'j' && line[1] == 'n' && line[2] == 'z') {
+	if (intToChange(getNumberFunction(line)) == jnz) {
 		if (*top && (*top)->value != 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
 			for (int i = 4; i < strlen(line) ; i++) {
 				nameReturnPoint[i - 4] = line[i];
 			}
-			//printf("%s\n",nameReturnPoint);
-			//printf("\n\n%d\n\n",findNumberReturnPoint("call", beginListRP));
 			if (findNumberReturnPoint(nameReturnPoint, beginListRP) == -1)
 				printf("NOT FOUND THIS RETURN POINT\n");
 			else {
@@ -178,19 +171,16 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JNZ\n");
 		}
-		//printf("\n\n%d\n\n",findNumberReturnPoint(nameReturnPoint, beginListRP));
 	}
 
 	//jz
-	if (strlen(line) >= 2 && line[0] == 'j' && line[1] == 'z') {
+	if (intToChange(getNumberFunction(line)) == jz) {
 		if (*top && (*top)->value == 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
 			for (int i = 3; i < strlen(line) ; i++) {
 				nameReturnPoint[i - 3] = line[i];
 			}
-			//printf("%s\n",nameReturnPoint);
-			//printf("\n\n%d\n\n",findNumberReturnPoint("call", beginListRP));
 			if (findNumberReturnPoint(nameReturnPoint, beginListRP) == -1)
 				printf("NOT FOUND THIS RETURN POINT\n");
 			else {
@@ -200,19 +190,16 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JZ\n");
 		}
-		//printf("\n\n%d\n\n",findNumberReturnPoint(nameReturnPoint, beginListRP));
 	}
 
 	//jg
-	if (strlen(line) >= 2 && line[0] == 'j' && line[1] == 'g') {
+	if (intToChange(getNumberFunction(line)) == jg) {
 		if (*top && (*top)->value > 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
 			for (int i = 3; i < strlen(line) ; i++) {
 				nameReturnPoint[i - 3] = line[i];
 			}
-			//printf("%s\n",nameReturnPoint);
-			//printf("\n\n%d\n\n",findNumberReturnPoint("call", beginListRP));
 			if (findNumberReturnPoint(nameReturnPoint, beginListRP) == -1)
 				printf("NOT FOUND THIS RETURN POINT\n");
 			else {
@@ -222,19 +209,16 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JG\n");
 		}
-		//printf("\n\n%d\n\n",findNumberReturnPoint(nameReturnPoint, beginListRP));
 	}
 
 	//jl
-	if (strlen(line) >= 2 && line[0] == 'j' && line[1] == 'l') {
+	if (intToChange(getNumberFunction(line)) == jl) {
 		if (*top && (*top)->value < 0) {
 			char nameReturnPoint[lengthCommand];
 			clearLine(nameReturnPoint);
 			for (int i = 3; i < strlen(line) ; i++) {
 				nameReturnPoint[i - 3] = line[i];
 			}
-			//printf("%s\n",nameReturnPoint);
-			//printf("\n\n%d\n\n",findNumberReturnPoint("call", beginListRP));
 			if (findNumberReturnPoint(nameReturnPoint, beginListRP) == -1)
 				printf("NOT FOUND THIS RETURN POINT\n");
 			else {
@@ -244,7 +228,6 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 		else {
 			printf("ERROR WITH JL\n");
 		}
-		//printf("\n\n%d\n\n",findNumberReturnPoint(nameReturnPoint, beginListRP));
 	}
 
 	if (strlen(line) >= 1 && line[0] == ';') {
@@ -259,14 +242,19 @@ void commandManager(stackMemory ** top, int dataList[], codeStrings *allStringsC
 	timesCompleted++;
 	// found out not-ending
 	if (timesCompleted > amountReadedStrings*2) {
+		returnPoints  * slot = nullptr;
+			while(beginListRP) {
+				slot = beginListRP;
+				beginListRP = beginListRP->next;
+				free(slot);
+			}
 		stopProgram = true;
 	}
-	if (currentNumberString == amountReadedStrings - 1 && !(strlen(line) >=3 && line[0] == 'r' && line[1] == 'e' && line[2] == 't'))
-		printf("NOT FOUND END OF PROGRAM! CRITICAL ERROR!\n");
-	if (currentNumberString < amountReadedStrings -1)
-		commandManager(&(*top),dataList,allStringsCode,amountReadedStrings);
-	
-	//printf("\n%d\n",currentNumberString);
 
+	if (currentNumberString == amountReadedStrings - 1 && !(intToChange(getNumberFunction(line)) == ret) )
+		printf("NOT FOUND END OF PROGRAM! CRITICAL ERROR!\n");
+	if (currentNumberString < amountReadedStrings)
+		commandManager(&(*top),dataList,allStringsCode,amountReadedStrings);
 }
 }
+

@@ -27,19 +27,21 @@ void showData(int dataList[]){
 }
 
 codeStrings *addCodeString(char input[lengthCommand]) {
-	codeStrings *newC = new codeStrings;
+    codeStrings *newC = (codeStrings *) malloc(sizeof(codeStrings));
 	for (int i = 0 ; i < lengthCommand; i++)
 		newC->codeText[i] = '\0';
+	strcpy(newC->codeText,input);
 	for (int i = 0; i < strlen(input); i++)
 		newC->codeText[i] = input[i];
 	return newC;
 }
 
 void addToReturnPoints(returnPoints **begin, returnPoints **end, int number, char name[lengthCommand]) {
-	returnPoints *newR = new returnPoints;
+	returnPoints *newR = (returnPoints *) malloc(sizeof(returnPoints));
 	newR->next = nullptr;
 	for (int i = 0; i < lengthCommand; i++) 
 		newR->nameReturnPoint[i] = '\0';
+	strcpy(newR->nameReturnPoint,name);
 	for (int i = 0; i < strlen(name); i++) 
 		newR->nameReturnPoint[i] = name[i];
 	newR->numberStringOfReturnPoint = number;
@@ -56,14 +58,9 @@ void addToReturnPoints(returnPoints **begin, returnPoints **end, int number, cha
 
 int findNumberReturnPoint(char name[lengthCommand], returnPoints *beginListRP) {
 	returnPoints *helper = beginListRP;
-	//printf("\n\n%s\n\n",name);
-	//printf("\n\n%d\n\n",strlen(name));
-	//printf("start test\n");
 	while (helper) {
 		bool result = true;
-		//printf("start test\n");
 		for (int i = 0; i < strlen(name)-1 && i < strlen(helper->nameReturnPoint)-1; i++) {
-			//printf("==\n");
 			if (name[i] != helper->nameReturnPoint[i]) {
 				result = false;
 			}
@@ -72,5 +69,37 @@ int findNumberReturnPoint(char name[lengthCommand], returnPoints *beginListRP) {
 			return helper->numberStringOfReturnPoint;
 		helper = helper->next;
 	}
+	return -1;
+}
+
+int getNumberFunction(char line[]) {
+//enum Change { ldc, st, ld, add, sub, cmp, jmp, jnz, jz, jg, jl, ret};
+//               0    1   2   3     4    5    6    7   8   9  10  11
+	if (strlen(line) >= 4 && line[0] == 'l' && line[1] == 'd' && line[2] == 'c') {
+		return 0;
+	}
+	if (strlen(line) >= 3 && line[0] == 's' && line[1] == 't')
+		return 1;
+	if (strlen(line) >= 3 && line[0] == 'l' && line[1] == 'd')
+		return 2;
+	if (strlen(line) >= 4 && line[0] == 'a' && line[1] == 'd' && line[2] == 'd')
+		return 3;
+	if (strlen(line) >= 4 && line[0] == 's' && line[1] == 'u' && line[2] == 'b')
+		return 4;
+	if (strlen(line) >= 4 && line[0] == 'c' && line[1] == 'm' && line[2] == 'p')
+		return 5;
+	if (strlen(line) >= 4 && line[0] == 'j' && line[1] == 'm' && line[2] == 'p') {
+		return 6;
+	}
+	if (strlen(line) >= 4 && line[0] == 'j' && line[1] == 'n' && line[2] == 'z')
+		return 7;
+	if (strlen(line) >= 3 && line[0] == 'j' && line[1] == 'z')
+		return 8;
+	if (strlen(line) >= 3 && line[0] == 'j' && line[1] == 'g')
+		return 9;
+	if (strlen(line) >= 3 && line[0] == 'j' && line[1] == 'l')
+		return 10;
+	if (strlen(line) >= 4 && line[0] == 'r' && line[1] == 'e' && line[2] == 't')
+		return 11;
 	return -1;
 }
