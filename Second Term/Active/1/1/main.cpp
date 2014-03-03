@@ -1,4 +1,6 @@
-#include "List.h"
+#include "StackGeneral.h"
+#include "ArrayStack.h"
+#include "PointStack.h"
 
 using namespace std;
 
