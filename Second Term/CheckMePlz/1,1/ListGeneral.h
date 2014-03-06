@@ -3,14 +3,14 @@
 #include <cstdlib>
 
 struct StackStruct {
-	StackStruct* previous;
+	StackStruct* next;
 	int value;
 };
 
-class StackGeneral {
+class ListGeneral {
 public:
-	StackGeneral();
-	virtual ~StackGeneral() = 0;
+	ListGeneral();
+	virtual ~ListGeneral() = 0;
 	virtual void push(int number) = 0;
 	virtual int pop() = 0;
 	virtual void print() const = 0;

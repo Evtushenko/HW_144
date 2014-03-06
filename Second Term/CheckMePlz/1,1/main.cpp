@@ -1,6 +1,6 @@
-#include "StackGeneral.h"
-#include "ArrayStack.h"
-#include "PointStack.h"
+#include "ListGeneral.h"
+#include "ArrayList.h"
+#include "PointList.h"
 
 using namespace std;
 
@@ -19,8 +19,8 @@ int main() {
 	cout << "4 = add to Array Stack" << endl;
 	cout << "5 = pop from Array Stack" << endl;
 	cout << "6 = show Array Stack" << endl;
-	StackGeneral* bubble = new PointStack();
-	StackGeneral* bead = new ArrayStack();
+	ListGeneral* bubble = new PointList();
+	ListGeneral* bead = new ArrayList();
 	int buffer = 0;
 	
 	for (;;) {
