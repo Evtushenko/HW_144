@@ -16,9 +16,10 @@ public:
 	virtual ~StackGeneral() = 0;
 	virtual void push(int number) = 0;
 	virtual int pop() = 0;
+	virtual int getTop() = 0;
 	virtual void print() const = 0;
-	virtual int infix(char stringIn []) = 0;
+	int infix(char stringIn []);
 protected:
-	int virtual calculateStack(char stringOut []) = 0;
+	int calculateStack(char stringOut []);
 	bool firstPriority(char a) const;
 };

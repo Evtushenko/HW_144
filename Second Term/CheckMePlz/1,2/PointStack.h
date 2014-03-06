@@ -7,8 +7,7 @@ public:
 	void push(int number);
 	int pop();
 	void print() const;
-	int infix(char stringIn []);
+	int getTop();
 private:
 	StackStruct *top;
-	int calculateStack(char stringOut []);
 };
