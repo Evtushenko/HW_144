@@ -2,12 +2,12 @@
 
 class ArrayList : public ListGeneral  {
 public:
-	ArrayList(): lengthArray(0) {}
+	ArrayList(): lengthArray(0) ,ArrayListElements(nullptr) {}
 	~ArrayList(); 
 	void push(int number);
 	int pop();
 	void print() const;
 private:
-int *ArrayListElements;
-int lengthArray;
+	int *ArrayListElements;
+	int lengthArray;
 };

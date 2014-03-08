@@ -21,7 +21,7 @@ void PointStack::push(int number){
 		newS->previous = top;
 		top = newS;
 	}
-};
+}
 
 void PointStack::print() const {
 	cout << "List of  Point Stack:\n";
@@ -37,7 +37,9 @@ int  PointStack::pop()  {
 	if (!top)
 		return -1;
 	int answer = top->value;
+	StackStruct * slot = top;
 	top = top->previous;
+	delete slot;
 	return answer;
 }
 

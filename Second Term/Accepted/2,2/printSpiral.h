@@ -13,50 +13,61 @@ For user only 1 fuction is enable. Has some functinons and variables for CC.
 */
 class PrintSpiral {
 public:
+
 	/**
 	@brief constructor
 	@detailed indefy max distances default numbers.
 	*/
 	PrintSpiral ();
+
 	/**
 	@brief destructor
 	*/
 	virtual ~PrintSpiral() = 0;
+
 	/**
 	@brief virual printing out
 	@detailed variety realization in CC.
 	*/
 	virtual void outPrint() = 0;
+
 protected:
+
 	/**
 	@brief reading form matrix.txt
 	@detailed taking in matrix for working.
 	*/
 	int readFromFile();
+
 	/**
 	@brief printing readed matrix
 	*/
 	void printIn() const;
+
 	/**
 	@brief creating right order for queue for future printing
 	@detailed stupid math principles
 	*/
 	void spiralOrder();
+
 	/**
 	@brief found out distance beetween 2 points of matrix
 	@param 2 int Decart coordinate of one point
 	*/
 	double dist(int Xa, int Ya) const;
+
 	/**
 	@brief input matrix
 	@param size of square matrix
 	*/
 	int matrix[amountElements][amountElements];
+
 	/**
 	@brief maximal distances from point to center of matrix
 	@param size of square matrix
 	*/
 	double  maxDistCentr[amountElements];
+
 	/**
 	@brief numbers that will be printing in chindren realization
 	@param amount elements  of square matrix

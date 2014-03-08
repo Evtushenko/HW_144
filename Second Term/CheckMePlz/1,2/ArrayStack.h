@@ -2,7 +2,7 @@
 
 class ArrayStack : public StackGeneral  {
 public:
-	ArrayStack(): lengthArray(0) {}
+	ArrayStack(): lengthArray(0), arrayStackElements(nullptr) {}
 	~ArrayStack(); 
 	void push(int number);
 	int pop();

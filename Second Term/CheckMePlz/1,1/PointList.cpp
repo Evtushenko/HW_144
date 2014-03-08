@@ -38,6 +38,8 @@ int  PointList::pop()  {
 	if (!begin)
 		return -1;
 	int answer = begin->value;
+	StackStruct  * slot = begin;
 	begin = begin-> next;
+	delete slot;
 	return answer;
 }

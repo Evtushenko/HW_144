@@ -6,14 +6,17 @@
 */
 class File : public PrintSpiral {
 public:
+
 	/**
 	@brief constructor
 	*/
 	File() {};
+
 	/**
 	@brief destructor
 	*/
 	~File() {};
+
 	/**
 	@brief file printing spirally.
 	*/

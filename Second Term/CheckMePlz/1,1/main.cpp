@@ -37,6 +37,8 @@ int main() {
 		c = intToChange(changeTemp);
 
 		if (c == exitProgramm) {
+			delete bubble;
+			delete bead;
 			cout << "L.A.Goodbay" << endl;
 			break;
 		}

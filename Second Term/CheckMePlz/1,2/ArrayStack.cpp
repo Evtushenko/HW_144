@@ -17,7 +17,7 @@ int ArrayStack ::pop(){
 	arrayStackElements = slot;
 	lengthArray--;
 	return answer;
-};
+}
 
 void ArrayStack::print() const {
 	cout << "List of Array Stack:\n";
@@ -39,7 +39,7 @@ void ArrayStack::push(int number){
 		delete[] arrayStackElements;
 		arrayStackElements = new int[++lengthArray];
 		arrayStackElements[0] = number;
-		for (int i=0; i < lengthArray-1; i++) {
+		for (int i = 0; i < lengthArray-1; i++) {
 			arrayStackElements[i+1] = slot[i];
 		}
 		delete[] slot;

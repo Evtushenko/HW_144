@@ -7,14 +7,17 @@
 */
 class Console : public PrintSpiral {
 public:
+
 	/**
 	@brief constructor
 	*/
 	Console() {};
+
 	/**
 	@brief destructor
 	*/
 	~Console() {};
+
 	/**
 	@brief printing in console spirally.
 	*/
