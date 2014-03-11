@@ -56,7 +56,6 @@ return 0;
 
 int StackGeneral::calculateStack(char stringOut []) {
 	int const digitIntoSymbol = 48;
-	StackStruct *helper = nullptr;
 	int length = strlen(stringOut);
 	int tempValue = 0;
 	for (int i = 0; i < length; i++) {

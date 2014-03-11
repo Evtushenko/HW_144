@@ -9,5 +9,9 @@ public:
 	void print() const;
 	int getTop();
 private:
+	struct StackStruct {
+		StackStruct* previous;
+		int value;
+	};
 	StackStruct *top;
 };
