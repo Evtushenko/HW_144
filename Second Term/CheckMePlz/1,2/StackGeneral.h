@@ -12,7 +12,6 @@ struct StackStruct {
 
 class StackGeneral {
 public:
-	StackGeneral();
 	virtual ~StackGeneral() = 0;
 	virtual void push(int number) = 0;
 	virtual int pop() = 0;
