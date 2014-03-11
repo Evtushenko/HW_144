@@ -11,6 +11,6 @@ int main() {
 
 	Sorter* bead = new PlugSort();
 	bead->sorting();
-	delete bubble;
+	delete bead;
 	return 0;
 }
