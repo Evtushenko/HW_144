@@ -8,6 +8,6 @@ public:
 	int pop();
 	void print() const;
 private:
-	StackStruct *end;
 	StackStruct *begin;
+	StackStruct *end;
 };

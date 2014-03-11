@@ -2,7 +2,7 @@
 
 class ArrayList : public ListGeneral  {
 public:
-	ArrayList(): lengthArray(0) ,ArrayListElements(nullptr) {}
+	ArrayList(): ArrayListElements(nullptr), lengthArray(0) {}
 	~ArrayList(); 
 	void push(int number);
 	int pop();
