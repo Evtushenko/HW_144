@@ -5,13 +5,14 @@
 
 int const maxBufferSize = 20;
 
-struct StackStruct {
-	StackStruct* previous;
-	int value;
-};
-
 class StackGeneral {
 public:
+
+	struct StackStruct {
+	StackStruct* previous;
+	int value;
+	};
+
 	virtual ~StackGeneral() = 0;
 	virtual void push(int number) = 0;
 	virtual int pop() = 0;
