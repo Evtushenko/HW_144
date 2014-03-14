@@ -4,7 +4,7 @@ Calculator::Calculator()
 {
     firstUsing = true;
     allowDot = true;
-    operation = 0;
+    operation = zero;
     firstNumber = QString("");
     secondNumber = QString("");
 }
@@ -24,13 +24,13 @@ QString Calculator::putResult(){
     double a = firstNumber.toDouble();
     double b = secondNumber.toDouble();
     switch(operation) {
-        case 1:
+        case inc:
             return QString::number(a+b);
-        case 2:
+        case dec:
             return QString::number(a-b);
-        case 3:
+        case mul:
             return QString::number(a*b);
-        case 4:
+        case div:
             return QString::number(a/b);
         }
     return QString("");
@@ -41,13 +41,13 @@ QString Calculator::putOperation(int number){
     firstUsing = false;
     allowDot = true;
     switch(number) {
-        case 1:
+        case inc:
             return QString("inc");
-        case 2:
+        case dec:
             return QString("dec");
-        case 3:
+        case mul:
             return QString("mul");
-        case 4:
+        case div:
             return QString("div");
         }
     return QString("");

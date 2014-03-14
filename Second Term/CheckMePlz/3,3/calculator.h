@@ -3,6 +3,9 @@
 
 #include <QString>
 
+enum StatesOperator {zero, inc, dec, mul, div};
+
+
 /**
 @brief class for storing numbers, operations, state of dot and do one operation in the end
 */
