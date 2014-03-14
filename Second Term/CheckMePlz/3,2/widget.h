@@ -27,7 +27,7 @@ public:
     */
     ~Widget();
 
-public slots:
+private slots:
     /**
     @brief takes changes from interface; calls calculator; puts relult in interface
     */
