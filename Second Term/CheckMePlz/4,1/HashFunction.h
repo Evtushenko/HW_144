@@ -6,11 +6,11 @@
 class HashFunction
 {
 public:
-	/**
-	@brief has 2 realisations
-	*/
-	virtual int calcHash(char* text) = 0;
-	HashFunction(void);
-	~HashFunction(void);
+    /**
+    @brief has 2 realisations
+    */
+    virtual int calcHash(char* text) = 0;
+    HashFunction(void);
+    ~HashFunction(void);
 };
 

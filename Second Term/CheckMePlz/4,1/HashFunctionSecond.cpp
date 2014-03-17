@@ -11,5 +11,5 @@ HashFunctionSecond::~HashFunctionSecond(void)
 }
 
 int HashFunctionSecond::calcHash(char* text){
-	return strlen(text)*2;
+    return strlen(text)*2;
 }

@@ -11,5 +11,5 @@ HashFunctionFirst::~HashFunctionFirst(void)
 }
 
 int HashFunctionFirst::calcHash(char* text){
-	return strlen(text)*1;
+    return strlen(text)*1;
 }
