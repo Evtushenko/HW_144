@@ -13,42 +13,45 @@ public:
 private:
     PointStack *test;
 private slots:
-    void TestCorrectCreation() {
+    void testCorrectCreation() {
        test = new PointStack;
        QVERIFY(test->size() == 0);
     }
     void testPush() {
         test = new PointStack;
         test->push(testNumberPoint);
-        test->push(testNumberPoint+1);
-        test->push(testNumberPoint+2);
+        test->push(testNumberPoint + 1);
+        test->push(testNumberPoint + 2);
         QVERIFY(test->size() == 3);
-        void testPop();
     }
     void testPop() {
-        QVERIFY(test->pop() == testNumberPoint+2);
-        QVERIFY(test->pop() == testNumberPoint+1);
+        test = new PointStack;
+        test->push(testNumberPoint);
+        test->push(testNumberPoint + 1);
+        test->push(testNumberPoint + 2);
+        QVERIFY(test->pop() == testNumberPoint + 2);
+        QVERIFY(test->pop() == testNumberPoint + 1);
         QVERIFY(test->pop() == testNumberPoint);
         QVERIFY(test->size() == 0 );
     }
     void testGetTop() {
         test = new PointStack;
-        test->push(testNumberPoint+2);
-        QVERIFY(test->getTop() == testNumberPoint+2);
+        test->push(testNumberPoint + 2);
+        QVERIFY(test->getTop() == testNumberPoint + 2);
     }
-    void TestCorrectInfix() {
+    void testCorrectInfix() {
        test = new PointStack;
-       char inPut[]="1+1";
-       char outPut[]="11+";
+       char inPut[] = "1+1";
+       char outPut[] = "11+";
        char *res = test->infix(inPut);
        int length = strlen(outPut);
-       for (int i =0; i< length; i++)
+       for (int i = 0; i < length; i++)
            QCOMPARE(char(res[i]), outPut[i]);
-       void TestCorrectCalc();
     }
-    void TestCorrectCalc() {
+    void testCorrectCalc() {
+        test = new PointStack;
         int resultTest = 2;
-        char inPut[]="11+";
+        char inPut[] = "11+";
         QVERIFY(test->calculateStack(inPut) == resultTest);
     }
 };
