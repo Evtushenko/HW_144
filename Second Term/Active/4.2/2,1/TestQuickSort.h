@@ -21,6 +21,7 @@ private slots:
         for (int i = 0 ; i < amountElements; i++) {
             QCOMPARE(result[i], testElementsOuput[i]);
         }
+        delete[] result;
     }
         void testSorting(){
             test = new QuickSort;
@@ -32,5 +33,6 @@ private slots:
             for (int i = 0 ; i < amountElements; i++) {
                 QCOMPARE(result[i], testElementsOuput[i]);
             }
+            delete[] result;
         }
 };
