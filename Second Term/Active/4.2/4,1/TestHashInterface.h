@@ -1,10 +1,10 @@
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "HashInterface.h"
+#include "hashInterface.h"
 
 using namespace std;
 
-class TestHashInterface: public QObject
+class TestHashInterface: public QObject , HashInterface
 {
     Q_OBJECT
 public:
@@ -12,75 +12,93 @@ public:
 private:
     HashInterface *test;
 private slots:
-    void testCalcHashFirst() {
+    void testSwitchCalcHashFunctions() {
         test = new HashInterface;
+
         test->numberHF = 0;
         char testWord[] = "hello";
-        int resultFisrt = strlen(testWord);
+        int resultFisrt = 0;
+        int lengthWord = strlen(testWord);
+        for (int i = 0 ; i < lengthWord ; i++) {
+            resultFisrt += int(testWord[i])*i;
+            resultFisrt = resultFisrt % amountElements;
+        }
         QVERIFY(test->calcHash(testWord) == resultFisrt );
-    }
-    void testCalcHashSecond() {
-        test = new HashInterface;
+
         test->numberHF = 1;
-        char testWord[] = "hello";
-        int resultSecond = strlen(testWord)*2;
+        int resultSecond = 0;
+        int simpleNumber = 3;
+        for (int i = 0 ; i < lengthWord; i++) {
+            resultSecond += int(testWord[i])*pow(simpleNumber, i);
+            resultSecond = resultSecond % amountElements;
+        }
         QVERIFY(test->calcHash(testWord) == resultSecond );
+
+        delete test;
     }
+
     void testAddHashTable() {
+
         test = new HashInterface;
+        test->numberHF = 0;
         char testWord1[] = "q";
         char testWord2[] = "w";
         char testWord3[] = "e";
         char testWord4[] = "qw";
-        char testWord5[] = "ola";
-        test->numberHF = 1;
+        int result1 = 0;
+        int result2 = 119;
+
         test->addHT(testWord1);
         test->addHT(testWord2);
         test->addHT(testWord3);
-        test->numberHF = 0;
         test->addHT(testWord4);
-        test->numberHF = 1;
-        test->addHT(testWord5);
-        QCOMPARE(test->arrayWords[2]->word, testWord1);
-        QCOMPARE(test->arrayWords[2]->next->word, testWord2);
-        QCOMPARE(test->arrayWords[2]->next->next->word, testWord3);
-        QCOMPARE(test->arrayWords[2]->next->next->next->word, testWord4);
-        QCOMPARE(test->arrayWords[6]->word, testWord5);
+
+        QCOMPARE(test->arrayWords[result1]->word, testWord1);
+        QCOMPARE(test->arrayWords[result1]->next->word, testWord2);
+        QCOMPARE(test->arrayWords[result1]->next->next->word, testWord3);
+        QCOMPARE(test->arrayWords[result2]->word, testWord4);
+        delete test;
+
     }
     void testDeleteHashTable() {
         test = new HashInterface;
+        test->numberHF = 0;
         char testWord1[] = "q";
         char testWord2[] = "w";
         char testWord3[] = "e";
         char testWord4[] = "qw";
-        char testWord5[] = "ola";
-        test->numberHF = 1;
+        int result1 = 0;
+        int result2 = 119;
+
         test->addHT(testWord1);
         test->addHT(testWord2);
         test->addHT(testWord3);
-        test->numberHF = 0;
         test->addHT(testWord4);
-        test->numberHF = 1;
-        test->addHT(testWord5);
+
+        test->deleteHT(testWord2);
+        QCOMPARE(test->arrayWords[result1]->word, testWord1);
+        QCOMPARE(test->arrayWords[result1]->next->word, testWord3);
 
         test->deleteHT(testWord1);
-        test->deleteHT(testWord2);
         test->deleteHT(testWord3);
         test->deleteHT(testWord4);
-        test->deleteHT(testWord5);
 
-        QVERIFY(test->arrayWords[2] == NULL);
-        QVERIFY(test->arrayWords[6] == NULL);
+        QVERIFY(test->arrayWords[result1] == NULL);
+        QVERIFY(test->arrayWords[result2] == NULL);
+        delete test;
+
     }
 
     void testSearchHashTable() {
+
         test = new HashInterface;
-        char testWord1[] = "qwe";
-        char testWord2[] = "rtyu";
-        test->numberHF = 1;
+        char testWord1[] = "what";
+        char testWord2[] = "qwerty";
+        test->numberHF = 0;
         test->addHT(testWord1);
         test->addHT(testWord2);
         QVERIFY(test->searchHT(testWord1) != -1);
         QVERIFY(test->searchHT(testWord2) != -1);
+        delete test;
     }
 };

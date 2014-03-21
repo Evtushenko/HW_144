@@ -1,4 +1,4 @@
-#include "HashFunction.h"
+#include "hashFunction.h"
 /**
 @brief first hash fucntion = personal class
 */

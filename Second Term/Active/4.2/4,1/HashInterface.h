@@ -1,29 +1,26 @@
-#include "HashFunctionFirst.h"
-#include "HashFunctionSecond.h"
+#include "hashFunctionFirst.h"
+#include "hashFunctionSecond.h"
+#include "hashFunction.h"
 #include <iostream>
 #include <stdio.h>
 
-/**
-@brief amount elements witch can be keep in the range of HashTable
-*/
-int const amountElements = 1000;
+
 /**
 @brief max length of words which can be keeped
 */
 int const maxLengthWord = 30;
 
 
+class TestHashInterface;
+
 /**
 @brief general class for user using
 */
 class HashInterface {
+    friend class TestHashInterface;
 public:
     HashInterface ();
     ~HashInterface ();
-    /**
-    @brief swithes different hash functions
-    */
-    int calcHash(char *text);
     /**
     @brief add to hash table word from keyboard
     @detailed reading inside
@@ -52,8 +49,8 @@ public:
     @brief current number of hash fucntion
     */
     int numberHF;
-    //void test();
-public:
+
+private:
     /**
     @brief for keeping words
     */
@@ -62,26 +59,24 @@ public:
         Words *next;
     };
     /**
-    @brief range of lists of words
+    @brief for calling calc hash functions
     */
-Words *arrayWords[amountElements];
-    /**
-    @brief support for searchHT
-    @detailed moving along list of one cell of arrayWords and search this word from keyboard
-    */
-bool itWasHere(Words *slot, char *text);
-
-private:
-    /**
-    @brief variable of First Hash Funtion class
-    */
-    HashFunctionFirst firstHF;
-    /**
-    @brief variable of Second Hash Funtion class
-    */
-    HashFunctionSecond secondHF;
+    HashFunction *hashFunctionPointer;
     /**
     @brief keep result of searching
     */
     Words *slotWords;
+    /**
+    @brief support for searchHT
+    @detailed moving along list of one cell of arrayWords and search this word from keyboard
+    */
+    bool itWasHere(Words *slot, char *text);
+    /**
+    @brief range of lists of words
+    */
+    Words *arrayWords[amountElements];
+    /**
+    @brief swithes different hash functions
+    */
+    int calcHash(char *text);
 };

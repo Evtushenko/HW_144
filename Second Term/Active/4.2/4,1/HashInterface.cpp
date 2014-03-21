@@ -1,11 +1,12 @@
-#include "HashInterface.h"
+#include "hashInterface.h"
 
 using namespace std;
 
 HashInterface::HashInterface (){
-    for ( int i =0 ; i < amountElements; i++)
+    for ( int i = 0 ; i < amountElements; i++)
         arrayWords[i] = NULL;
     slotWords = NULL;
+    numberHF = 0;
 }
 
 HashInterface::~HashInterface (){
@@ -20,16 +21,20 @@ HashInterface::~HashInterface (){
             }
         }
     }
+    delete hashFunctionPointer;
 }
 
 int HashInterface::calcHash(char *text) {
 
     if (numberHF == 0) {
-
-        return firstHF.calcHash(text);
+        //return firstHF.calcHash(text);
+        hashFunctionPointer = new HashFunctionFirst;
+        return hashFunctionPointer->calcHash(text);
     }
     if (numberHF == 1) {
-        return secondHF.calcHash(text);
+        //return secondHF.calcHash(text);
+        hashFunctionPointer = new HashFunctionSecond;
+        return hashFunctionPointer->calcHash(text);
     }
     return -1;
 }
@@ -128,18 +133,6 @@ void HashInterface::deleteHT(char *buffer) {
         slotWords = NULL;
     }
 };
-
-/*
-void HashInterface::test() {
-    cout << "list of index = 1\n";
-    Words *helper = arrayWords[1];
-    while (helper) {
-        cout << helper->word << endl;
-        helper = helper->next;
-    }
-
-};
-*/
 
 void HashInterface::staticHT() {
     int occupyCellcAmount = 0;

@@ -1,4 +1,5 @@
-#include "TestHashInterface.h"
+#include "testHashInterface.h"
+// написать корректные тесты
 
 using namespace std;
 

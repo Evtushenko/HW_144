@@ -18,14 +18,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    HashInterface.cpp \
-    HashFunction.cpp \
-    HashFunctionFirst.cpp \
-    HashFunctionSecond.cpp
+    hashFunctionFirst.cpp \
+    hashFunctionSecond.cpp \
+    hashInterface.cpp
 
 HEADERS += \
-    HashInterface.h \
-    HashFunction.h \
-    HashFunctionFirst.h \
-    HashFunctionSecond.h \
-    TestHashInterface.h
+    hashFunction.h \
+    hashFunctionFirst.h \
+    hashFunctionSecond.h \
+    hashInterface.h \
+    testHashInterface.h
