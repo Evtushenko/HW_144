@@ -1,7 +1,7 @@
 #pragma once
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "PlugSort.h"
+#include "plugSort.h"
 
 class TestPlugSort: public QObject
 {
@@ -20,7 +20,7 @@ private slots:
         for (int i = 0 ; i < amountElements; i++) {
             QCOMPARE(result[i], testElementsOuput[i]);
         }
-        delete[] result;
+        delete test;
     }
         void testSorting(){
             test = new PlugSort;
@@ -32,6 +32,6 @@ private slots:
             for (int i = 0 ; i < amountElements; i++) {
                 QCOMPARE(result[i], testElementsOuput[i]);
             }
-            delete[] result;
+            delete test;
         }
 };

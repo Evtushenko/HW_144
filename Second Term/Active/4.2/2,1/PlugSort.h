@@ -1,5 +1,5 @@
 #pragma once
-#include "Sorter.h"
+#include "sorter.h"
 
 
 class PlugSort : public Sorter {

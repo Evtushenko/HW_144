@@ -1,10 +1,6 @@
-#include "Sorter.h"
-#include "QuickSort.h"
-#include "PlugSort.h"
-#include "BubbleSort.h"
-#include "TestBubbleSort.h"
-#include "TestQuickSort.h"
-#include "TestPlugSort.h"
+#include "testBubbleSort.h"
+#include "testQuickSort.h"
+#include "testPlugSort.h"
 
 using namespace std;
 

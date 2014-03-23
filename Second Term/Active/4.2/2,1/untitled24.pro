@@ -18,16 +18,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    QuickSort.cpp \
-    PlugSort.cpp \
-    BubbleSort.cpp \
-    Sorter.cpp
+    bubbleSort.cpp \
+    plugSort.cpp \
+    quickSort.cpp \
+    sorter.cpp
 
 HEADERS += \
-    QuickSort.h \
-    PlugSort.h \
-    BubbleSort.h \
-    Sorter.h \
-    TestBubbleSort.h \
-    TestQuickSort.h \
-    TestPlugSort.h
+    bubbleSort.h \
+    plugSort.h \
+    quickSort.h \
+    sorter.h \
+    testBubbleSort.h \
+    testPlugSort.h \
+    testQuickSort.h

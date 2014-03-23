@@ -1,4 +1,4 @@
-#include "QuickSort.h"
+#include "quickSort.h"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 #include <QtTest/QTest>
 #include <QtCore/QObject>
 #include <iostream>
-#include "BubbleSort.h"
+#include "bubbleSort.h"
 
 class TestBubbleSort: public QObject
 {
@@ -21,7 +21,7 @@ private slots:
         for (int i = 0 ; i < amountElements; i++) {
             QCOMPARE(result[i], testElementsOuput[i]);
         }
-        delete[] result;
+        delete test;
     }
 
     void testSorting(){
@@ -34,6 +34,6 @@ private slots:
         for (int i = 0 ; i < amountElements; i++) {
             QCOMPARE(result[i], testElementsOuput[i]);
         }
-        delete[] result;
+        delete test;
     }
 };

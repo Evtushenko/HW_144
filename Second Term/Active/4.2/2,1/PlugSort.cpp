@@ -1,4 +1,4 @@
-#include "PlugSort.h"
+#include "plugSort.h"
 
 using namespace std;
 

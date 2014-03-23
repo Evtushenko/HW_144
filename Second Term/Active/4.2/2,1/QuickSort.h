@@ -1,5 +1,5 @@
 #pragma once
-#include "Sorter.h"
+#include "sorter.h"
 
 /**
 @brief Class of bubble Sort, inherited from Sorter
