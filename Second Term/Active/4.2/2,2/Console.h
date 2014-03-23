@@ -1,5 +1,5 @@
 #pragma once
-#include "PrintSpiral.h"
+#include "printSpiral.h"
 
 /**
 @brief printing in console spirally.

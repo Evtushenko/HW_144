@@ -18,13 +18,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    File.cpp \
-    Console.cpp \
-    PrintSpiral.cpp
+    console.cpp \
+    file.cpp \
+    printSpiral.cpp
 
 HEADERS += \
-    File.h \
-    Console.h \
-    PrintSpiral.h \
-    TestFile.h \
-    TestConsole.h
+    console.h \
+    file.h \
+    printSpiral.h \
+    testConsole.h \
+    testFile.h

@@ -1,5 +1,5 @@
-#include "TestFile.h"
-#include "TestConsole.h"
+#include "testFile.h"
+#include "testConsole.h"
 
 using namespace std;
 

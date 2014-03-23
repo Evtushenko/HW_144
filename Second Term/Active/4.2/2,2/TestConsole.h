@@ -1,6 +1,6 @@
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "Console.h"
+#include "console.h"
 
 using namespace std;
 
@@ -22,6 +22,7 @@ private slots:
         for (int i = 0; i < amountElements * amountElements; i++)
             QCOMPARE(arrayMatrix[i], numbersFromFile[i]);
         delete[] arrayMatrix;
+        delete test;
     }
 
     void testCorrectSpiralOrder(){
@@ -33,5 +34,6 @@ private slots:
         for (int i = 0; i < amountElements * amountElements; i++)
             QCOMPARE(arraySpiralOrder[i], numbersSpiralOrder[i]);
         delete[] arraySpiralOrder;
+        delete test;
     }
 };
