@@ -1,5 +1,5 @@
 #pragma once
-#include "ListGeneral.h"
+#include "listGeneral.h"
 
 class PointList : public ListGeneral {
 public:

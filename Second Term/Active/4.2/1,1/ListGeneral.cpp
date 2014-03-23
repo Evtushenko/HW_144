@@ -1,4 +1,4 @@
-#include "ListGeneral.h"
+#include "listGeneral.h"
 
 ListGeneral ::~ListGeneral () {
 }

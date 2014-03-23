@@ -1,5 +1,5 @@
 #pragma once
-#include "ListGeneral.h"
+#include "listGeneral.h"
 
 class ArrayList : public ListGeneral  {
 public:

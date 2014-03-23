@@ -17,14 +17,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    ListGeneral.cpp \
-    ArrayList.cpp \
-    PointList.cpp
+    arrayList.cpp \
+    listGeneral.cpp \
+    pointList.cpp
 
 HEADERS += \
-    ListGeneral.h \
-    ArrayList.h \
-    PointList.h \
-    TestArrayList.h \
-    TestPointList.h
+    arrayList.h \
+    listGeneral.h \
+    pointList.h \
+    testArrayList.h \
+    testPointList.h
 

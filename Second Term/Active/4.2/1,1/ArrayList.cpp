@@ -1,4 +1,4 @@
-#include "ArrayList.h"
+#include "arrayList.h"
 
 using namespace std;
 

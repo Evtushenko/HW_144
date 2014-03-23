@@ -1,5 +1,5 @@
 //#include <QCoreApplication>
-//#include "ListGeneral.h"
+//#include "listGeneral.h"
 #include <iostream>
 #include "ArrayList.h"
 #include "PointList.h"
