@@ -2,7 +2,7 @@
 #include <QtTest/QTest>
 #include <QtCore/QObject>
 #include "TreeMaker.h"
-#include "Tree.h"
+#include "tree.h"
 
 using namespace std;
 
@@ -16,7 +16,8 @@ private:
 private slots:
     void testReadingFile() {
         test = new TreeMaker;
-        test->readFile("test.txt");
+        char nameFile[] = "test.txt";
+        test->readFile(nameFile);
         char waitingText[]="(*(+11)2)";
         QCOMPARE(waitingText, test->inPutString);
         delete test;
@@ -26,7 +27,8 @@ private slots:
     void correctBuildTree() {
 
         test = new TreeMaker;
-        test->inPutString = "(*(+11)2)";
+        char textInput[] = "(*(+11)2)";
+        test->inPutString = textInput;
         test->buildTree();
         QVERIFY(test->root->value == '*');
         QVERIFY(test->root->left->value == '+');

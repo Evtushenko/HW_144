@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "tree.h"
 
 Tree::Tree(): left(NULL), right(NULL), parent(NULL) {}
 

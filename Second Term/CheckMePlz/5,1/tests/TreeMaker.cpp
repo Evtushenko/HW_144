@@ -1,4 +1,4 @@
-#include "TreeMaker.h"
+#include "treeMaker.h"
 
 using namespace  std;
 

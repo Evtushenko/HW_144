@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <string.h>
-#include "Tree.h"
+#include "tree.h"
 
 int const maxlength = 50;
 char const zero = '0';

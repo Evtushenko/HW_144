@@ -18,11 +18,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    TreeMaker.cpp \
-    Tree.cpp
+    tree.cpp \
+    treeMaker.cpp
 
 HEADERS += \
-    TreeMaker.h \
-    Tree.h \
-    TestTree.h \
-    TestTreeMaker.h
+    testTree.h \
+    testTreeMaker.h \
+    tree.h \
+    treeMaker.h

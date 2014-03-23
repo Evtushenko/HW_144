@@ -1,7 +1,7 @@
 #include <QCoreApplication>
-#include "TreeMaker.h"
-#include "TestTree.h"
-#include "TestTreeMaker.h"
+//#include "treeMaker.h"
+#include "testTree.h"
+#include "testTreeMaker.h"
 
 int main() {
     TestTree test1;
