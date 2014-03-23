@@ -1,5 +1,5 @@
 #pragma once
-#include "StackGeneral.h"
+#include "stackGeneral.h"
 
 class PointStack : public StackGeneral {
 public:

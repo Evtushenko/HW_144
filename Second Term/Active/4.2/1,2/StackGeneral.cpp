@@ -1,4 +1,4 @@
-#include "StackGeneral.h"
+#include "stackGeneral.h"
 
 using namespace std;
 

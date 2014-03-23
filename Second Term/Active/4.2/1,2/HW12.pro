@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-03-17T10:18:44
+# Project created by QtCreator 2014-03-23T11:43:45
 #
 #-------------------------------------------------
 
@@ -10,7 +10,7 @@ QT       -= gui
 
 QT       += testlib
 
-TARGET = untitled22
+TARGET = HW12
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -18,13 +18,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    StackGeneral.cpp \
-    PointStack.cpp \
-    ArrayStack.cpp
+    pointStack.cpp \
+    stackGeneral.cpp \
+    arrayStack.cpp
 
 HEADERS += \
-    StackGeneral.h \
-    PointStack.h \
-    ArrayStack.h \
-    TestArrayStack.h \
-    TestPointStack.h
+    stackGeneral.h \
+    pointStack.h \
+    arrayStack.h \
+    testArrayStack.h \
+    testPointStack.h

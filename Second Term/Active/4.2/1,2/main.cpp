@@ -1,9 +1,5 @@
-//#include "StackGeneral.h"
-#include "ArrayStack.h"
-#include "PointStack.h"
-#include "TestArrayStack.h"
-#include "TestPointStack.h"
-#include "TestStackGeneral.h"
+#include "testArrayStack.h"
+#include "testPointStack.h"
 
 using namespace std;
 

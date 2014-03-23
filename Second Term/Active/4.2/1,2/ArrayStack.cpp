@@ -1,4 +1,4 @@
-#include "ArrayStack.h"
+#include "arrayStack.h"
 
 using namespace std;
 
