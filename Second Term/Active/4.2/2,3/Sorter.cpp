@@ -1,5 +1,5 @@
-#include "Sorter.h"
-#include "BubbleSort.h"
+#include "sorter.h"
+#include "bubbleSort.h"
 
 using namespace std;
 

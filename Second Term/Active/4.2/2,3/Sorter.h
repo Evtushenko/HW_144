@@ -39,7 +39,7 @@ public:
     /**
     @brief destructor
     */
-    ~Sorter();
+    virtual ~Sorter() = 0;
 
     /**
     @brief virtual interface fuction sorting

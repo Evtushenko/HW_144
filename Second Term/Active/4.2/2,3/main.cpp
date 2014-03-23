@@ -1,6 +1,3 @@
-#include "Sorter.h"
-#include "BubbleSort.h"
-#include "PlugSort.h"
 #include "TestBubbleSort.h"
 #include "TestPlugSort.h"
 

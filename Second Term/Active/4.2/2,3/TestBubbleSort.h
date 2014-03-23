@@ -1,6 +1,6 @@
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "BubbleSort.h"
+#include "bubbleSort.h"
 
 using namespace std;
 
@@ -42,6 +42,7 @@ private slots:
         for (int j = 0 ; j < lengthString; j++)
             for (int i = 0; i < lengthString; i++)
                 QCOMPARE(test->arrayColumns[j]->elementsOfColumn[i],columns[j][i]);
+        delete test;
     }
 
     void testCorrectSorting() {
@@ -62,6 +63,7 @@ private slots:
         for (int j = 0 ; j < lengthString; j++)
             for (int i = 0; i < lengthString; i++)
                 QCOMPARE(test->arrayColumns[j]->elementsOfColumn[i],columns[j][i]);
+        delete test;
     }
 
     void testCorrectSwap(){
