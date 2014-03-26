@@ -1,7 +1,7 @@
 #pragma once
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "TreeMaker.h"
+#include "treeMaker.h"
 #include "tree.h"
 
 using namespace std;
