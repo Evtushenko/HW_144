@@ -1,64 +1,32 @@
 //#pragma one
 #include <cstdlib>
 #include <iostream>
+#include "SimpleList.h"
 
 
 class TestUniqueList;
 /**
-@brief unique adding, removing with cheking, and printing
+@brief class for chenking for exceprion with add and delete. Has Unique List = son.
 */
-class UniqueList {
-    /**
-    @brief for using private fields
-    */
+class UniqueList: public SimpleList {
 friend class TestUniqueList;
 public:
-    UniqueList() : begin(NULL), end(NULL) {}
-    ~UniqueList();
     /**
-    @brief push int to the end
+    @brief takes code from mother. And checking for exception
     */
-    void push(int number);
+    void pushUser(int number);
     /**
-    @brief printing list to the console
+    @brief takes code from mother. And checking for exception
     */
-    void print() const;
-    /**
-    @brief delete from all list postition if it's possible
-    */
-    void remove(int number);
+    void removeUser(int number);
 private:
     /**
-    @brief for storing list elements
-    */
-    struct StackStruct {
-        StackStruct* next;
-        int value;
-    };
-    StackStruct *begin;
-    StackStruct *end;
-    /**
-    @brief find list elements with current value
-    @detailed has code here cause i have troubles with namespaces
-    */
-    StackStruct *find(int value) {
-        StackStruct *helper = begin;
-        while (helper) {
-            if (helper->value == value)
-                return helper;
-            helper = helper->next;
-        }
-        return helper;
-    }
-
-    /**
-    @brief for chenking list for this value
+    @brief case it has another element with entered value
     */
     class ExceptionSame {};
     static void throwExceptionSame() { throw ExceptionSame(); }
-
     /**
-    @brief can we delete it or not?
+    @brief nothing to delete
     */
     class ExceptionNotExists {};
     static void throwExceptionNotExists () { throw ExceptionNotExists(); }

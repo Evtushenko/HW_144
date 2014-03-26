@@ -18,8 +18,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    uniqueList.cpp
+    uniqueList.cpp \
+    simpleList.cpp
 
 HEADERS += \
     uniqueList.h \
-    tests.h
+    tests.h \
+    simpleList.h

@@ -44,12 +44,12 @@ int main() {
         if ( c == add1) {
             cout << "enter value\n";
             cin >> buffer;
-            bubble->push(buffer);
+            bubble->pushUser(buffer);
         }
         if ( c == pop1) {
             cout << "enter value\n";
             cin >> buffer;
-            bubble->remove(buffer);
+            bubble->removeUser(buffer);
         }
         if (c == show1) {
             bubble->print();

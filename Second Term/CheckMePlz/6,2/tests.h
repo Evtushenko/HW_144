@@ -21,14 +21,14 @@ private:
 private slots:
     void testAddOne() {
         test = new UniqueList;
-        test->push(testNumber);
+        test->pushUser(testNumber);
         QVERIFY(test->begin-> value == testNumber);
         delete test;
     }
     void testAddHard() {
         test = new UniqueList;
         for (int i = 0; i < testAmount; i++) {
-            test->push(testNumber + i);
+            test->pushUser(testNumber + i);
         }
         int counter = 0;
         while (test->begin) {
@@ -40,44 +40,44 @@ private slots:
     }
     void testUniqueAdd() {
         test = new UniqueList;
-        test->push(testNumber);
-        test->push(testNumber);
-        QVERIFY(test->begin-> value == testNumber);
+        test->pushUser(testNumber);
+        test->pushUser(testNumber);
+        QVERIFY(test->begin->value == testNumber);
         QVERIFY(test->begin->next == NULL);
         delete test;
     }
-    void testRemove() {
+    void testremoveUser() {
         test = new UniqueList;
-        test->push(testNumber + 1);
-        test->push(testNumber + 2);
-        test->push(testNumber + 3);
+        test->pushUser(testNumber + 1);
+        test->pushUser(testNumber + 2);
+        test->pushUser(testNumber + 3);
 
-        test->remove(testNumber + 2);
+        test->removeUser(testNumber + 2);
         QVERIFY(test->begin->value == testNumber + 1);
         QVERIFY(test->begin->next->value == testNumber + 3);
 
-        test->remove(testNumber + 3);
+        test->removeUser(testNumber + 3);
         QVERIFY(test->begin->value == testNumber + 1);
 
-        test->remove(testNumber + 1);
+        test->removeUser(testNumber + 1);
         QVERIFY(test->begin == NULL);
         delete test;
     }
-    void testRemoveHard() {
+    void testremoveUserHard() {
         test = new UniqueList;
         for (int i = 0; i < testAmount; i++) {
-            test->push(testNumber + i);
+            test->pushUser(testNumber + i);
         }
         for (int i = testAmount - 1; i >= 0; i--)
-            test->remove(testNumber + i);
+            test->removeUser(testNumber + i);
         QVERIFY(test->begin == NULL);
         delete test;
     }
 
-    void testRemoveException() {
+    void testremoveUserException() {
         test = new UniqueList;
-        test->push(testNumber + 1);
-        test->remove(testNumber + 2);
+        test->pushUser(testNumber + 1);
+        test->removeUser(testNumber + 2);
         QVERIFY(test->begin->value == testNumber + 1);
         delete test;
     }
