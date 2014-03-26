@@ -15,24 +15,27 @@ private:
     int const testNumber = 1;
     Plenty<int, testingAmount> *test;
 private slots:
-    void testEndAddingOne() {
+    void init() {
         test = new Plenty<int, testingAmount>;
-        test->addEnd(testNumber);
-        QVERIFY(test->arrayElements[0]->value == testNumber);
+    }
+    void cleanup() {
         delete test;
     }
+
+    void testEndAddingOne() {
+        test->addEnd(testNumber);
+        QVERIFY(test->arrayElements[0]->value == testNumber);
+
+    }
     void testEndAddingThree() {
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
         QVERIFY(test->arrayElements[0]->value == testNumber);
         QVERIFY(test->arrayElements[0]->next->value == testNumber + 1);
         QVERIFY(test->arrayElements[0]->next->next->value == testNumber + 2);
-        delete test;
     }
     void testEndAddingMulti() {
-        test = new Plenty<int, testingAmount>;
         test->currentPositionArray = 0;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
@@ -59,21 +62,16 @@ private slots:
         QVERIFY(test->arrayElements[2]->value == testNumber);
         QVERIFY(test->arrayElements[2]->next->value == testNumber + 1);
         QVERIFY(test->arrayElements[2]->next->next->value == testNumber + 2);
-
-        delete test;
     }
     void testSearchAlongListOne() {
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
         QVERIFY(test->findElements(testNumber + 1)->value == testNumber + 1);
         QVERIFY(test->findElements(testNumber + 3) == NULL);
-        delete test;
     }
 
     void testSearchAlongListThree() {
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
@@ -81,22 +79,18 @@ private slots:
         QVERIFY(test->findElements(testNumber + 1)->value == testNumber + 1);
         QVERIFY(test->findElements(testNumber + 2)->value == testNumber + 2);
         QVERIFY(test->findElements(testNumber + 3) == NULL);
-        delete test;
     }
 
     void testRemoveOne() {
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
         test->deleteE(test->findElements(testNumber + 1));
         QVERIFY(test->arrayElements[0]->value == testNumber);
         QVERIFY(test->arrayElements[0]->next->value == testNumber + 2);
-        delete test;
     }
 
     void testRemoveThree(){
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
@@ -109,11 +103,9 @@ private slots:
 
         test->deleteE(test->findElements(testNumber + 2));
         QVERIFY(test->arrayElements[0] == NULL);
-        delete test;
     }
 
     void testIntegrateSimple() {
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
 
         test->currentPositionArray = 2;
@@ -123,12 +115,9 @@ private slots:
 
         QVERIFY(test->arrayElements[testingAmount - 1]->value == testNumber);
         QVERIFY(test->arrayElements[testingAmount - 1]->next->value == testNumber + 3);
-        delete test;
     }
 
     void testCrossSimple() {
-
-        test = new Plenty<int, testingAmount>;
         test->addEnd(testNumber);
         test->addEnd(testNumber + 1);
         test->addEnd(testNumber + 2);
@@ -141,8 +130,6 @@ private slots:
         test->cross();
 
         QVERIFY(test->arrayElements[testingAmount - 1]->value == testNumber + 1);
-        delete test;
-
     }
 
 };
