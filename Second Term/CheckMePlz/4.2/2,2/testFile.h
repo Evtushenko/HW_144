@@ -12,8 +12,13 @@ public:
 private:
     File *test;
 private slots:
+    void init() {
+         test = new File;
+    }
+    void cleanup(){
+         delete test;
+    }
     void testCorrectReading() {
-        test = new File;
         test->readFromFile();
         int numbersFromFile[ ] = {1, 2, 3,
                                  4, 5, 6,
@@ -22,11 +27,9 @@ private slots:
         for (int i = 0; i < amountElements * amountElements; i++)
             QCOMPARE(arrayMatrix[i], numbersFromFile[i]);
         delete[] arrayMatrix;
-        delete test;
     }
 
     void testCorrectSpiralOrder(){
-        test = new File;
         test->readFromFile();
         test->spiralOrder();
         int numbersSpiralOrder[ ] = {5, 4, 1, 2, 3, 6, 9, 8, 7};
@@ -37,7 +40,6 @@ private slots:
     }
 
     void testCorrectWriteFile() {
-        test = new File;
         test->readFromFile();
         test->spiralOrder();
 
@@ -60,6 +62,5 @@ private slots:
             QCOMPARE(inputArray[i], arraySpiralOrder[i]);
         delete[] arraySpiralOrder;
         delete[] inputArray;
-        delete test;
     }
 };

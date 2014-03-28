@@ -12,8 +12,13 @@ public:
 private:
     Console *test;
 private slots:
+    void init() {
+         test = new Console;
+    }
+    void cleanup(){
+         delete test;
+    }
     void testCorrectReading() {
-        test = new Console;
         test->readFromFile();
         int numbersFromFile[ ] = {1, 2, 3,
                                  4, 5, 6,
@@ -22,11 +27,9 @@ private slots:
         for (int i = 0; i < amountElements * amountElements; i++)
             QCOMPARE(arrayMatrix[i], numbersFromFile[i]);
         delete[] arrayMatrix;
-        delete test;
     }
 
     void testCorrectSpiralOrder(){
-        test = new Console;
         test->readFromFile();
         test->spiralOrder();
         int numbersSpiralOrder[ ] = {5, 4, 1, 2, 3, 6, 9, 8, 7};
@@ -34,6 +37,5 @@ private slots:
         for (int i = 0; i < amountElements * amountElements; i++)
             QCOMPARE(arraySpiralOrder[i], numbersSpiralOrder[i]);
         delete[] arraySpiralOrder;
-        delete test;
     }
 };

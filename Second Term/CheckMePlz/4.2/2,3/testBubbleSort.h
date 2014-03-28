@@ -13,6 +13,12 @@ private:
     BubbleSort *test;
 private slots:
 
+    void init() {
+        test = new BubbleSort;
+    }
+    void cleanup(){
+        delete test;
+    }
     void testCorrectCompareStruct() {
         ListColumns *one = new ListColumns;
         ListColumns *two = new ListColumns;
@@ -26,7 +32,6 @@ private slots:
     }
 
     void testCorrectReading(){
-        test = new BubbleSort;
         test->readFile();
         int *columns[lengthString];
         int one[] = {9, 4, 1, 3, 6};
@@ -42,11 +47,9 @@ private slots:
         for (int j = 0 ; j < lengthString; j++)
             for (int i = 0; i < lengthString; i++)
                 QCOMPARE(test->arrayColumns[j]->elementsOfColumn[i],columns[j][i]);
-        delete test;
     }
 
     void testCorrectSorting() {
-        test = new BubbleSort;
         test->readFile();
         test->sorting();
         int *columns[lengthString];
@@ -63,7 +66,6 @@ private slots:
         for (int j = 0 ; j < lengthString; j++)
             for (int i = 0; i < lengthString; i++)
                 QCOMPARE(test->arrayColumns[j]->elementsOfColumn[i],columns[j][i]);
-        delete test;
     }
 
     void testCorrectSwap(){
