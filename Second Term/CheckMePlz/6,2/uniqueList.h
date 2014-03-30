@@ -24,12 +24,10 @@ private:
     @brief case it has another element with entered value
     */
     class ExceptionSame {};
-    static void throwExceptionSame() { throw ExceptionSame(); }
     /**
     @brief nothing to delete
     */
     class ExceptionNotExists {};
-    static void throwExceptionNotExists () { throw ExceptionNotExists(); }
 };
 
 

@@ -5,7 +5,7 @@ using namespace std;
 void UniqueList::pushUser(int number){
     try {
         if (find(number))
-            throwExceptionSame();
+           throw ExceptionSame();
        } catch (ExceptionSame &) {
            cout << "caught ExceptionSame:\nit already has this one\n";
            return;
@@ -17,7 +17,7 @@ void UniqueList::pushUser(int number){
 void UniqueList::removeUser(int number) {
     try {
         if (!find(number))
-            throwExceptionNotExists();
+            throw ExceptionNotExists();
        } catch (ExceptionNotExists &) {
            cout << "caught ExceptionNotExists:\nthis one Not Exists\n";
            return;
