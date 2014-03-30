@@ -4,7 +4,9 @@
 #include "sharedPoint.h"
 
 int const testNumber = 1;
-
+/**
+@brief tests copy, assign, delete
+*/
 class SharedPointerTest: public QObject
 {
     Q_OBJECT
@@ -31,10 +33,14 @@ private slots:
             QVERIFY(tmp.pointStorage->amount == 2);
             QVERIFY(test->pointStorage->amount == 2);
         }
-        void cleanup() {
-            //SharedPoint<int> tmp(*test);
-            //int amount = tmp.pointStorage->amount;
+        void testCorrectDelete() {
+            SharedPoint<int> tmp(*test);
+            int amount = tmp.pointStorage->amount;
             delete test;
-            //QVERIFY(tmp.pointStorage->amount == amount - 1);
+            QVERIFY(tmp.pointStorage->amount == amount - 1);
+        }
+
+        void cleanup() {
+            delete test;
         }
 };
