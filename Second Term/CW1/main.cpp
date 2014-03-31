@@ -1,7 +1,7 @@
 #include <QCoreApplication>
-#include <iostream>
-#include <cstdlib>
 #include "queueTest.h"
+
+// don't forget to make NULL all pointers then you delete something!!!!!!!!!!!
 
 int main() {
     QueueTest test1;

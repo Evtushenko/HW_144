@@ -14,8 +14,14 @@ template <typename T>
 class Queue {
 friend class QueueTest;
 public:
-    Queue(): beginQueue(NULL) {}
+    Queue(): error(false), beginQueue(NULL) {}
     ~Queue(){
+        while (beginQueue) {
+            Elements *slot = beginQueue;
+            if (beginQueue)
+            beginQueue = beginQueue->next;
+            delete slot;
+        }
     }
     /**
     @brief add in queque considering priory
@@ -26,15 +32,12 @@ public:
     */
     T dequeue();
 private:
+    bool error;
     class ExceptionWaste {};
     /**
     @brief for storing elements and modeling queue
     */
-    struct Elements{
-        Elements(): value(0),priory(0), next(NULL) {}
-        ~Elements() {
-            delete next;
-        }
+    struct Elements {
         T value;
         int priory;
         Elements *next;
@@ -91,10 +94,19 @@ void Queue<T>::enqueue(T value, int priory) {
 
 template <typename T>
 T Queue<T>::dequeue() {
+    try {
+            if (!beginQueue)
+                throw ExceptionWaste();
+           } catch (ExceptionWaste &) {
+               cout << "caught ExceptionWaste:\nnothing to delete\n";
+               error = true;
+               return -1;
+           }
     T value;
     Elements *start = beginQueue;
     if (!start->next) {
         value = start->value;
+        beginQueue = NULL;
         delete start;
         return value;
     }
@@ -106,9 +118,10 @@ T Queue<T>::dequeue() {
             break;
     }
     value = start->value;
-    delete start;
     if (prev)
         prev->next = NULL;
+    delete start;
     return value;
+
 
 }

@@ -50,9 +50,11 @@ private slots:
         QVERIFY(test->dequeue() == 1);
     }
     void correctBugFinder() {
+        test->dequeue();
+        QVERIFY(test->error);
     }
 
     void cleanup() {
-        //delete test;
+        delete test;
     }
 };
