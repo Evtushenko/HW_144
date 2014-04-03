@@ -1,7 +1,9 @@
 //#pragma one
 #include <cstdlib>
 #include <iostream>
-#include "SimpleList.h"
+#include "simpleList.h"
+#include "exceptionSame.h"
+#include "exceptionNotExists.h"
 
 
 class TestUniqueList;
@@ -14,20 +16,11 @@ public:
     /**
     @brief takes code from mother. And checking for exception
     */
-    void pushUser(int number);
+    void pushUser(int number) throw (ExceptionSame);
     /**
     @brief takes code from mother. And checking for exception
     */
-    void removeUser(int number);
-private:
-    /**
-    @brief case it has another element with entered value
-    */
-    class ExceptionSame {};
-    /**
-    @brief nothing to delete
-    */
-    class ExceptionNotExists {};
+    void removeUser(int number) throw(ExceptionNotExists);
 };
 
 

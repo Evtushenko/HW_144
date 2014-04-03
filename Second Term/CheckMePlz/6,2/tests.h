@@ -19,35 +19,31 @@ private:
     UniqueList *test;
 
 private slots:
-    void testAddOne() {
+    void init() {
         test = new UniqueList;
-        test->pushUser(testNumber);
-        QVERIFY(test->begin-> value == testNumber);
+    }
+    void cleanup() {
         delete test;
     }
+
+    void testAddOne() {
+        test->pushUser(testNumber);
+        QVERIFY(test->begin-> value == testNumber);
+    }
     void testAddHard() {
-        test = new UniqueList;
         for (int i = 0; i < testAmount; i++) {
             test->pushUser(testNumber + i);
         }
         int counter = 0;
         while (test->begin) {
             QVERIFY(test->begin-> value == testNumber + counter);
+            test->end = test->begin;
             test->begin = test->begin->next;
+            delete test->end;
             counter++;
         }
-        delete test;
     }
-    void testUniqueAdd() {
-        test = new UniqueList;
-        test->pushUser(testNumber);
-        test->pushUser(testNumber);
-        QVERIFY(test->begin->value == testNumber);
-        QVERIFY(test->begin->next == NULL);
-        delete test;
-    }
-    void testremoveUser() {
-        test = new UniqueList;
+    void testRemoveUser() {
         test->pushUser(testNumber + 1);
         test->pushUser(testNumber + 2);
         test->pushUser(testNumber + 3);
@@ -61,24 +57,36 @@ private slots:
 
         test->removeUser(testNumber + 1);
         QVERIFY(test->begin == NULL);
-        delete test;
     }
     void testremoveUserHard() {
-        test = new UniqueList;
         for (int i = 0; i < testAmount; i++) {
             test->pushUser(testNumber + i);
         }
         for (int i = testAmount - 1; i >= 0; i--)
             test->removeUser(testNumber + i);
         QVERIFY(test->begin == NULL);
-        delete test;
     }
 
     void testremoveUserException() {
-        test = new UniqueList;
+        bool ok = false;
         test->pushUser(testNumber + 1);
-        test->removeUser(testNumber + 2);
-        QVERIFY(test->begin->value == testNumber + 1);
-        delete test;
+        try {
+            test->removeUser(testNumber + 2);
+        }
+        catch(ExceptionNotExists) {
+            ok = true;
+            QVERIFY(ok);
+        }
+    }
+    void testUniqueAdd() {
+        bool ok = false;
+        test->pushUser(testNumber);
+        try {
+            test->pushUser(testNumber);
+        }
+        catch(ExceptionSame) {
+            ok = true;
+            QVERIFY(ok);
+        }
     }
 };

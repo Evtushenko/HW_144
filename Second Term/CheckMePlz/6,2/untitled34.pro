@@ -24,4 +24,6 @@ SOURCES += main.cpp \
 HEADERS += \
     uniqueList.h \
     tests.h \
-    simpleList.h
+    simpleList.h \
+    exceptionSame.h \
+    exceptionNotExists.h

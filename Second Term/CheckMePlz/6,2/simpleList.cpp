@@ -2,7 +2,7 @@
 
 using namespace std;
 
-SimpleList ::~SimpleList (){
+SimpleList ::~SimpleList () {
     while (begin) {
         StackStruct* newS = begin;
         begin = begin->next;
