@@ -1,7 +1,10 @@
-﻿// List length
+// 3.5
+printfn "%A" "para obtener ardilla"
+
+// List length
 let rec listLength list =
     match list with
     | [] -> 0
     | length:: tlist ->1 + listLength tlist
 
-//printfn "%A" (listLength [1; 2; 3])
+printfn "%A" (listLength [1; 2; 3; 4; 5])
