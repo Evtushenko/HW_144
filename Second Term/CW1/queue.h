@@ -1,5 +1,6 @@
 #pragma once
-#include "iostream"
+#include <iostream>
+#include "exceptionEmpty.h"
 using namespace std;
 
 /**
@@ -30,7 +31,7 @@ public:
     /**
     @brief pop with max priory
     */
-    T dequeue();
+    T dequeue() throw(ExceptionEmpty);
 private:
     bool error;
     class ExceptionWaste {};
@@ -47,6 +48,7 @@ private:
 
 template <typename T>
 void Queue<T>::enqueue(T value, int priory) {
+    //cout << "adding: " << value << " " << priory << endl;
     Elements *slot = new Elements();
     slot->value = value;
     slot->priory = priory;
@@ -58,7 +60,7 @@ void Queue<T>::enqueue(T value, int priory) {
         Elements *next = beginQueue;
         Elements *previous = NULL;
         while (next) {
-            if (next->priory >=priory )
+            if (next->priory <= priory )
                 break;
             next = next->next;
         }
@@ -93,35 +95,15 @@ void Queue<T>::enqueue(T value, int priory) {
 }
 
 template <typename T>
-T Queue<T>::dequeue() {
-    try {
-            if (!beginQueue)
-                throw ExceptionWaste();
-           } catch (ExceptionWaste &) {
-               cout << "caught ExceptionWaste:\nnothing to delete\n";
-               error = true;
-               return -1;
-           }
-    T value;
-    Elements *start = beginQueue;
-    if (!start->next) {
-        value = start->value;
-        beginQueue = NULL;
-        delete start;
-        return value;
-    }
-    Elements *prev = NULL;
-    while(start->next) {
-        prev = start;
-        start = start->next;
-        if (!start->next)
-            break;
-    }
-    value = start->value;
-    if (prev)
-        prev->next = NULL;
-    delete start;
-    return value;
-
-
+T Queue<T>::dequeue() throw(ExceptionEmpty) {
+   if (!beginQueue)
+      throw ExceptionEmpty("nothing to delete\n");
+   else
+   {
+       Elements *slot = beginQueue;
+       beginQueue = beginQueue->next;
+       T value = slot->value;
+       delete slot;
+       return value;
+   }
 }

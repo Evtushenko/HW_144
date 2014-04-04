@@ -21,4 +21,5 @@ SOURCES += main.cpp
 
 HEADERS += \
     queue.h \
-    queueTest.h
+    queueTest.h \
+    exceptionEmpty.h
