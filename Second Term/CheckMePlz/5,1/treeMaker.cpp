@@ -4,13 +4,7 @@ using namespace  std;
 
 enum SymbolKinds {digit, function, open, close};
 
-TreeMaker::TreeMaker()
-{
-    inPutString = NULL;
-    currentPoint = NULL;
-    root = NULL;
-    currentPoint = NULL;
-}
+TreeMaker::TreeMaker() : inPutString(NULL), currentPoint(NULL), root(NULL) {}
 
 TreeMaker::~TreeMaker()
 {

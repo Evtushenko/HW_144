@@ -14,6 +14,12 @@ bool Tree::isDigit(int a){
     return a >= 0 && a <= 9;
 }
 
+bool Tree::letCalc() {
+    bool result = true;
+    if (left && isDigit(left->value) && right && isDigit(right->value))
+    return result;
+}
+
  void Tree::calculate() {
      if (left && isDigit(left->value) && right && isDigit(right->value)) {
          int result = 0;
@@ -31,7 +37,7 @@ bool Tree::isDigit(int a){
              result = int(left->value) * int(right->value);
              break;
 
-         case '\\':
+         case '//':
              result = int(left->value) / int(right->value);
              break;
          }

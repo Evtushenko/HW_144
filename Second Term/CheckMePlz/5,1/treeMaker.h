@@ -8,12 +8,14 @@
 int const maxlength = 50;
 char const zero = '0';
 
+class TestTreeMaker;
+
 /**
 @brief class for user working with Tree class
 */
 
-class TreeMaker
-{
+class TreeMaker {
+friend class TestTreeMaker;
 public:
     TreeMaker();
     ~TreeMaker();
@@ -30,14 +32,12 @@ public:
     @brief calculate expression using Calc Tree
     */
     int getResult();
-
-    // in public because test cant use it if it's private or protected
+private:
     char *inPutString;
     Tree *root;
     Tree *currentPoint;
     void addLeft(int value);
     void addRight(int value);
-private:
     /**
     @brief printing like exapmle scription
     */

@@ -14,19 +14,27 @@ public:
 private:
     TreeMaker *test;
 private slots:
-    void testReadingFile() {
+    void init() {
         test = new TreeMaker;
+    }
+    void cleanup() {
+        delete test;
+    }
+
+
+    /**
+    @brief testing correct file reading
+    */
+    /*
+    void testReadingFile() {
         char nameFile[] = "test.txt";
         test->readFile(nameFile);
         char waitingText[]="(*(+11)2)";
         QCOMPARE(waitingText, test->inPutString);
-        delete test;
-
     }
+    */
 
     void correctBuildTree() {
-
-        test = new TreeMaker;
         char textInput[] = "(*(+11)2)";
         test->inPutString = textInput;
         test->buildTree();
@@ -35,21 +43,28 @@ private slots:
         QVERIFY(test->root->right->value == 2);
         QVERIFY(test->root->left->left->value == 1);
         QVERIFY(test->root->left->right->value == 1);
-        delete test;
     }
     void correctCalculating() {
-
-        test = new TreeMaker;
         test->root = new Tree;
         test->currentPoint = test->root;
         test->root->value = '*';
         test->addLeft('+');
+        test->addRight('+');
+        test->currentPoint = test->currentPoint->left;
+        test->addLeft(2);
         test->addRight(2);
+        test->currentPoint = test->currentPoint->parent;
+        test->currentPoint = test->currentPoint->right;
+        test->addLeft('*');
+        test->addRight('*');
         test->currentPoint = test->currentPoint->left;
         test->addLeft(1);
-        test->addRight(1);
-        QVERIFY(test->getResult() == 4);
-        delete test;
+        test->addRight(3);
+        test->currentPoint = test->currentPoint->parent;
+        test->currentPoint = test->currentPoint->right;
+        test->addLeft(2);
+        test->addRight(2);
+        QVERIFY(test->getResult() == 28);
     }
 
 };

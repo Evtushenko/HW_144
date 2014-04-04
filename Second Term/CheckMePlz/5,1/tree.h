@@ -2,12 +2,18 @@
 #define TREE_H
 #include <iostream>
 
+class TreeMaker;
+class TestTreeMaker;
+class TestTree;
+
 /**
 @brief class for Tree element(leaf)
 */
-class Tree
-{
-public:
+class Tree {
+friend class TreeMaker;
+friend class TestTreeMaker;
+friend class TestTree;
+private:
     Tree();
     Tree *left;
     Tree *right;
@@ -26,8 +32,8 @@ public:
     children will be deleted, result will be a new value of current element
     */
     void calculate();
-private:
-     bool isDigit(int a);
+    bool isDigit(int a);
+    bool letCalc();
 };
 
 #endif // TREE_H
