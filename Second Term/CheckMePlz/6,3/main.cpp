@@ -1,13 +1,10 @@
-#include <QCoreApplication>
-#include <iostream>
-#include <cstdlib>
-#include "sharedPointerTest.h"
+#include "testSharedPointer.h"
 
 using namespace std;
 
-int main()
-{
+int main() {
     SharedPointerTest test;
     QTest::qExec(&test);
-   return 0;
+
+    return 0;
 }

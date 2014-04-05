@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-03-30T11:50:17
+# Project created by QtCreator 2014-04-04T22:19:31
 #
 #-------------------------------------------------
 
@@ -10,9 +10,10 @@ QT       -= gui
 
 QT       += testlib
 
-TARGET = untitled51
+TARGET = untitled37
 CONFIG   += console
 CONFIG   -= app_bundle
+CONFIG   += c++11
 
 TEMPLATE = app
 
@@ -20,5 +21,5 @@ TEMPLATE = app
 SOURCES += main.cpp
 
 HEADERS += \
-    sharedPoint.h \
-    sharedPointerTest.h
+    sharedPointer.h \
+    testSharedPointer.h
