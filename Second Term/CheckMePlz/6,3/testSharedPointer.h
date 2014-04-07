@@ -23,26 +23,27 @@ private slots:
     void creationWithPointer() {
         test = new SharedPointer<int>(new int(testNumber));
         QVERIFY(*(test->amount) == 1);
+        QVERIFY(*(test->pointer) == testNumber);
         delete test;
     }
     void creationCopy() {
-        SharedPointer<int> one(new int(testNumber));
-        SharedPointer<int> * slot = new SharedPointer<int>(one);
-        QVERIFY(*(slot->amount) == 2);
-        QVERIFY(*(one.amount) == 2);
-        delete slot;
+        test = new SharedPointer<int>(new int(testNumber));
+        SharedPointer<int> one(*test);
+        QCOMPARE(*test->amount, *one.amount);
+        QCOMPARE(*test->pointer, *one.pointer);
+        QVERIFY(*one.amount == 2);
+        QVERIFY(*one.pointer == testNumber);
+        delete test;
     }
     void deleting() {
-
         test = new SharedPointer<int>(new int(testNumber));
-        SharedPointer<int> * slot = new SharedPointer<int>(*test);
-        int slotAmount = *(slot->amount);
+        SharedPointer<int> slot(*test);
+        int slotAmount = *(slot.amount);
         delete test;
-        QVERIFY(*(slot->amount) == slotAmount - 1);
-        delete slot;
+        QVERIFY(*(slot.amount) == slotAmount - 1);
     }
     void testAssign() {
-        test = new SharedPointer<int>(new int(testNumber));
+        test = new SharedPointer<int>(new int(testNumber+2));
         SharedPointer<int> one(new int(testNumber));
         *test = one;
         QCOMPARE(test->pointer, one.pointer);

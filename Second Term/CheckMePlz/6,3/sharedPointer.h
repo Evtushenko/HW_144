@@ -40,7 +40,7 @@ SharedPointer<T>:: ~SharedPointer() {
 
 template<typename T>
 SharedPointer<T> &SharedPointer<T>:: operator =(SharedPointer const &inputSP) {
-    if ( (pointer != inputSP.pointer) && (amount != inputSP.amount) ) {
+    if ( (*(pointer) != *(inputSP.pointer)) && (amount != inputSP.amount) ) {
         --(*amount);
         if (!*amount) {
             delete pointer;
