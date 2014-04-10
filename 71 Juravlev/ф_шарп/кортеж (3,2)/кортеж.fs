@@ -1,5 +1,4 @@
 // 3.2
-printfn "%A" "para obtener ardilla"
 
 let sqr =
     let rec sqrfun elem num =
