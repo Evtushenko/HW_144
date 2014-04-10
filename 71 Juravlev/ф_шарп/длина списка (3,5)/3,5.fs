@@ -1,6 +1,4 @@
 // 3.5
-printfn "%A" "para obtener ardilla"
-
 // List length
 let rec listLength list =
     match list with
