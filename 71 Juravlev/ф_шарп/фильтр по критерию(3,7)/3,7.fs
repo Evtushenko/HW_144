@@ -1,5 +1,4 @@
 // 3.7
-printfn "%A" "para obtener ardilla"
 
 let rec filter con list =
     match list with
