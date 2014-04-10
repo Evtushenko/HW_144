@@ -1,9 +1,10 @@
 // 3.7
 
-let rec filter con list =
+let rec filter list =
     match list with
-    | [] -> []
-    | hd::tl -> if (con hd) then hd::(filter con tl) else (filter con tl)
+    |head::tail -> if (head < 4) then [head] @ filter(tail) else filter(tail)
+    |[] -> []
 
-let list = [-2;-1;0;1;2] in
-    printf "Filter: %A\n" (filter (fun x -> x > 0) list)
+let example = filter[10; 5; 1; 2; 345; 1]
+
+printfn "%A" example
