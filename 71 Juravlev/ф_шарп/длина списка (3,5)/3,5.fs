@@ -1,8 +1,12 @@
 // 3.5
 // List length
-let rec listLength list =
-    match list with
-    | [] -> 0
-    | length:: tlist ->1 + listLength tlist
+let len list =
+    let rec loop list acc =
+        match list with
+        |[] -> acc
+        |head::tail -> loop tail (acc + 1)
+    loop list 0
 
-printfn "%A" (listLength [1; 2; 3; 4; 5])
+let str = len [1..1000000]
+
+printfn "%A" str
