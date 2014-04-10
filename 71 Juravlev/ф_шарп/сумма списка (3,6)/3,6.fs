@@ -1,9 +1,13 @@
 // 3.6
 
 // List elements sum
-let rec listSum l = 
-    match l with
-    | [] -> 0
-    | hd :: tl -> hd + listSum tl
+let sum list =
+    let rec loop list acc=
+        match list with
+        |[] -> acc
+        |head::tail -> loop tail (acc + head)
+    loop list 0
 
-printfn "%A" (listSum [1; 2; 3])
+let sp = sum [1..10000]
+
+printfn "%A" sp
