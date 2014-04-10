@@ -1,5 +1,4 @@
-// Эйлер 20
-printfn "%A" "para obtener ardilla"
+// пїЅпїЅпїЅпїЅпїЅ 20
 
 let rec sum n = 
     if n < 10I then n
