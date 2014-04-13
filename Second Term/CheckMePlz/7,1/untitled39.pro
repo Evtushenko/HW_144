@@ -19,9 +19,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    bug.cpp
+    bag.cpp
 
 HEADERS += \
-    bug.h \
-    testBugKeeper.h \
-    bugKeeper.h \
+    tree.h \
+    bag.h \
+    bagKeeper.h \
+    testBagKeeper.h

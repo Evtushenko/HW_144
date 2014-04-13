@@ -1,12 +1,10 @@
-#include "testBugKeeper.h"
+#include "testBagKeeper.h"
 
 using namespace std;
 
-//добавить чистку памяти
 //написать ГРАМОТНЫЕ комментарии
-// вынести класс Node отедльно
 
 int main() {
-    BugKeeperTest test;
+    BagKeeperTest test;
     QTest::qExec(&test);
 }

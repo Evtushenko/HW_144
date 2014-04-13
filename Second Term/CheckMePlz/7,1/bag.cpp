@@ -1,29 +1,30 @@
-#include "bug.h"
+#include "Bag.h"
 #include <iostream>
 
 using namespace std;
 
-Bug::~Bug() {
+Bag::~Bag() {
     delete name;
 }
-bool operator < ( const Bug  &a, const Bug &b) {
+bool operator < ( const Bag  &a, const Bag &b) {
     int l1 = strlen(a.name);
     int l2 = strlen(b.name);
     return l1 < l2;
 }
 
-bool operator > ( const Bug  &a, const Bug &b) {
+bool operator > ( const Bag  &a, const Bag &b) {
     int l1 = strlen(a.name);
     int l2 = strlen(b.name);
     return l1 > l2;
 }
 
-bool operator == (const Bug &a, const Bug &b) {
+bool operator == (const Bag &a, const Bag &b) {
     char *f = a.name;
     char *g = b.name;
+    int length = strlen(f);
     if (strlen(f) != strlen(g))
         return false;
-    for (int i = 0 ; i < strlen(f); i++)
+    for (int i = 0 ; i < length; i++)
         if (f[i] != g[i])
             return false;
     //cout << f << endl;
@@ -31,6 +32,6 @@ bool operator == (const Bug &a, const Bug &b) {
     return true;
 }
 
-char *Bug::text() {
+char *Bag::text() {
     return name;
 }
