@@ -1,8 +1,8 @@
 #pragma once
 #include <QtTest/QTest>
 #include <QtCore/QObject>
-#include "BagKeeper.h"
-#include "Bag.h"
+#include "bagKeeper.h"
+#include "bag.h"
 #include <iostream>
 int const testNumber = 10;
 

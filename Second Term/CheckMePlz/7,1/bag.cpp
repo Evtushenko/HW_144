@@ -1,4 +1,4 @@
-#include "Bag.h"
+#include "bag.h"
 #include <iostream>
 
 using namespace std;
