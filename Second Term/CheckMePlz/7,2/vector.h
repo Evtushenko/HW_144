@@ -17,7 +17,7 @@ public:
     MyVector(): dimension(0), arrayVector(nullptr) {}
     ~MyVector();
     MyVector(MyVector & inputVector);
-    MyVector(T *inputArray, int inputDimension): dimension(inputDimension), arrayVector(inputArray){}
+    MyVector(T *inputArray, int inputDimension);
 
     /**
     @brief sum values of dimensions of vectors
@@ -57,7 +57,7 @@ bool MyVector<T>::isZero() {
 
 template <typename T>
 MyVector<T>::~MyVector() {
-    if (arrayVector)
+    //if (arrayVector)
         delete[] arrayVector;
 }
 
@@ -71,13 +71,21 @@ MyVector<T>::MyVector(MyVector & inputVector): dimension(inputVector.dimension) 
     arrayVector = slot;
 }
 
+template <typename T>
+MyVector<T>::MyVector(T *inputArray, int inputDimension): dimension(inputDimension) {
+    T *slot = new T[inputDimension];
+    for (int i = 0; i < inputDimension; i++)
+        slot[i] = inputArray[i];
+    arrayVector = slot;
+}
+
 template <class U>
 MyVector<U> &operator+=(MyVector<U> &left, MyVector<U> &right) throw (ExceptionZero, ExceptionDimension) {
     if (right.isZero() )
-        throw ExceptionZero("caught ExceptionZero:\nnone of vectors is zero\n");
+        throw ExceptionZero();
 
     if (left.dimension != right.dimension)
-        throw ExceptionDimension("caught ExceptionDimension:\ndifferent dimensions\n");
+        throw ExceptionDimension();
 
     for (int i = 0; i < left.dimension; i++) {
         left.arrayVector[i] = left.arrayVector[i] + right.arrayVector[i];
@@ -88,10 +96,10 @@ MyVector<U> &operator+=(MyVector<U> &left, MyVector<U> &right) throw (ExceptionZ
 template <class U>
 MyVector<U>& operator -= (MyVector<U>& left, MyVector<U>& right) throw (ExceptionZero, ExceptionDimension)  {
     if (right.isZero())
-        throw ExceptionZero("caught ExceptionZero:\none of vectors is zero\n");
+        throw ExceptionZero();
 
     if (left.dimension != right.dimension)
-        throw ExceptionDimension("caught ExceptionDimension:\ndifferent dimensions\n");
+        throw ExceptionDimension();
 
     for (int i = 0; i < left.dimension; i++) {
         left.arrayVector[i] = left.arrayVector[i] - right.arrayVector[i];
@@ -102,11 +110,11 @@ MyVector<U>& operator -= (MyVector<U>& left, MyVector<U>& right) throw (Exceptio
 template <class Z>
 Z operator * ( MyVector<Z>  &a, MyVector<Z> &b) throw (ExceptionZero, ExceptionDimension) {
     if (a.isZero())
-               throw ExceptionZero("caught ExceptionZero:\none of vectors is zero\n");
+               throw ExceptionZero();
            if (b.isZero())
-               throw ExceptionZero("caught ExceptionZero:\none of vectors is zero\n");
+               throw ExceptionZero();
            if (a.dimension != b.dimension)
-               throw ExceptionDimension("caught ExceptionDimension:\ndifferent dimensions\n");
+               throw ExceptionDimension();
 
            Z result = 0;
            for (int i = 0 ; i < a.dimension ; i++) {

@@ -70,21 +70,18 @@ private slots:
             b += d;
         }
         catch(ExceptionDimension a) {
-            a.show();
             ok[0] = true;
         }
         try {
             b -= d;
         }
         catch(ExceptionDimension a) {
-            a.show();
             ok[1] = true;
         }
         try {
             b * d;
         }
         catch(ExceptionDimension a) {
-            a.show();
             ok[2] = true;
         }
         QVERIFY(ok[0]);
@@ -105,25 +102,25 @@ private slots:
             b += d;
         }
         catch(ExceptionZero a) {
-            a.show();
             ok[0] = true;
         }
         try {
             b -= d;
         }
         catch(ExceptionZero a) {
-            a.show();
             ok[1] = true;
         }
         try {
             b * d;
         }
         catch(ExceptionZero a) {
-            a.show();
             ok[2] = true;
         }
         QVERIFY(ok[0]);
         QVERIFY(ok[1]);
         QVERIFY(ok[2]);
+    }
+    void cleanup() {
+        delete[] arrayV;
     }
 };
