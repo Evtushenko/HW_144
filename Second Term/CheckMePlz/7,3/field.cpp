@@ -13,11 +13,10 @@ Field::Field(int newSize, QWidget *parent) :
         for (int j = 0; j < size; ++j)
             columns[i].addWidget(&buttons[i][j]);
 
-    QVBoxLayout *field = new QVBoxLayout;
+    QVBoxLayout *field = new QVBoxLayout(this);
     for (int i = 0; i < size; ++i)
         field->addLayout(&columns[i]);
 
-    setLayout(field);
 
     //connects
     QSignalMapper *buttonMapper = new QSignalMapper(this);
@@ -45,12 +44,12 @@ void Field::queue(QWidget *pressedButton) {
     static bool firstTurn = true;
 
     if (firstTurn) {
-        pressedButton->setStyleSheet("background-image: url(X.bmp)");
+        pressedButton->setStyleSheet("background-image: url(:/images/X.bmp)");
         pressedButton->setDisabled(true);
         firstTurn = false;
     }
     else {
-        pressedButton->setStyleSheet("background-image: url(O.bmp)");
+        pressedButton->setStyleSheet("background-image: url(:/images/O.bmp)");
         pressedButton->setDisabled(true);
         firstTurn = true;
     }

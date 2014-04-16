@@ -19,3 +19,6 @@ SOURCES += main.cpp \
 HEADERS  += \
     game.h \
     field.h
+
+RESOURCES += \
+    images.qrc
