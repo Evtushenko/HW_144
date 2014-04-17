@@ -15,10 +15,11 @@ class BagKeeper {
 public:
     BagKeeper():root(nullptr){}
     ~BagKeeper() {
-        root->freeMemory(root);
+        //root->freeMemory(root);
     }
 
     void add(T input) {
+        //cout << input.text() << endl << endl;
         root = root->insert(root,input);
     }
 
@@ -38,3 +39,4 @@ int BagKeeper<T>::find(T input) {
     root->zeroResult();
     return slot;
 }
+

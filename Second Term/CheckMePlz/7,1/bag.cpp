@@ -4,7 +4,7 @@
 using namespace std;
 
 Bag::~Bag() {
-    delete name;
+    delete[] name;
 }
 bool operator < ( const Bag  &a, const Bag &b) {
     int l1 = strlen(a.name);

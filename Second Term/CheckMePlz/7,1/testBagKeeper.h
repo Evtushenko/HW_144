@@ -20,6 +20,7 @@ private slots:
     void init(){
         test = new BagKeeper<Bag>();
     }
+
     void correctComparingBagClass() {
         char one []= "myBag";
         char two []= "BigBag";
@@ -36,8 +37,9 @@ private slots:
         char text1[] = "myBag";
         Bag a(text1);
         test->add(a);
-        QVERIFY(test->root->key->text() == text1);
-
+        int l = strlen(text1);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->key->text()[i],text1[i]);
     }
 
     void addThreeSimple() {
@@ -50,9 +52,15 @@ private slots:
         test->add(a);
         test->add(b);
         test->add(c);
-        QVERIFY(test->root->key->text() == text1);
-        QVERIFY(test->root->left->key->text() == text2);
-        QVERIFY(test->root->right->key->text() == text3);
+        int l = strlen(text1);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->key->text()[i],text1[i]);
+        l = strlen(text2);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->left->key->text()[i],text2[i]);
+        l = strlen(text3);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->right->key->text()[i],text3[i]);
     }
 
     void addThreeBalanced() {
@@ -65,9 +73,15 @@ private slots:
         test->add(a);
         test->add(b);
         test->add(c);
-        QVERIFY(test->root->key->text() == text2);
-        QVERIFY(test->root->left->key->text() == text1);
-        QVERIFY(test->root->right->key->text() == text3);
+        int l = strlen(text2);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->key->text()[i],text2[i]);
+        l = strlen(text1);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->left->key->text()[i],text1[i]);
+        l = strlen(text3);
+        for (int i = 0; i < l; i++)
+            QCOMPARE(test->root->right->key->text()[i],text3[i]);
     }
 
     void addThreeSame() {
@@ -76,9 +90,12 @@ private slots:
         test->add(a);
         test->add(a);
         test->add(a);
-        QVERIFY(test->root->key->text() == text1);
-        QVERIFY(test->root->left->key->text() == text1);
-        QVERIFY(test->root->right->key->text() == text1);
+        int l = strlen(text1);
+        for (int i = 0; i < l; i++) {
+            QCOMPARE(test->root->key->text()[i],text1[i]);
+            QCOMPARE(test->root->left->key->text()[i],text1[i]);
+            QCOMPARE(test->root->right->key->text()[i],text1[i]);
+        }
     }
 
     void deleteOne() {
@@ -145,7 +162,7 @@ private slots:
         Bag b(text2);
         test->add(a);
         test->del(b);
-        QVERIFY(test->root->key->text() == text1);
+        QCOMPARE(test->root->key->text(), text1);
     }
 
 
@@ -178,4 +195,5 @@ private slots:
     void cleanup() {
         delete test;
     }
+
 };

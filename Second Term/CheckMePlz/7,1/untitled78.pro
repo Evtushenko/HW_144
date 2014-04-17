@@ -1,16 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-04-07T23:40:53
+# Project created by QtCreator 2014-04-17T21:28:32
 #
 #-------------------------------------------------
 
 QT       += core
 
 QT       -= gui
-
 QT       += testlib
 
-TARGET = untitled39
+TARGET = untitled78
 CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG   += c++11
@@ -22,7 +21,7 @@ SOURCES += main.cpp \
     bag.cpp
 
 HEADERS += \
-    tree.h \
     bag.h \
     bagKeeper.h \
+    tree.h \
     testBagKeeper.h

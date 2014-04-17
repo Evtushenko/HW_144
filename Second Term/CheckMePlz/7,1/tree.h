@@ -2,6 +2,10 @@
 @brief for storing AVL tree  nodes
 */
 
+#include <iostream>
+
+using namespace std;
+
 template <class T>
 class BagKeeper;
 
@@ -13,8 +17,15 @@ class Node {
     friend class BagKeeperTest;
 private:
         Node(T value): left(nullptr), right(nullptr), height(1), resultSearching(0) {
+            //cout << "hi\n";
+            //cout << value.text() << endl;
             key = new T(value);
+            //cout << key->text() << endl;
         }
+        ~Node() {
+            delete key;
+        }
+
         Node* left;
         Node* right;
         unsigned char height;
@@ -102,8 +113,11 @@ Node<T>* Node<T>::balance(Node* p) {
 
 template <class T>
 Node<T>* Node<T>::insert(Node* p, T k) {
-    if( !p )
+    //cout << k.text() << endl;
+    if( !p ) {
+        //cout << "here\n\n";
         return new Node(k);
+    }
     if( k < *(p->key) )
         p->left = insert(p->left, k);
     else
@@ -124,7 +138,7 @@ Node<T>* Node<T>::freeMemory(Node *root) {
     if (!root)
         return root;
     if (root->left == root->right) {
-        free(root);
+        delete root;
         return nullptr;
     }
     root->left = freeMemory(root->left);
@@ -169,4 +183,3 @@ int Node<T>::searchBinary(Node *node, T input) {
     }
     return resultSearching;
 }
-
