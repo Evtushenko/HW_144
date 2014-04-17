@@ -63,8 +63,6 @@ MyVector<T>::~MyVector() {
 
 template <typename T>
 MyVector<T>::MyVector(MyVector & inputVector): dimension(inputVector.dimension) {
-    if (arrayVector)
-        delete[] arrayVector;
     int *slot = new int[inputVector.dimension];
     for (int i = 0; i < inputVector.dimension; i++)
         slot[i] = inputVector.arrayVector[i];

@@ -119,6 +119,7 @@ private slots:
         QVERIFY(ok[0]);
         QVERIFY(ok[1]);
         QVERIFY(ok[2]);
+        delete[] arrayV2;
     }
     void cleanup() {
         delete[] arrayV;
