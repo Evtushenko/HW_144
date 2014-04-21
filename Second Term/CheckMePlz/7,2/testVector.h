@@ -17,11 +17,15 @@ public:
     explicit TestVector(QObject *parent = 0) : QObject(parent) {}
 private:
     int *arrayV;
+    int *arrayV1;
 private slots:
     void init() {
         arrayV = new int[testNumber];
         for (int i = 0 ; i < testNumber; i++)
             arrayV[i] = i;
+        arrayV1 = new int[testNumber+1];
+        for (int i = 0 ; i < testNumber+1; i++)
+            arrayV1[i] = i;
     }
 
     void correctCreation() {
@@ -65,7 +69,7 @@ private slots:
     void exceptionDimension() {
         bool ok[3] = {false, false, false};
         MyVector<int> b(arrayV, testNumber);
-        MyVector<int> d(arrayV, testNumber+1);
+        MyVector<int> d(arrayV1, testNumber+1);
         try {
             b += d;
         }
@@ -123,5 +127,6 @@ private slots:
     }
     void cleanup() {
         delete[] arrayV;
+        delete[] arrayV1;
     }
 };
