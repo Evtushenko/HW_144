@@ -15,7 +15,7 @@ class BagKeeper {
 public:
     BagKeeper():root(nullptr){}
     ~BagKeeper() {
-        //root->freeMemory(root);
+        root->freeMemory(root);
     }
 
     void add(T input) {
