@@ -3,7 +3,6 @@
 Field::Field(int newSize, QWidget *parent) :
     QDialog(parent),
     size(newSize),
-    //testNumber(0),
     buttons(new QPushButton *[size]) {
     //create field
     createButtons();
@@ -44,12 +43,12 @@ void Field::queue(QWidget *pressedButton) {
     static bool firstTurn = true;
 
     if (firstTurn) {
-        pressedButton->setStyleSheet("background-image: url(:/images/X.bmp)");
+        pressedButton->setStyleSheet("background-color:yellow");
         pressedButton->setDisabled(true);
         firstTurn = false;
     }
     else {
-        pressedButton->setStyleSheet("background-image: url(:/images/O.bmp)");
+        pressedButton->setStyleSheet("background-color:red");
         pressedButton->setDisabled(true);
         firstTurn = true;
     }

@@ -1,6 +1,6 @@
 #include "game.h"
 #include <QLabel>
-#include <iostream>
+#include <QMessageBox>
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
@@ -37,60 +37,54 @@ void Game::doResize(int size)
 
 bool Game::endGame(int i, int j) {
     int size = currentField->size;
-    if ( ( (j < size - 1) && (currentField->buttons[i][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() )
-            && (j > 0) && (currentField->buttons[i][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() ) )
+    QString source(currentField->buttons[i][j].styleSheet());
+    int count[4] = { 0 };
 
-    ||
-     ( (i < size - 1) && (currentField->buttons[i+1][j].styleSheet() == currentField->buttons[i][j].styleSheet() )
-            && (i > 0) && (currentField->buttons[i-1][j].styleSheet() == currentField->buttons[i][j].styleSheet() ) )
+    // горизонтали
+    for (int m = j + 1; m < size; m++)
+        if (currentField->buttons[i][m].styleSheet() == source)
+            count[0]++;
+    for (int m = 0; m < j; m++)
+        if (currentField->buttons[i][m].styleSheet() == source)
+            count[0]++;
 
-    ||
-    ( (j < size -2) && (currentField->buttons[i][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() )
-    && (currentField->buttons[i][j+2].styleSheet() == currentField->buttons[i][j].styleSheet()) )
+    // вертикали
+    for (int m = i + 1; m < size; m++)
+        if (currentField->buttons[m][j].styleSheet() == source)
+            count[1]++;
+    for (int m = 0; m < i; m++)
+        if (currentField->buttons[m][j].styleSheet() == source)
+            count[1]++;
 
-    ||
-    ( (j > 1) && (currentField->buttons[i][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() )
-    && (currentField->buttons[i][j-2].styleSheet() == currentField->buttons[i][j].styleSheet()) )
+    //И- диагональ
+    if (j + i == (size -1)) {
+        for (int m = j + 1; m < size; m++)
+            if (currentField->buttons[i-(m-j)][m].styleSheet() == source)
+                count[2]++;
+        for (int m = 0; m < j; m++)
+            if (currentField->buttons[i-(m-j)][m].styleSheet() == source)
+                count[2]++;
+    }
 
-    ||
-    ( (i < size -2) && (currentField->buttons[i+1][j].styleSheet() == currentField->buttons[i][j].styleSheet() )
-    && (currentField->buttons[i+2][j].styleSheet() == currentField->buttons[i][j].styleSheet()) )
+    // N = диагональ
+    if (i == j) {
+        for (int m = 0; m < j; m++ )
+            if (currentField->buttons[m][m].styleSheet() == source)
+                count[3]++;
+        for (int m = j + 1; m < size; m++)
+            if (currentField->buttons[m][m].styleSheet() == source)
+                count[3]++;
+    }
 
-    ||
-    ( (i > 1) && (currentField->buttons[i-1][j].styleSheet() == currentField->buttons[i][j].styleSheet() )
-    && (currentField->buttons[i-2][j].styleSheet() == currentField->buttons[i][j].styleSheet()) )
+    return count[0] == size -1 || count[1] == size -1 || count[2] == size -1 || count[3] == size -1;
+}
 
-    ||
-    ( ( i < size -1) && ( j > 0) && (j < size -1) && (i > 0) &&
-         currentField->buttons[i+1][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i-1][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() )
-
-    ||
-    ( (i < size -1) && (i > 0) && ( j > 0) && (j < size -1) &&
-         currentField->buttons[i+1][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i-1][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() )
-
-    ||
-    ( (i < size -2) && (j < size -2) &&
-         currentField->buttons[i+1][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i+2][j+2].styleSheet() == currentField->buttons[i][j].styleSheet() )
-
-    ||
-    ( (i > 1) && (j >1) &&
-         currentField->buttons[i-1][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i-2][j-2].styleSheet() == currentField->buttons[i][j].styleSheet() )
-
-    ||
-    ( (i < size -2) && (j >1) &&
-         currentField->buttons[i+1][j-1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i+2][j-2].styleSheet() == currentField->buttons[i][j].styleSheet() )
-
-    ||
-    ( (i > 1) && (j < size -2) &&
-         currentField->buttons[i-1][j+1].styleSheet() == currentField->buttons[i][j].styleSheet() &&
-         currentField->buttons[i-2][j+2].styleSheet() == currentField->buttons[i][j].styleSheet() ) )
-        return true;
-    return false;
+void Game::showMsgs(const QString &name, const QString &txt) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(name);
+    msgBox.setText(txt);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
 
 void Game::findButton(QWidget *sender) {
@@ -99,17 +93,15 @@ void Game::findButton(QWidget *sender) {
     bool victory = false;
     for (int i = 0; i < currentField->size; ++i)
         for (int j = 0; j < currentField->size; ++j) {
-            // i = столб j= строка 
+            // i = столб j= строка
             if (sender == &currentField->buttons[i][j] && endGame(i,j)) {
-                    QLabel *win = new QLabel(tr("<h1>I.C. Wiener</h1>"));
-                    win->show();
+                    showMsgs("Victory!", "I.C. Wiener\n");
                     victory = true;
                     currentField->setDisabled(true);
             }
         }
 
      if (counter == currentField->size * currentField->size && !victory) {
-         QLabel *draw = new QLabel(tr("<h1>No one is I.C. Wiener</h1>"));
-         draw->show();
+         showMsgs("Friendship", "No one is I.C.Wiener\n");
      }
 }

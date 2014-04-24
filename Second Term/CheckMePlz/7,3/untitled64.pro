@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-04-14T10:55:43
+# Project created by QtCreator 2014-04-24T22:33:47
 #
 #-------------------------------------------------
 
@@ -8,17 +8,18 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = untitled49
+TARGET = untitled64
 TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    field.cpp \
-    game.cpp
+    game.cpp \
+    field.cpp
 
 HEADERS  += \
     game.h \
     field.h
 
-RESOURCES += \
-    images.qrc
+FORMS    +=
+
+RESOURCES +=

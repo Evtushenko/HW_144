@@ -31,4 +31,8 @@ private slots:
     @brief check out conditions for ending
     */
     bool endGame(int i, int j);
+    /**
+    @brief show message about the result of game
+    */
+    void showMsgs(const QString &name, const QString &txt);
 };
