@@ -14,6 +14,7 @@ class Field : public QDialog
 
 public:
     Field(int colCells, QWidget *parent = NULL);
+    ~Field();
 
 private:
     /**
@@ -25,6 +26,10 @@ private:
     */
     QPushButton **buttons;
     void createButtons();
+    QHBoxLayout *columns;
+    QVBoxLayout *field;
+    QVBoxLayout *mainWindow;
+    QSignalMapper *buttonMapper;
 signals:
     void pressed(QWidget *);
 private slots:
