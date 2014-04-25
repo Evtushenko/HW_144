@@ -4,10 +4,10 @@
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
-    currentField(new Field(defaultSize)),
+    currentField(new Field(0)),
     menu(new QVBoxLayout) {
-    sizeChanger.setRange(defaultSize, maxSize);
-    sizeChanger.setValue(defaultSize);
+    sizeChanger.setRange(0, maxSize);
+    sizeChanger.setValue(0);
     exit.setText(tr("Exit"));
 
     //create interface
@@ -16,7 +16,7 @@ Game::Game(QWidget *parent) :
 
     QVBoxLayout *mainWindow = new QVBoxLayout;
     mainWindow->addLayout(menu);
-    mainWindow->addWidget(currentField);
+    //mainWindow->addWidget(currentField);
 
     setLayout(mainWindow);
 

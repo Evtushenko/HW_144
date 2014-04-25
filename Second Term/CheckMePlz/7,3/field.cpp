@@ -29,6 +29,9 @@ Field::Field(int newSize, QWidget *parent) :
             connect(&buttons[i][j], SIGNAL(clicked()), buttonMapper, SLOT(map()));
 
     connect(buttonMapper, SIGNAL(mapped(QWidget *)), this, SLOT(queue(QWidget *)));
+    QVBoxLayout *mainWindow = new QVBoxLayout;
+    mainWindow->addWidget(this);
+    setLayout(mainWindow);
 }
 
 void Field::createButtons() {
