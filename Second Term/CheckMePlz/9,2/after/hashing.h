@@ -1,5 +1,7 @@
 #pragma once
 
+int const sizeTable = 20400;
+
 /*! \class Hashing
  * this virtual class includes just one method for counting hash
 */
@@ -10,6 +12,8 @@ public:
     */
     virtual int hashFunction(char* string) = 0;
     virtual ~Hashing() = 0;
+protected:
+    int const amountCells = 20400;
 };
 
 

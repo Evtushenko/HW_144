@@ -24,7 +24,7 @@ void setTypeOfHash(Hashing* &hashCounter) {
         switch(typeOfHash){
 
         case 0:{
-            hashCounter = new hash31;
+            hashCounter = new Hash31;
             break;
         }
         case 1:{

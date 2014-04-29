@@ -7,12 +7,9 @@ using namespace std;
 /*! \class TableCell
  * it is actually PointerList with its size
 */
-template <typename T>
-class TableCell : public PointerList<T> {
+class TableCell : public PointerList {
 public:
-    TableCell() : PointerList<T>()
-    {
-        //cout << "T";
+    TableCell() : PointerList() {
         sizeOfCell = 0;
     }
     int sizeOfCell;
