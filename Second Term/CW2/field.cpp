@@ -1,7 +1,4 @@
 #include "field.h"
-#include <iostream>
-
-using namespace std;
 
 Field::Field(const int newSize, QWidget *parent) :
     QDialog(parent),
@@ -106,4 +103,3 @@ const char *Field::getDigit(int num) {
     }
     return "0";
 }
-

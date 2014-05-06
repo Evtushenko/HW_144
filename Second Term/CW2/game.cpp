@@ -1,6 +1,7 @@
 #include "game.h"
 #include <QLabel>
 #include <QMessageBox>
+//#include <QtTest/QTest>
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
@@ -45,12 +46,14 @@ bool Game::endGame(int i, int j) {
         jLast = j;
     }
     else {
+        //QTest::qWait(1000);
         currentField->buttons[i][j].setText(currentField->getDigit(currentField->matrix[i][j]));
         currentField->buttons[i][j].setDisabled(true);
         if (currentField->matrix[i][j] == currentField->matrix[iLast][jLast]) {
             isEnd += 2;
         }
         else {
+            QTest::qWait(1000);
             currentField->buttons[i][j].setDisabled(false);
             currentField->buttons[iLast][jLast].setDisabled(false);
             currentField->buttons[iLast][jLast].setText("");

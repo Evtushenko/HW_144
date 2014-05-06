@@ -3,7 +3,6 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QSignalMapper>
-#include <math.h>
 
 /**
 @brief class for working with buttons

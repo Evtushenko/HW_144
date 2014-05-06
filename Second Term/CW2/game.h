@@ -2,9 +2,7 @@
 #include "field.h"
 #include "QSpinBox"
 #include "QString"
-#include <iostream>
-
-using namespace std;
+#include <QtTest/QTest>
 
 int const defaultSize = 0;
 int const maxSize = 10;
