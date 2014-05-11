@@ -43,6 +43,10 @@ void Server::sendToClient()
     out << quint16(arrBlock.size() - sizeof(quint16));
 
     sender->write(arrBlock);
+    txtInfo->append("<b>You:</b>");
+    QTime a = QTime::currentTime();
+    txtInfo->append(a.toString() + " " + txtInput->text());
+    txtInput->setText("");
 }
 
 void Server::slotNewConnection()
@@ -72,8 +76,8 @@ void Server::slotReadClient()
         QTime time;
         QString str;
         in >> time >> str;
-
-        QString strMessage = time.toString() + " " + "Client has sent - " + str;
+        txtInfo->append("<b>Client:</b>");
+        QString strMessage = time.toString() + " " + str;
         txtInfo->append(strMessage);
 
         nextBlockSize = 0;

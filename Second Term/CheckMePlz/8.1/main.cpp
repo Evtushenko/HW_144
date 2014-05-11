@@ -2,6 +2,9 @@
 #include "server.h"
 #include <QApplication>
 
+// based on http://qt-doc.ru/realizacia-klienta-s-pomoschu-klassa-qtcpsocket.html
+// and http://qt-doc.ru/realizacia-servera-s-pomoschu-klassa-qtcpserver.html
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

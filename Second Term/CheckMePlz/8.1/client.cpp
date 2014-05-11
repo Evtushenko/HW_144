@@ -47,7 +47,7 @@ void Client::slotReadyRead()
         QTime time;
         QString str;
         in >> time >> str;
-
+        txtInfo->append("<b>Friend:</b>");
         txtInfo->append(time.toString() + " " + str);
         nextBlockSize = 0;
     }
@@ -77,7 +77,10 @@ void Client::slotSendToServer()
     out << quint16(arrBlock.size() - sizeof(quint16));
 
     mySocket->write(arrBlock);
-    txtInfo->clear();
+    txtInfo->append("<b>You:</b>");
+    QTime a = QTime::currentTime();
+    txtInfo->append(a.toString() + " " + txtInput->text());
+    txtInput->setText("");
 }
 
 void Client::slotConnected()
