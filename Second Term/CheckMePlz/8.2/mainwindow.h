@@ -6,6 +6,10 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include <QtNetwork/QtNetwork>
+#include <QString>
+#include <QLineEdit>
+#include <QLabel>
+#include <QWebView>
 
 class MainWindow : public QDialog
 {
@@ -17,6 +21,8 @@ public:
 private slots:
     void getText();
     void readData();
+    void voteUp();
+    void voteDown();
 private:
     int amountQuotes;
     void parseXml();
@@ -27,6 +33,11 @@ private:
     QNetworkAccessManager *networkAccessManager;
     QNetworkReply *networkReply;
     QXmlStreamReader xmlStreamReader;
+    QLineEdit *lineEdit;
+    QPushButton * plus;
+    QPushButton * minus;
+    QLabel *label;
+    QWebView *view;
 
 };
 
