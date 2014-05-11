@@ -92,7 +92,7 @@ void MainWindow::voteUp()
 {
     QString number = lineEdit->text();
     text->append("<br><b>successfuly voted for </b>" + number + "<br>");
-    view->load(QUrl(begin+number+goodEnd));
+    view->load(QUrl(begin + number + goodEnd));
 
 }
 
@@ -101,7 +101,7 @@ void MainWindow::voteDown()
     QString number = lineEdit->text();
     //text->textCursor().insertHtml(begin+number+badEnd+ "<br>");
     text->append("<br><b>successfuly voted against </b>" + number + "<br>");
-    view->load(QUrl(begin+number+badEnd));
+    view->load(QUrl(begin + number + badEnd));
 }
 
 void MainWindow::getText()
@@ -134,7 +134,7 @@ void MainWindow::parseXml() {
                         xmlStreamReader.readNext();
                         QString slot = xmlStreamReader.text().toString();
                         //text->textCursor().insertHtml("slot = " + slot);
-                        int num = slot.indexOf("+",0);
+                        int num = slot.indexOf("+", 0);
                         if (num != -1) {
                             slot.remove(num, 5);
                         }
