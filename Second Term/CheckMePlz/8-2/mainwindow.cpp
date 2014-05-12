@@ -58,26 +58,26 @@ void MainWindow::voteDown()
 void MainWindow::changePic() {
     int static counter = 0;
     switch (counter % 5) {
-    case 0: {
-        ui->smile->setText("( >＿<)");
-    break;
-    }
-    case 1: {
-        ui->smile->setText("( =＿=)");
-    break;
-    }
-    case 2: {
-         ui->smile->setText("( ಠ＿ಠ)");
-    break;
-    }
-    case 3: {
-         ui->smile->setText("(･_･ )");
-    break;
-    }
-    case 4: {
-         ui->smile->setText("(¬_¬ )");
-    break;
-    }
+        case 0: {
+            ui->smile->setText("( >＿<)");
+            break;
+        }
+        case 1: {
+            ui->smile->setText("( =＿=)");
+            break;
+        }
+        case 2: {
+            ui->smile->setText("( ಠ＿ಠ)");
+            break;
+        }
+        case 3: {
+             ui->smile->setText("(･_･ )");
+            break;
+            }
+        case 4: {
+            ui->smile->setText("(¬_¬ )");
+            break;
+        }
     }
 
     counter++;
