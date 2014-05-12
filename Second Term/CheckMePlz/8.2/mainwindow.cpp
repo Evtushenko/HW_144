@@ -45,13 +45,20 @@ const QString badEnd("/sux");
 
 void MainWindow::voteUp()
 {
+<<<<<<< HEAD
     ui->text->append("<br><b>successfuly voted for </b>" + *textNumber + "<br>");
     view->load(QUrl(begin + *textNumber + goodEnd));
+=======
+    QString number = lineEdit->text();
+    text->append("<br><b>successfuly voted for </b>" + number + "<br>");
+    view->load(QUrl(begin + number + goodEnd));
+>>>>>>> 69c083292620d0422569192ff20bd0b207cec69a
 
 }
 
 void MainWindow::voteDown()
 {
+<<<<<<< HEAD
     ui->text->append("<b>successfuly voted against </b>" + *textNumber);
     view->load(QUrl(begin + *textNumber + badEnd));
 }
@@ -81,6 +88,12 @@ void MainWindow::changePic() {
     }
 
     counter++;
+=======
+    QString number = lineEdit->text();
+    //text->textCursor().insertHtml(begin+number+badEnd+ "<br>");
+    text->append("<br><b>successfuly voted against </b>" + number + "<br>");
+    view->load(QUrl(begin + number + badEnd));
+>>>>>>> 69c083292620d0422569192ff20bd0b207cec69a
 }
 
 void MainWindow::getText()
