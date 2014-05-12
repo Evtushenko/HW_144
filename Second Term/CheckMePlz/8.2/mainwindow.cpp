@@ -1,71 +1,26 @@
 #include "mainwindow.h"
-#include <iostream>
-#include <string>
+#include "ui_mainwindow.h"
 
-using namespace std;
-
-MainWindow::MainWindow(int amount, QWidget *parent)
-    : QDialog(parent),
-      amountQuotes(amount),
-      menu(new QVBoxLayout),
-      load(new QPushButton),
-      exit(new QPushButton),
-      text(new QTextEdit),
-      lineEdit(new QLineEdit),
-      plus(new QPushButton),
-      minus(new QPushButton),
-      label(new QLabel),
-      view(new QWebView)
+MainWindow::MainWindow(int amount, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::MainWindow),
+    amountQuotes(amount),
+    view(new QWebView)
 {
-
-    text->setReadOnly(true);
-    lineEdit->setText("for ex: 428106");
-    load->setText("Take 10");
-    exit->setText("Exit");
-    plus->setText("+");
-    minus->setText("-");
-    label->setText("Enter number of quote for voting");
-
-    load->setFont(QFont("Times", 18, QFont::Bold));
-    exit->setFont(QFont("Times", 18, QFont::Bold));
-    minus->setFont(QFont("Times", 18, QFont::Bold));
-    plus->setFont(QFont("Times", 18, QFont::Bold));
-    label->setFont(QFont("Times", 18, QFont::Bold));
-
-    networkAccessManager= new QNetworkAccessManager();
-
-    menu->addWidget(text);
-    menu->addWidget(load);
-    menu->addWidget(label);
-    menu->addWidget(lineEdit);
-    menu->addWidget(minus);
-    menu->addWidget(plus);
-    menu->addWidget(exit);
-    setLayout(menu);
-
-    connect(load, SIGNAL(clicked()), this, SLOT(getText()));
-    connect(exit, SIGNAL(clicked()), this, SLOT(close()));
-    connect(plus, SIGNAL(clicked()), this, SLOT(voteUp()));
-    connect(minus, SIGNAL(clicked()), this, SLOT(voteDown()));
+        ui->setupUi(this);
+        networkAccessManager= new QNetworkAccessManager();
+        connect(ui->load, SIGNAL(clicked()), this, SLOT(getText()));
+        connect(ui->exit, SIGNAL(clicked()), this, SLOT(close()));
+        connect(ui->plus, SIGNAL(clicked()), this, SLOT(voteUp()));
+        connect(ui->minus, SIGNAL(clicked()), this, SLOT(voteDown()));
+        connect(ui->smile, SIGNAL(clicked()), this, SLOT(changePic()));
 }
 
-MainWindow::~MainWindow() {
-    menu->removeWidget(text);
-    menu->removeWidget(load);
-    menu->removeWidget(exit);
-    menu->removeWidget(plus);
-    menu->removeWidget(minus);
-    menu->removeWidget(lineEdit);
-    menu->removeWidget(label);
-    delete menu;
-    delete text;
-    delete load;
-    delete exit;
-    delete plus;
-    delete minus;
-    delete lineEdit;
-    delete label;
-    delete view;
+MainWindow::~MainWindow()
+{
+       delete ui;
+       delete view;
+       delete textNumber;
 }
 
 void MainWindow::readData() {
@@ -90,22 +45,47 @@ const QString badEnd("/sux");
 
 void MainWindow::voteUp()
 {
-    QString number = lineEdit->text();
-    text->append("<br><b>successfuly voted for </b>" + number + "<br>");
-    view->load(QUrl(begin+number+goodEnd));
+    ui->text->append("<br><b>successfuly voted for </b>" + *textNumber + "<br>");
+    view->load(QUrl(begin + *textNumber + goodEnd));
 
 }
 
 void MainWindow::voteDown()
 {
-    QString number = lineEdit->text();
-    //text->textCursor().insertHtml(begin+number+badEnd+ "<br>");
-    text->append("<br><b>successfuly voted against </b>" + number + "<br>");
-    view->load(QUrl(begin+number+badEnd));
+    ui->text->append("<b>successfuly voted against </b>" + *textNumber);
+    view->load(QUrl(begin + *textNumber + badEnd));
+}
+void MainWindow::changePic() {
+    int static counter = 0;
+    switch (counter % 5) {
+    case 0: {
+        ui->smile->setText("( >＿<)");
+    break;
+    }
+    case 1: {
+        ui->smile->setText("( =＿=)");
+    break;
+    }
+    case 2: {
+         ui->smile->setText("( ಠ＿ಠ)");
+    break;
+    }
+    case 3: {
+         ui->smile->setText("(･_･ )");
+    break;
+    }
+    case 4: {
+         ui->smile->setText("(¬_¬ )");
+    break;
+    }
+    }
+
+    counter++;
 }
 
 void MainWindow::getText()
 {
+    ui->text->setText("");
     if (!networkReply)
     {
         networkReply->disconnect(this);
@@ -134,16 +114,23 @@ void MainWindow::parseXml() {
                         xmlStreamReader.readNext();
                         QString slot = xmlStreamReader.text().toString();
                         //text->textCursor().insertHtml("slot = " + slot);
-                        int num = slot.indexOf("+",0);
+                        int num = slot.indexOf("+", 0);
                         if (num != -1) {
                             slot.remove(num, 5);
                         }
+                        else
+                        {
+                            textNumber = new QString;
+                            num = slot.indexOf("#",0);
+                            for (int i = num + 1; i < slot.size(); i++)
+                                textNumber->append(slot[i]);
+                        }
                         //
-                        text->textCursor().insertHtml("<b>" + slot + "<b><br>");
+                        ui->text->textCursor().insertHtml("<b>" + slot + "<b><br>");
                     }
                     if (xmlStreamReader.isCDATA())
                     {
-                        text->textCursor().insertHtml(xmlStreamReader.text().toString() + "<br><br>");
+                        ui->text->textCursor().insertHtml(xmlStreamReader.text().toString() + "<br><br>");
                         amount++;
                     }
                 }

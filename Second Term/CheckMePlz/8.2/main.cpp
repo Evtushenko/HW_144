@@ -1,15 +1,10 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-using namespace std;
-
-// based on http://www.tuxradar.com/content/code-project-create-qt-rss-reader
-// http://doc.qt.digia.com/4.6/xml-rsslisting.html
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w(10);
+    MainWindow w(1);
     w.show();
 
     return a.exec();
