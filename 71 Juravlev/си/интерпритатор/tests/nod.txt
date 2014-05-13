@@ -1,0 +1,29 @@
+ldc 6
+ldc 666
+st 0
+st 1
+cycle:
+ld 1
+ld 0
+cmp
+jz end
+jg vo
+jl vd
+vo:
+std
+ld 1
+ld 0
+sub
+st 0
+jmp cycle
+vd:
+std
+ld 0
+ld 1
+sub
+st 1
+jmp cycle
+end:
+ld 0
+st 3
+ret

@@ -1,0 +1,15 @@
+dfsd
+sdf
+sdf
+sd
+sfsd
+fsdf
+fack:
+fsdf
+sdf
+jmp target
+sdf
+sdf
+sdf
+target:
+ret

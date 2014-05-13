@@ -1,0 +1,46 @@
+﻿
+ldc 101
+st 0
+ldc 2
+st 1
+ldc 1
+st 2
+cycle:
+std
+ld 1
+ldc 1
+add
+st 1
+ldc 1
+st 2
+cycle2:
+std
+ld 2
+ldc 1
+add
+st 2
+ld 2
+ld 1
+cmp
+jnz neprost
+jz prost
+prost:
+ldc 1
+ld 0
+sub
+st 0
+ld 1
+st 3
+jmp cycle
+neprost:
+std
+ld 2
+ld 1
+mod
+jnz cycle2
+std
+ld 0
+jz end
+jnz cycle
+end:
+ret
