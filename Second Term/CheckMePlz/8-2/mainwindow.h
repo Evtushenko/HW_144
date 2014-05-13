@@ -20,7 +20,7 @@ class MainWindow : public QDialog
     Q_OBJECT
 
 public:
-    MainWindow(int amount, QWidget *parent = 0 );
+    MainWindow( QWidget *parent = 0 );
        ~MainWindow();
 private slots:
     void getText();
@@ -30,7 +30,6 @@ private slots:
     void changePic();
 private:
     Ui::MainWindow *ui;
-    int amountQuotes;
     void parseXml();
     QNetworkAccessManager *networkAccessManager;
     QNetworkReply *networkReply;

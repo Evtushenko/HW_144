@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(int amount, QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainWindow),
-    amountQuotes(amount),
     view(new QWebView)
 {
         ui->setupUi(this);
@@ -97,15 +96,15 @@ void MainWindow::getText()
 
 
 void MainWindow::parseXml() {
-    int amount = 0; // counter
-    while (!xmlStreamReader.atEnd() && amount < amountQuotes) // while is not end of file
+    bool readed = false;
+    while (!xmlStreamReader.atEnd() && !readed) // while is not end of file
     {
         xmlStreamReader.readNext(); // читает токен,  возвращает тип
         if (xmlStreamReader.isStartElement()) // true если токен == StartElement
         {
             if (xmlStreamReader.name() == "item") // возращает имя <тега>
             {
-                while (!xmlStreamReader.atEnd() && amount < amountQuotes )
+                while (!xmlStreamReader.atEnd() && !readed)
                 {
                     xmlStreamReader.readNext();
                     QStringRef token = xmlStreamReader.name();
@@ -131,7 +130,7 @@ void MainWindow::parseXml() {
                     if (xmlStreamReader.isCDATA())
                     {
                         ui->text->textCursor().insertHtml(xmlStreamReader.text().toString() + "<br><br>");
-                        amount++;
+                        readed = true;
                     }
                 }
             }
