@@ -17,6 +17,11 @@ Dialog::Dialog(QWidget *parent) :
     voterA(new QWebView),
     ui(new Ui::Dialog)
 {
+    for (int i = 0; i < amount; i++) {
+        upped[i] = 0;
+        downed[i] = 0;
+    }
+
     plus->setText("+");
     minus->setText("-");
     smile->setText("0_o");
@@ -90,4 +95,122 @@ Dialog::~Dialog()
     delete view;
     delete voterF;
     delete voterA;
+}
+
+void Dialog::voteFor() {
+    if (!upped[position - 1]) {
+        QString number = id.at(position - 1).toPlainText();
+        voterF->load(begin + number +goodEnd);
+    }
+    if (!downed[position - 1])
+        upped[position - 1] = 1;
+    else
+        downed[position - 1] = 0;
+    //number.remove(0,1);
+    //cout << number.toInt() << endl;
+}
+
+void Dialog::voteAgainst() {
+    if (!downed[position - 1]) {
+        QString number = id.at(position - 1).toPlainText();
+        voterA->load(begin + number + badEnd);
+    }
+    if (!upped[position] - 1)
+        downed[position - 1] = 1;
+    else
+        upped[position - 1] = 0;
+    //number.remove(0,1);
+    //cout << number.toInt() << endl;
+}
+
+void Dialog::successFor(bool) {
+    int static counter = 0;
+    // чтобы 1 раз выводилось
+    if (counter % 2 == 1) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("up!");
+        msgBox.setText("u like it("+id.at(position - 1).toPlainText()+")");
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.exec();
+        QString slot = rating->text();
+        int value = slot.toInt();
+        value++;
+        rating->setText(QString::number(value));
+    }
+    counter++;
+}
+
+void Dialog::successAgainst(bool) {
+    int static counter = 0;
+    // чтобы 1 раз выводилось
+    if (counter % 2 == 1) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("down!");
+        msgBox.setText("u dislike it("+id.at(position - 1).toPlainText()+")");
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.exec();
+        QString slot = rating->text();
+        int value = slot.toInt();
+        value--;
+        rating->setText(QString::number(value));
+    }
+
+    counter++;
+}
+
+void Dialog::loadFinished(bool) {
+    next->setEnabled(true);
+    // весь текст цитат
+    elements = view->page()->mainFrame()->findAllElements("div[class=text]");
+    // все рейтинги
+    ratings = view->page()->mainFrame()->findAllElements("span[class=rating]");
+    // все даты
+    date = view->page()->mainFrame()->findAllElements("span[class=date]");
+    // все номера
+    id = view->page()->mainFrame()->findAllElements("a[class=id]");
+}
+
+void Dialog::showQuote() {
+    text->setText("");
+
+    text->insertPlainText(date.at(position).toPlainText());
+    text->insertPlainText("\n");
+    text->insertPlainText(id.at(position).toPlainText());
+    text->insertPlainText("\n");
+    text->insertPlainText(elements.at(position).toPlainText());
+    text->insertPlainText("\n");
+    rating->setText(ratings.at(position).toPlainText());
+
+    plus->setEnabled(true);
+    minus->setEnabled(true);
+    position++;
+
+}
+
+void Dialog::smileChange() {
+    int static counter = 0;
+    switch (counter % 5) {
+    case 0: {
+        smile->setText("( >＿<)");
+        break;
+    }
+    case 1: {
+        smile->setText("( =＿=)");
+        break;
+    }
+    case 2: {
+        smile->setText("( ಠ＿ಠ)");
+        break;
+    }
+    case 3: {
+        smile->setText("(･_･ )");
+        break;
+    }
+    case 4: {
+        smile->setText("(¬_¬ )");
+        break;
+    }
+    }
+
+    counter++;
 }

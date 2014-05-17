@@ -18,6 +18,8 @@
 #include <QString>
 #include <QMessageBox>
 
+int const amount = 50;
+
 const QString begin("http://bash.im/quote/");
 const QString goodEnd("/rulez");
 const QString badEnd("/sux");
@@ -35,114 +37,28 @@ public:
     ~Dialog();
 
 private slots:
+    // голосуем
+    void voteFor();
+    void voteAgainst();
 
-    void voteFor() {
-        QString number = id.at(position).toPlainText();
-        voterF->load(begin + number +goodEnd);
-        //number.remove(0,1);
-        //cout << number.toInt() << endl;
-    }
+    // уведомляем об успехе голосования
+    void successFor(bool);
+    void successAgainst(bool);
 
-    void voteAgainst() {
-        QString number = id.at(position).toPlainText();
-        voterA->load(begin + number + badEnd);
-        //number.remove(0,1);
-        //cout << number.toInt() << endl;
-    }
+    // открыли документ для парсинга и парсим
+    void loadFinished(bool);
 
-    void successFor(bool) {
-        int static counter = 0;
-        // чтобы 1 раз выводилось
-        if (counter % 3 == 1) {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("up!");
-            msgBox.setText("u like it("+id.at(position).toPlainText()+")");
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.exec();
-            QString slot = rating->text();
-            int value = slot.toInt();
-            value++;
-            rating->setText(QString::number(value));
-        }
-        counter++;
-    }
-    void successAgainst(bool) {
-        int static counter = 0;
-        // чтобы 1 раз выводилось
-            if (counter % 3 == 1) {
-                QMessageBox msgBox;
-                msgBox.setWindowTitle("down!");
-                msgBox.setText("u dislike it("+id.at(position).toPlainText()+")");
-                msgBox.setDefaultButton(QMessageBox::Ok);
-                msgBox.exec();
-                QString slot = rating->text();
-                int value = slot.toInt();
-                value--;
-                rating->setText(QString::number(value));
-            }
-
-        counter++;
-    }
-
-    void loadFinished(bool) {
-        next->setEnabled(true);
-        // весь текст цитат
-        elements = view->page()->mainFrame()->findAllElements("div[class=text]");
-        // все рейтинги
-        ratings = view->page()->mainFrame()->findAllElements("span[class=rating]");
-        // все даты
-        date = view->page()->mainFrame()->findAllElements("span[class=date]");
-        // все номера
-        id = view->page()->mainFrame()->findAllElements("a[class=id]");
-    }
-
-
-    void showQuote() {
-        text->setText("");
-
-        text->insertPlainText(date.at(position).toPlainText());
-        text->insertPlainText("\n");
-        text->insertPlainText(id.at(position).toPlainText());
-        text->insertPlainText("\n");
-        text->insertPlainText(elements.at(position).toPlainText());
-        text->insertPlainText("\n");
-        rating->setText(ratings.at(position).toPlainText());
-
-        plus->setEnabled(true);
-        minus->setEnabled(true);
-        position++;
-
-    }
-
-    void smileChange() {
-        int static counter = 0;
-            switch (counter % 5) {
-                case 0: {
-                    smile->setText("( >＿<)");
-                    break;
-                }
-                case 1: {
-                    smile->setText("( =＿=)");
-                    break;
-                }
-                case 2: {
-                    smile->setText("( ಠ＿ಠ)");
-                    break;
-                }
-                case 3: {
-                     smile->setText("(･_･ )");
-                    break;
-                    }
-                case 4: {
-                    smile->setText("(¬_¬ )");
-                    break;
-                }
-            }
-
-            counter++;
-    }
+    // показать цитаты по кнопке next
+    void showQuote();
+    // анимация кнопки smile
+    void smileChange();
 
 private:
+
+    // чтобы не больше +1 по модулю рейтинг менялся
+    bool upped[amount];
+    bool downed[amount];
+
     //текущий номер цитаты
     int position;
     // vote for
