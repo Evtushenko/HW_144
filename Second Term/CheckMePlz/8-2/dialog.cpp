@@ -22,6 +22,7 @@ Dialog::Dialog(QWidget *parent) :
         downed[i] = 0;
     }
 
+
     plus->setText("+");
     minus->setText("-");
     smile->setText("0_o");
@@ -66,11 +67,6 @@ Dialog::Dialog(QWidget *parent) :
     connect(plus, SIGNAL(clicked()), this, SLOT(voteFor()));
     // кнопка -
     connect(minus, SIGNAL(clicked()), this, SLOT(voteAgainst()));
-    // успешно повысили
-    connect(voterF, SIGNAL(loadFinished(bool)), this, SLOT(successFor(bool)));
-    // успешно понизили
-    connect(voterA, SIGNAL(loadFinished(bool)), this, SLOT(successAgainst(bool)));
-
 }
 
 Dialog::~Dialog()
@@ -93,69 +89,32 @@ Dialog::~Dialog()
     delete menu;
 
     delete view;
-    delete voterF;
-    delete voterA;
+    //delete voterF;
+    //delete voterA;
 }
 
 void Dialog::voteFor() {
-    if (!upped[position - 1]) {
-        QString number = id.at(position - 1).toPlainText();
+    if (!upped[position]) {
+        QString number = id.at(position).toPlainText();
         voterF->load(begin + number +goodEnd);
-    }
-    if (!downed[position - 1])
-        upped[position - 1] = 1;
-    else
-        downed[position - 1] = 0;
-    //number.remove(0,1);
-    //cout << number.toInt() << endl;
-}
-
-void Dialog::voteAgainst() {
-    if (!downed[position - 1]) {
-        QString number = id.at(position - 1).toPlainText();
-        voterA->load(begin + number + badEnd);
-    }
-    if (!upped[position] - 1)
-        downed[position - 1] = 1;
-    else
-        upped[position - 1] = 0;
-    //number.remove(0,1);
-    //cout << number.toInt() << endl;
-}
-
-void Dialog::successFor(bool) {
-    int static counter = 0;
-    // чтобы 1 раз выводилось
-    if (counter % 2 == 1) {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("up!");
-        msgBox.setText("u like it("+id.at(position - 1).toPlainText()+")");
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
         QString slot = rating->text();
         int value = slot.toInt();
         value++;
         rating->setText(QString::number(value));
     }
-    counter++;
+    if (!downed[position])
+        upped[position] = 1;
+    else
+        downed[position] = 0;
 }
 
-void Dialog::successAgainst(bool) {
-    int static counter = 0;
-    // чтобы 1 раз выводилось
-    if (counter % 2 == 1) {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("down!");
-        msgBox.setText("u dislike it("+id.at(position - 1).toPlainText()+")");
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
-        QString slot = rating->text();
-        int value = slot.toInt();
-        value--;
-        rating->setText(QString::number(value));
-    }
-
-    counter++;
+void Dialog::voteAgainst() {
+    QString number = id.at(position).toPlainText();
+    voterA->load(begin + number + badEnd);
+    QString slot = rating->text();
+    int value = slot.toInt();
+    value--;
+    rating->setText(QString::number(value));
 }
 
 void Dialog::loadFinished(bool) {
