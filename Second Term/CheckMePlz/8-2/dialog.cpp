@@ -17,11 +17,8 @@ Dialog::Dialog(QWidget *parent) :
     voterA(new QWebView),
     ui(new Ui::Dialog)
 {
-    for (int i = 0; i < amount; i++) {
-        upped[i] = 0;
-        downed[i] = 0;
-    }
-
+    for (int i = 0; i < amount; i++)
+        votes[i] = 0;
 
     plus->setText("+");
     minus->setText("-");
@@ -57,7 +54,7 @@ Dialog::Dialog(QWidget *parent) :
 
     view->load(QUrl("http://bash.im/"));
 
-    // как только загрузится  страница будет доступен next
+    // как только загрузится страница будет доступен next
     connect(view, SIGNAL(loadFinished(bool)), this, SLOT(loadFinished(bool)));
     // показываем цитату по запросу
     connect(next, SIGNAL(clicked()), this, SLOT(showQuote()));
@@ -67,6 +64,9 @@ Dialog::Dialog(QWidget *parent) :
     connect(plus, SIGNAL(clicked()), this, SLOT(voteFor()));
     // кнопка -
     connect(minus, SIGNAL(clicked()), this, SLOT(voteAgainst()));
+    // как только завершена отправка голосования
+    connect(voterF, SIGNAL(loadFinished(bool)), this, SLOT(successFor(bool)));
+    connect(voterA, SIGNAL(loadFinished(bool)), this, SLOT(successAgainst(bool)));
 }
 
 Dialog::~Dialog()
@@ -94,27 +94,45 @@ Dialog::~Dialog()
 }
 
 void Dialog::voteFor() {
-    if (!upped[position]) {
-        QString number = id.at(position).toPlainText();
+    if (votes[position -1] != 1  ) {
+        QString number = id.at(position -1).toPlainText();
         voterF->load(begin + number +goodEnd);
         QString slot = rating->text();
         int value = slot.toInt();
-        value++;
+        if (votes[position -1] == -1)
+            value += 2;
+        else
+            value++;
+        votes[position -1] = 1;
         rating->setText(QString::number(value));
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("success +");
+        msgBox.setText("u like it!("+id.at(position -1).toPlainText()+")");
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.exec();
+        plus->setEnabled(false);
     }
-    if (!downed[position])
-        upped[position] = 1;
-    else
-        downed[position] = 0;
 }
 
 void Dialog::voteAgainst() {
-    QString number = id.at(position).toPlainText();
-    voterA->load(begin + number + badEnd);
-    QString slot = rating->text();
-    int value = slot.toInt();
-    value--;
-    rating->setText(QString::number(value));
+    if (votes[position -1] != -1  ) {
+        QString number = id.at(position -1).toPlainText();
+        voterA->load(begin + number + badEnd);
+        QString slot = rating->text();
+        int value = slot.toInt();
+        if (votes[position -1] == 1)
+            value -= 2;
+        else
+            value--;
+        votes[position -1] = -1;
+        rating->setText(QString::number(value));
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("success -");
+        msgBox.setText("u dislike it!("+id.at(position -1).toPlainText()+")");
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.exec();
+        minus->setEnabled(false);
+    }
 }
 
 void Dialog::loadFinished(bool) {

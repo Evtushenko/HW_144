@@ -16,12 +16,13 @@
 #include <QWebView>
 #include <QDomDocument>
 #include <QString>
+#include <QMessageBox>
 
 const QString begin("http://bash.im/quote/");
 const QString goodEnd("/rulez");
 const QString badEnd("/sux");
 
-int const  amount = 50;
+int const amount = 50;
 
 namespace Ui {
 class Dialog;
@@ -40,10 +41,14 @@ private slots:
     void voteFor();
     // голосуем против
     void voteAgainst();
-    // уведомляем об успешном голосовании
-    void successFor(bool);
-    // уведомляем об успешном голосовании
-    void successAgainst(bool);
+    // разблокируем кнопка голосования как будет готов браузер
+    void successFor(bool) {
+        plus->setEnabled(true);
+    }
+    void successAgainst(bool) {
+        minus->setEnabled(true);
+    }
+
     // открыли сайт для парсинга
     void loadFinished(bool);
 
@@ -53,9 +58,9 @@ private slots:
     void smileChange();
 
 private:
-    // для однозначность + и -
-    bool upped[amount];
-    bool downed[amount];
+    // для того чтобы повышать можно было только на 1.
+    // Контролирует текущeе изменение рейтинга
+    short int votes[amount];
 
     //текущий номер цитаты
     int position;

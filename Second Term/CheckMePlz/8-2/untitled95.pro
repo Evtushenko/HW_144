@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-05-17T21:24:36
+# Project created by QtCreator 2014-05-22T20:02:01
 #
 #-------------------------------------------------
 
@@ -11,7 +11,7 @@ CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = untitled876
+TARGET = untitled95
 TEMPLATE = app
 
 
