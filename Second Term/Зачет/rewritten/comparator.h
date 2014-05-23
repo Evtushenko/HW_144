@@ -1,13 +1,14 @@
 #include "human.h"
 
+// материнский шаблон который ничего не делает
 template <class T>
 class Comparater{
 public:
     Comparater() {}
     ~Comparater() {}
-    bool bigger(T a, T b) {
-        return true;
-    }
+    //bool bigger(T a, T b) {
+        //return true;
+    //}
 };
 
 // специализация под int
@@ -16,10 +17,7 @@ class Comparater<int>
 {
 public:
     bool bigger(int a, int b) {
-        if (a > b)
-            return true;
-        else
-            return false;
+        return (a > b);
     }
 };
 
@@ -29,10 +27,7 @@ class Comparater<char>
 {
 public:
     bool bigger(char a, char b) {
-        if (int(a) < int(b))
-            return true;
-        else
-            return false;
+        return int(a) < int(b);
     }
 };
 
