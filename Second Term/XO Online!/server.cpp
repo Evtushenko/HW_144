@@ -3,13 +3,13 @@
 Server::Server(const int port, const int size, QWidget *parent) :
     QWidget(parent),
     size(size),
-    buttons(new QPushButton *[size]),
-    columns(new QHBoxLayout [size]),
     menu(new QVBoxLayout(this)),
-    buttonMapper(new QSignalMapper(this)),
+    field(new Widget(size, "green", "blue")),
+    myServer(new QTcpServer(this)),
+    txtInfo(new QTextEdit),
     nextBlockSize(0)
 {
-    myServer = new QTcpServer(this);
+    connect(field, SIGNAL(sendNumber(int)), this, SLOT(sendToClient(int)));
     if (!myServer->listen(QHostAddress::Any, port))
     {
         QMessageBox::critical(0, "Server Error",
@@ -22,94 +22,12 @@ Server::Server(const int port, const int size, QWidget *parent) :
 
     connect(myServer, SIGNAL(newConnection()), this, SLOT(slotNewConnection()));
 
-    txtInfo = new QTextEdit();
     txtInfo->setReadOnly(true);
 
     menu->addWidget(new QLabel("<H1>Server</H1>"));
     menu->addWidget(txtInfo);
-
-    createButtons();
-}
-
-int Server::findNumber(QWidget *pressedButton) {
-    int counter = 0;
-    for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
-        {
-            if (pressedButton == &buttons[i][j])
-                return counter;
-            counter++;
-        }
-    return -1;
-}
-
-void Server::lockButtons() {
-    for (int i = 0; i < size; i ++)
-        for (int j = 0; j < size; j++)
-            buttons[i][j].setEnabled(false);
-}
-
-void Server::unlockButtons() {
-    for (int i = 0; i < size; i ++)
-        for (int j = 0; j < size; j++) {
-            if (buttons[i][j].styleSheet() != QString("background-color:green") && buttons[i][j].styleSheet() != QString("background-color:blue") )
-                buttons[i][j].setEnabled(true);
-        }
-}
-
-void Server::useTurn(int number)
-{
-    int i = number / size;
-    int j = number % size;
-    buttons[i][j].setStyleSheet("background-color:green");
-    buttons[i][j].setDisabled(true);
-    if (endGame(number)) {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Game Over!");
-            msgBox.setText("U R LOSER!");
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.exec();
-    }
-
-}
-
-void Server::queue(QWidget *pressedButton)
-{
-    pressedButton->setStyleSheet("background-color:blue");
-    pressedButton->setDisabled(true);
-    int number = findNumber(pressedButton);
-    sendToClient(number);
-    if (endGame(number)) {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Game Over!");
-            msgBox.setText("U R WINNER!");
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.exec();
-    }
-}
-
-void Server::createButtons()
-{
-    for (int i = 0; i < size; ++i)
-    {
-        buttons[i] = new QPushButton [size];
-        for (int j = 0; j < size; ++j)
-            columns[i].addWidget(&buttons[i][j]);
-    }
-
-
-    for (int i = 0; i < size; ++i)
-        menu->addLayout(&columns[i]);
-
-    for (int i = 0; i < size; ++i)
-            for (int j = 0; j < size; ++j)
-                buttonMapper->setMapping(&buttons[i][j], &buttons[i][j]);
-
-        for (int i = 0; i < size; ++i)
-            for (int j = 0; j < size; ++j)
-                connect(&buttons[i][j], SIGNAL(clicked()), buttonMapper, SLOT(map()));
-
-    connect(buttonMapper, SIGNAL(mapped(QWidget *)), this, SLOT(queue(QWidget *)));
+    menu->addLayout(field->menu);
+    setLayout(menu);
 }
 
 void Server::sendToClient(int number)
@@ -125,7 +43,7 @@ void Server::sendToClient(int number)
     sender->write(arrBlock);
     txtInfo->append("<b>You:</b>");
     txtInfo->append(QString::number(number));
-    lockButtons();
+    field->lockButtons();
 }
 
 void Server::slotNewConnection()
@@ -161,6 +79,6 @@ void Server::slotReadClient()
 
         nextBlockSize = 0;
     }
-    useTurn(str.toInt());
-    unlockButtons();
+    field->useTurn(str.toInt());
+    field->unlockButtons();
 }
