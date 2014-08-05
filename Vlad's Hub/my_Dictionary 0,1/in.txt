@@ -1,0 +1,6 @@
+ .H
+hello - привет
+
+.M 
+mother = мать
+meat - мясо
