@@ -31,7 +31,7 @@ namespace ConsoleApplication1
                 string ipClient = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
                 Console.WriteLine("Client Ip Address is: {0}", ipClient);
 
-                /*
+                
                 // здесь будет парсер
                 UserBase userBase = new UserBase();
                 userBase.loadFile();
@@ -39,7 +39,6 @@ namespace ConsoleApplication1
                 // убрал точку с запятой
                 string query = data;
                 query = query.Substring(0, query.Length - 1);
-                Console.WriteLine(query);
 
                 
 
@@ -49,33 +48,38 @@ namespace ConsoleApplication1
 
                 // получили массив блоков
                 string[] arrayBlocks = query.Split(charSeparatorsBlocks, StringSplitOptions.None);
-                
-                // имя метода
-                string[] arrayNameValueMethod = arrayBlocks[0].Split(charSeparatorsNameValue, StringSplitOptions.None);
-                string[] arrayNameValueLogin = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
-                string[] arrayNameValuePassword = arrayBlocks[2].Split(charSeparatorsNameValue, StringSplitOptions.None);
-                
-                if (arrayNameValueMethod[1] == "registration")
+
+                if (arrayBlocks.Length < 3)
                 {
-                    userBase.addUser(arrayNameValueLogin[1], arrayNameValuePassword[1]);
-                    userBase.saveFile();
-                    answerFromServer = "func=registration;result=1";
+                    answerFromServer = "wrong query";
                 }
-                if (arrayNameValueMethod[1] == "entrace")
+                else
                 {
-                    Console.WriteLine("entrace!");
-                    
-                    if (userBase.existUser(arrayNameValueLogin[1], arrayNameValuePassword[1]))
-                        answerFromServer = "func=entace;result=1";
-                    else
-                        answerFromServer = "func=entace;result=0";
-                    // нажата кнопка войти
-                     
+
+                    // имя метода
+                    string[] arrayNameValueMethod = arrayBlocks[0].Split(charSeparatorsNameValue, StringSplitOptions.None);
+                    string[] arrayNameValueLogin = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
+                    string[] arrayNameValuePassword = arrayBlocks[2].Split(charSeparatorsNameValue, StringSplitOptions.None);
+
+                    if (arrayNameValueMethod[1] == "registration")
+                    {
+                        userBase.addUser(arrayNameValueLogin[1], arrayNameValuePassword[1]);
+                        userBase.saveFile();
+                        answerFromServer = "func=registration;result=1";
+                    }
+                    if (arrayNameValueMethod[1] == "entrace")
+                    {
+                        Console.WriteLine("entrace!");
+
+                        if (userBase.existUser(arrayNameValueLogin[1], arrayNameValuePassword[1]))
+                            answerFromServer = "func=entace;result=1";
+                        else
+                            answerFromServer = "func=entace;result=0";
+                        // нажата кнопка войти
+
+                    }
+
                 }
-                 * */
-                // иначе
-                answerFromServer = "querry-error";
-                 
                 
 
 
