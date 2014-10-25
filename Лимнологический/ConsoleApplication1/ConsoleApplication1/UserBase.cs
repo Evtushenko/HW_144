@@ -4,6 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Класс для работы с пользователями. 
+// userList - список всех пользователей в нашей базе
+// amountUser - количество пользователей в базе
+// loadFile() - загружает базу пользователей. ВАЖНО перед запуском нужно указать корректный адрес файла
+// existUser(log, pas) - проверяет есть пользователь в базе. Возвращает bool
+// saveFile() - сохраняет всех пользователей в файл. Перезаписывает. ВАЖНО перед запуском нужно указать корректный адрес файла
+// addUser(log,pas) и addUser(id,log,pas) - добавить пользователя в базу
+
+
 namespace ConsoleApplication1
 {
     class UserBase
@@ -20,15 +29,6 @@ namespace ConsoleApplication1
             string line;
             System.IO.StreamReader file =
                 new System.IO.StreamReader(@"C:\Users\stars_000\Desktop\iMess\allAcounts.txt");
-
-            /*
-            while ((line = file.ReadLine()) != null)
-            {
-                if (line.Length > 0)
-                    Console.WriteLine("line={0}", line);
-            }
-             */
-
 
             while ((line = file.ReadLine()) != null)
             {
@@ -47,10 +47,10 @@ namespace ConsoleApplication1
 
 
                     string[] arrayNameValueId = arrayBlocks[0].Split(charSeparatorsNameValue, StringSplitOptions.None);
-                    string[] arrayNameValueLogin = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
+                    string[] arrayNameValueEmail = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
                     string[] arrayNameValuePassword = arrayBlocks[2].Split(charSeparatorsNameValue, StringSplitOptions.None);
 
-                    addUser(arrayNameValueLogin[1], arrayNameValuePassword[1]);
+                    addUser(arrayNameValueEmail[1], arrayNameValuePassword[1]);
                 }
             }
             file.Close();
@@ -60,7 +60,7 @@ namespace ConsoleApplication1
         {
             foreach (User one in userList)
             {
-                if (one.getLogin() == log && one.getPassword() == pas)
+                if (one.getEmail() == log && one.getPassword() == pas)
                     return true;
             }
             return false;
@@ -78,8 +78,8 @@ namespace ConsoleApplication1
                 result += "id=";
                 result += (one.getId()).ToString();
                 result += ";";
-                result += "login=";
-                result += (one.getLogin()).ToString();
+                result += "email=";
+                result += (one.getEmail()).ToString();
                 result += ";";
                 result += "password=";
                 result += (one.getPassword()).ToString();

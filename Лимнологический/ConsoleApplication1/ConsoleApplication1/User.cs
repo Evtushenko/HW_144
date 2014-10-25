@@ -4,31 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// АТД Пользователь
+// хранит id, email, password ,а также метод SET-GET
+
 namespace ConsoleApplication1
 {
     class User
     {
 
         // коструктор
-        public User(int idIn, string loginIn, string passwordIn)
+        public User(int idIn, string emailIn, string passwordIn)
         {
             id = idIn;
-            login = loginIn;
+            email = emailIn;
             password = passwordIn;
         }
         // печать всех данных в консоль
         public void showData()
         {
-            Console.WriteLine("id = {0}\nlogin = {1}\npassword = {2}", id, login, password);
+            Console.WriteLine("id = {0}\nemail = {1}\npassword = {2}", id, email, password);
         }
         // set - методы
         public void setId(int idIn)
         {
             id = idIn;
         }
-        public void setLogin(string loginIn)
+        public void setEmail(string emailIn)
         {
-            login = loginIn;
+            email = emailIn;
         }
         public void setPassword(string passwordIn)
         {
@@ -39,9 +42,9 @@ namespace ConsoleApplication1
         {
             return id;
         }
-        public string getLogin()
+        public string getEmail()
         {
-            return login;
+            return email;
         }
         public string getPassword()
         {
@@ -50,7 +53,7 @@ namespace ConsoleApplication1
 
         // переменные, хранящие данные
         private int id;
-        private string login;
+        private string email;
         private string password;
     }
 }

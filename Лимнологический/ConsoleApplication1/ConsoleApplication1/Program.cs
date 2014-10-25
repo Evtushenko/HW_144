@@ -21,10 +21,6 @@ namespace ConsoleApplication1
 
 
             ConsoleManager consoleManager = new ConsoleManager();
-            // setColor(int number) , установить 1 из 16 цветов по номеру
-            // printInfo() = вывести информацию об испольняющей системе
-            // playSound() = издать несколько звуков
-            // printData() = вывести h:m:s
   
             TcpListener server = null; // TcpListener
             int MaxThreadsCount = Environment.ProcessorCount * 4; // Количество потоков
@@ -33,7 +29,7 @@ namespace ConsoleApplication1
             ThreadPool.SetMinThreads(2, 2); // установили минимальное количество
             Int32 port = 11000; // выбрали порт
             int amountConnections = 0;
-            Parser parser = new Parser(); // класс который буд
+            Parser parser = new Parser(); // класс который будет парсить
 
             try
             {
@@ -44,11 +40,8 @@ namespace ConsoleApplication1
                     Console.Write("\nWaiting for a connection... ");
                     
                     ThreadPool.QueueUserWorkItem(parser.showText, server.AcceptTcpClient());
-                    /// for fun only
                     consoleManager.printData();
                     consoleManager.playSoynds();
-                    //consoleManager.setColor(amountConnections);
-                    ////
                     amountConnections++;
                     Console.Write("\nConnection " + amountConnections.ToString() + "!");
                     

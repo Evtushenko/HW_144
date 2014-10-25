@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+// класс для управления клиентскими запросами и ответами на них
+
 namespace ConsoleApplication1
 {
     class Parser
@@ -15,67 +17,68 @@ namespace ConsoleApplication1
         {
 
             
-            Byte[] bytes = new Byte[256];
-            String data = null;
-            TcpClient client = clientO as TcpClient;
-            NetworkStream stream = client.GetStream();
+            Byte[] bytes = new Byte[256]; // Сначала мы получим массив байтов
+            String query = null; // А потом переведем их в строку запроса
+            TcpClient client = clientO as TcpClient; // Возьмем клиента, который к нам подключился
+            NetworkStream stream = client.GetStream(); // И заберем с него байты
 
             int i;
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0) // И будем переводить его байты
             {
 
-                string answerFromServer = "This is test!";
+                string answerFromServer = "This is test!"; // Это ответ, которым мы пошлем клиенту
 
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("\nmessage:{0}",data );
-                string ipClient = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
-                Console.WriteLine("Client Ip Address is: {0}", ipClient);
+                query = System.Text.Encoding.UTF8.GetString(bytes, 0, i); // Переведем байты в строку
+                Console.WriteLine("\nmessage:{0}", query);  // Выведем ее на экран
+                string ipClient = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString(); // Получим айпи адресс клиента
+                Console.WriteLine("Client Ip Address is: {0}", ipClient); // Выведем его на экран
 
                 
-                // здесь будет парсер
+                // Вызвали базу пользователей
                 UserBase userBase = new UserBase();
-                userBase.loadFile();
+                userBase.loadFile(); // Загрузили имеющихся пользователей
 
-                // убрал точку с запятой
-                string query = data;
+                // убрал точку с запятой с запроса. Это необходимо для дальнейшей обрабоки
                 query = query.Substring(0, query.Length - 1);
 
                 
 
-                // завели разделители
+                // завели разделители, которыми будем парсить
                 char[] charSeparatorsBlocks = new char[] { ';' };
                 char[] charSeparatorsNameValue = new char[] { '=' };
 
-                // получили массив блоков
+                // получили массив блоков. То, что находится между ';'.
                 string[] arrayBlocks = query.Split(charSeparatorsBlocks, StringSplitOptions.None);
 
-                if (arrayBlocks.Length < 3)
+                if (arrayBlocks.Length < 3) // Условия неверность запроса
                 {
                     answerFromServer = "wrong query";
                 }
                 else
                 {
 
-                    // имя метода
+                    // Получили массив из 2х элементов. В виде ключ = значение.
                     string[] arrayNameValueMethod = arrayBlocks[0].Split(charSeparatorsNameValue, StringSplitOptions.None);
-                    string[] arrayNameValueLogin = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
+                    string[] arrayNameValueEmail = arrayBlocks[1].Split(charSeparatorsNameValue, StringSplitOptions.None);
                     string[] arrayNameValuePassword = arrayBlocks[2].Split(charSeparatorsNameValue, StringSplitOptions.None);
 
-                    if (arrayNameValueMethod[1] == "registration")
+                    // управление фукциями
+                    switch (arrayNameValueMethod[1])
                     {
-                        userBase.addUser(arrayNameValueLogin[1], arrayNameValuePassword[1]);
-                        userBase.saveFile();
-                        answerFromServer = "func=registration;result=1";
-                    }
-                    if (arrayNameValueMethod[1] == "entrace")
-                    {
-                        Console.WriteLine("entrace!");
-
-                        if (userBase.existUser(arrayNameValueLogin[1], arrayNameValuePassword[1]))
-                            answerFromServer = "func=entace;result=1";
-                        else
-                            answerFromServer = "func=entace;result=0";
-                        // нажата кнопка войти
+                        case "registration":
+                            answerFromServer = "func=registration;";
+                            userBase.addUser(arrayNameValueEmail[1], arrayNameValuePassword[1]);
+                            userBase.saveFile();
+                            answerFromServer += "regisresult=1;";
+                            break;
+                        case "entrace":
+                            Console.WriteLine("entrace!");
+                            answerFromServer = "func=entace;";
+                            if (userBase.existUser(arrayNameValueEmail[1], arrayNameValuePassword[1]))
+                                answerFromServer += "result=1;";
+                            else
+                                answerFromServer += "result=0;";
+                            break;
 
                     }
 

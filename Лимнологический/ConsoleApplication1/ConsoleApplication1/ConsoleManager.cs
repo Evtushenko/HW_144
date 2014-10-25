@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// класс для управления консолью
+// setColor - меняет цвет текста консоли. Принимает на вход число от 0 до 15. ВРЕМЕННО НЕ РАБОТАЕТ!
+// playSounds - проигрывает системные звуки
+// printData - выводит текущее время на сервере
+// printInfo - выводит технические характеристики машины, на который запущен сервер
+
 namespace ConsoleApplication1
 {
     class ConsoleManager
