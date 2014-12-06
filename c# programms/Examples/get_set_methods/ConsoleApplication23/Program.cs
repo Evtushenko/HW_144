@@ -42,22 +42,19 @@ namespace ConsoleApplication23
         {
             Console.WriteLine("Base: \"My demension is two!\"");
         }
-    }
 
-    public class Point_3D : Point {
-        public int Z { get; private set; }
-        public Point_3D() : base(0, 0) { Z = 0; }
-        public Point_3D(int a = 0, int b = 0, int c = 0) : base(a,b) {Z = c;}
-
-        public override void say_dimension()
+        public override bool Equals(object obj)
         {
-            base.say_dimension();
-            Console.WriteLine("Dirived: \"My is 3 !!!\"");
+            if (obj == null)
+                return false;
+            if (obj.GetType() != this.GetType())
+                return false;
+            
+            return Equals((Point)obj);
         }
 
-        public override string ToString()
-        {
-            return "point: (" + X.ToString() + ";" + Y.ToString() + ";" + Z.ToString() + ")";
+        public bool Equals(Point other) {
+            return X == other.X && Y == other.Y;
         }
     }
 
@@ -66,27 +63,13 @@ namespace ConsoleApplication23
         static void Main(string[] args)
         {
 
-            Console.WriteLine("anonymus");
-            var anon = new {a=1, b = "hello", c =3.5};
-            Console.WriteLine(anon.a);
-            Console.WriteLine(anon.b);
-            Console.WriteLine(anon.c);
-            Console.WriteLine("anonymus");
+            Point point1 = new Point(1, 2);
+            Point point2 = new Point(1, 2);
+            Point point3 = new Point(3, 1);
+            Console.WriteLine(point1);
+            Console.WriteLine(point1.Equals(point2));
+            Console.WriteLine(point1.Equals(point3));
 
-
-            Point a = new Point(1, 2);
-            Point b = new Point(3, 5);
-            Point sum = Point.Add(a, b);
-
-            Point space = new Point_3D(1,2,3);
-            //p.Y = 4;
-            Console.WriteLine(sum);
-            Point.amount = 3;
-            Console.WriteLine(Point.amount);
-            Console.WriteLine(new Point());
-            Console.WriteLine("//////");
-            Console.WriteLine(space);
-            space.say_dimension();
         }
     }
 }
