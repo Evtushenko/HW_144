@@ -45,17 +45,6 @@ namespace WindowsFormsApplication5
             base.OnPaint(e);
             // первая цифра отступ слева, вторая сверху, далее длина ширина
             e.Graphics.FillRectangle(Brushes.White, 500, 0, 500, 500);
-
-            /*
-            Point[] polygonPoints = new Point[] {
-                new Point (0,0),
-                new Point (10,10),
-                new Point (20,20),
-                new Point (50,50)
-            };
-            e.Graphics.FillPolygon(Brushes.Tan, polygonPoints);
-            e.Graphics.DrawPolygon(Pens.DarkGoldenrod, polygonPoints);
-             * */
         }
 
         private void button_addp_Click(object sender, EventArgs e)
