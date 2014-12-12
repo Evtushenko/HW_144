@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ConsoleApplication19;
 
@@ -10,26 +15,29 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestMethod1()
         {
-            MyHashTable ht = new MyHashTable();
-            bool expect = true;
-            Assert.AreEqual(expect, ht.add("one"), "successfully added");
-            Assert.AreEqual(expect, ht.add("two"), "successfully added");
-            Assert.AreEqual(expect, ht.add("three"), "successfully added");
 
+            List<string> words = new List<string>();
+            words.Add("hello");
+            words.Add("world");
+            words.Add("once");
+            words.Add("upon");
+            words.Add("a");
+            words.Add("time");
+            MyHashTable ht = new MyHashTable(words);
 
-            Assert.AreEqual(expect, ht.find("one"), "successfully found");
-            Assert.AreEqual(expect, ht.find("two"), "successfully found");
-            Assert.AreEqual(expect, ht.find("three"), "successfully found");
+            /*
+        Console.WriteLine(ht.Remove(hello.GetHashCode()));
+        Console.WriteLine(ht.Remove((hello + "111").GetHashCode()));
+         * */
 
-            Assert.AreEqual(expect, ht.delete("one"), "successfully removed");
-            Assert.AreEqual(expect, ht.delete("two"), "successfully removed");
-            Assert.AreEqual(expect, ht.delete("three"), "successfully removed");
-
-            expect = false;
-
-            Assert.AreEqual(expect, ht.find("one"), "successfully not found");
-            Assert.AreEqual(expect, ht.find("two"), "successfully not found");
-            Assert.AreEqual(expect, ht.find("three"), "successfully not found");
+            Assert.AreEqual(6, ht.Count(), "successfully added");
+            string hello = "hello";
+            Assert.AreEqual(true, ht.ContainsKey(hello.GetHashCode()), "found after adding");
+            Assert.AreEqual(false, ht.ContainsKey((hello+"1").GetHashCode()), "found after adding");
+            Assert.AreEqual("hello", ht.TryFind(hello.GetHashCode()), "got after adding");
+            Assert.AreEqual("hello", ht[hello.GetHashCode()], "got after adding by []");
+            Assert.AreEqual(true, ht.Remove(hello.GetHashCode()), "successfully removed");
+            Assert.AreEqual(false, ht.Remove((hello + "111").GetHashCode()), "success not removed");
         }
     }
 }

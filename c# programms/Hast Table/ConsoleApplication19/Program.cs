@@ -4,123 +4,115 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
-// нужно переопределить остальные методы для работы хэш таблицы
-
-//MyHashTable - класс для работы со строковой хэштаблицей
-// bool add(string word) - результат зависит от существования слова в списке
-// public string find(string word) - аналогично
-// public bool delete(string word) - аналогично
-// public void readFromFile() - читаем из words.txt
-
-// WordType - интерфейск оболочки вокруг стринга, который перегружает его хэш
-// WordType1 и WordType2 - разные реализации хэш функций
 
 namespace ConsoleApplication19
 {
-  
-    public class WordType
+
+    // зададим какой-то интерфейс.
+    // еще мы хотим оператор [] и конструктор от списка слов.
+    public abstract class MyHashTableInterface
     {
-        protected const int numberSpan = 10000;
-        protected string word;
-        public WordType(string value)
-         {
-            word = value;
-         }
-        public override string ToString()
-        {
-            return word;
-        }
-    }
-    
-    public class WordType1 : WordType
-    {
-        public WordType1(string word) : base(word) { }
-        public override int GetHashCode()
-        {
-            int result = 0;
-            for (int i = 0; i < word.Length; i++)
-            {
-                string low = word.ToLower();
-                Random rnd = new Random();
-                result += (int)(low[i]) * (int)(low[i]);
+        public abstract int Count();
+        public abstract bool ContainsKey(int key);
+        public abstract bool Remove(int key);
+        public abstract string TryFind(int key);
 
-            }
-            return result % numberSpan;
-        }
-
-        public override bool Equals(Object obj)
-        {
-            if (obj == null || !(obj is WordType1))
-                return false;
-            else
-                return word == ((WordType1)obj).word;
-        }
-
-        
     }
 
-    public class WordType2 : WordType
-    {
-        public WordType2(string word) : base(word) { }
-        public override int GetHashCode()
-        {
-            int result = 0;
-            for (int i = 0; i < word.Length; i++)
-            {
-                string low = word.ToLower();
-                Random rnd = new Random();
-                result += (int)(low[i]) + (int)(low[i]);
 
+    // новый тип Слово - значение
+    class KeyWord
+    {
+        public KeyWord(int k, string v)
+        {
+            key = k;
+            word = v;
+        }
+        public int key { get; set; }
+        public string word { get; set; }
+    }
+
+
+    // А теперь реализуем
+    public class MyHashTable : MyHashTableInterface
+    {
+        private List<KeyWord> list;
+        public MyHashTable(List<string> input)
+        {
+            list = new List<KeyWord>();
+            foreach (var s in input)
+            {
+                list.Add(new KeyWord(s.GetHashCode(), s));
             }
-            return result % numberSpan;
         }
 
-        public override bool Equals(Object obj)
+        public override int Count()
         {
-            if (obj == null || !(obj is WordType2))
+            return list.Count;
+        }
+
+        public override bool ContainsKey(int key)
+        {
+            foreach (var one in list)
+            {
+                if (one.key == key)
+                    return true;
+            }
+            return false;
+        }
+
+        public override bool Remove(int key)
+        {
+            if (!ContainsKey(key))
+            {
                 return false;
-            else
-                return word == ((WordType2)obj).word;
+            }
+
+            // нужно найти индекс
+            int index = -1;
+            int c = 0;
+            foreach (var one in list)
+            {
+                if (one.key == key)
+                {
+                    index = c;
+                }
+                c++;
+            }
+            if (index != -1)
+            {
+                list.RemoveAt(index);
+                return true;
+            }
+            return false;
+        }
+
+        public override string TryFind(int key)
+        {
+            foreach (var one in list)
+            {
+                if (one.key == key)
+                {
+                    return one.word;
+                }
+            }
+            return null;
+        }
+
+        public string this[int index]
+        {
+            get
+            {
+                return TryFind(index);
+            }
         }
     }
 
-    public class MyHashTable
+    class Program
     {
-        public Hashtable myHT;
-        public MyHashTable()
-        {
-            myHT = new Hashtable();
-        }
-        public bool add(string word)
-        {
-            try
-            {
-                myHT.Add(new WordType1(word).GetHashCode(), word);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-        public bool find(string word)
-        {
-            return (myHT[new WordType1(word).GetHashCode()] != null) ? true : false;
-        }
-        public bool delete(string word)
-        {
-            if (find(word)) {
-                myHT.Remove(new WordType1(word).GetHashCode());
-            }
-            else 
-            {
-                return false;
-            }
-            return true;
-        }
         static void Main(string[] args)
         {
-           
+            Console.WriteLine("u rock!");
         }
     }
 }
