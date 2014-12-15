@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApplication5
+namespace ConsoleApplication1
 {
     public class MyPoint
     {
-        const double coefficient_error = 0.001; // математические задачи всегда так должны быть.
+        const double coefficient_error = 0.001; // погрешность
 
         public MyPoint(int x, int y) { X = x; Y = y; }
         public int X { get; set; }
