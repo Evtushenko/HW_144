@@ -41,6 +41,11 @@ namespace email
                     {
                         addFile(file_path);
                     }
+                    var logFiles = Directory.EnumerateFiles("files", "*.log");
+                    foreach (string file_path in logFiles)
+                    {
+                        addFile(file_path);
+                    }
                     SmtpClient client = new SmtpClient();
                     client.Host = smtpServer;
                     client.Port = 587;
