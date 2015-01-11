@@ -3,11 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication5", "WindowsFormsApplication5\WindowsFormsApplication5.csproj", "{2BCC307B-B1E1-4407-A9C4-FB66B00195E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gui", "gui\gui.csproj", "{2BCC307B-B1E1-4407-A9C4-FB66B00195E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DBDE16B9-7859-4C09-8869-87E1169E8790} = {DBDE16B9-7859-4C09-8869-87E1169E8790}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{523258A9-9593-4DF4-ADAC-8CA86ED6745D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library", "library\library.csproj", "{523258A9-9593-4DF4-ADAC-8CA86ED6745D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{DBDE16B9-7859-4C09-8869-87E1169E8790}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{DBDE16B9-7859-4C09-8869-87E1169E8790}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

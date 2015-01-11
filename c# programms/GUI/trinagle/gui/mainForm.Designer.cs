@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApplication5
 {
-    partial class Form1
+    partial class mainForm
     {
         /// <summary>
         /// Требуется переменная конструктора.

@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
-using ConsoleApplication1;
+using Library_task;
 
 namespace WindowsFormsApplication5
 {
-    public partial class Form1 : Form
+    public partial class mainForm : Form
     {
 
         PaintEventArgs pointer;
 
-        public Form1()
+        public mainForm()
         {
             InitializeComponent();
         }
