@@ -127,11 +127,11 @@
             this.button_belong.UseVisualStyleBackColor = true;
             this.button_belong.Click += new System.EventHandler(this.button_belong_Click);
             // 
-            // Form1
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1301, 522);
+            this.ClientSize = new System.Drawing.Size(1682, 753);
             this.Controls.Add(this.button_belong);
             this.Controls.Add(this.button_addtr);
             this.Controls.Add(this.textBox_addtr);
@@ -142,7 +142,8 @@
             this.Controls.Add(this.label_addp_y);
             this.Controls.Add(this.label_addp_x);
             this.Controls.Add(this.label_add_points);
-            this.Name = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "mainForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

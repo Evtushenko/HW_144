@@ -37,8 +37,6 @@ namespace WindowsFormsApplication5
             label_addtr.Text = "Добавить Треугольник в формате x,y;x,y;x,y";
             button_addtr.Text = "ADD";
             textBox_addtr.Text = "0,0;0,3;5,5";
-
-            button_belong.Text = "Belong?";
         }
 
         protected override void OnPaint(PaintEventArgs e)
